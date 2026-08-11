@@ -1,0 +1,134 @@
+/* ==========================================================================
+   default.css — Habillage sombre pour body.dark-mode (docs.html)
+   --------------------------------------------------------------------------
+   Fichier custom de BrunoSobrino (introuvable en ligne, reconstitué).
+   Palette alignée sur le widget find-ip présent dans docs.html :
+   fond #152232, bordures #0e1824, texte #d3d5f3.
+   Accents : indigo RuangAdmin (#4c60da brand, #6777ef topbar).
+   Surcharge du thème RuangAdmin (css/style.css) via body.dark-mode.
+   ========================================================================== */
+
+/* --- Fond global + texte --- */
+body.dark-mode {
+    background-color: #152232 !important;
+    color: #d3d5f3;
+}
+
+/* --- Sidebar --- */
+body.dark-mode .sidebar {
+    background-color: #0e1824 !important;
+    -webkit-box-shadow: 0 .15rem 1.75rem 0 rgba(0, 0, 0, .45) !important;
+    box-shadow: 0 .15rem 1.75rem 0 rgba(0, 0, 0, .45) !important;
+}
+
+body.dark-mode .sidebar-light .sidebar-brand {
+    background-color: #4c60da;
+    color: #ffffff;
+}
+
+body.dark-mode .sidebar-light hr.sidebar-divider {
+    border-top: 1px solid #1f2e4a;
+}
+
+body.dark-mode .sidebar-light .sidebar-heading {
+    color: #8a93b8;
+}
+
+body.dark-mode .sidebar-light .nav-item .nav-link {
+    color: #c3c9e8;
+}
+
+body.dark-mode .sidebar-light .nav-item .nav-link i {
+    color: #8a93b8;
+}
+
+body.dark-mode .sidebar-light .nav-item .nav-link:active,
+body.dark-mode .sidebar-light .nav-item .nav-link:focus,
+body.dark-mode .sidebar-light .nav-item .nav-link:hover {
+    color: #ffffff;
+    background-color: #1f2e4a;
+}
+
+body.dark-mode .sidebar-light .nav-item .nav-link:active i,
+body.dark-mode .sidebar-light .nav-item .nav-link:focus i,
+body.dark-mode .sidebar-light .nav-item .nav-link:hover i {
+    color: #ffffff;
+}
+
+body.dark-mode .sidebar-light .nav-item .nav-link[data-toggle=collapse]::after {
+    color: #8a93b8;
+}
+
+/* --- Sous-menus (collapse) --- */
+body.dark-mode .collapse-inner {
+    background-color: #0e1824;
+    border: 1px solid #1f2e4a;
+}
+
+body.dark-mode .collapse-item {
+    background-color: #12202f;
+    color: #c3c9e8;
+}
+
+body.dark-mode .collapse-item:hover,
+body.dark-mode .collapse-item:focus,
+body.dark-mode .collapse-item:active {
+    background-color: #1f2e4a;
+    color: #ffffff;
+}
+
+body.dark-mode .collapse-header {
+    color: #8a93b8;
+}
+
+/* --- Topbar --- */
+body.dark-mode .bg-navbar {
+    background-color: #0e1824 !important;
+}
+
+body.dark-mode .topbar {
+    -webkit-box-shadow: 0 .15rem 1.75rem 0 rgba(0, 0, 0, .35) !important;
+    box-shadow: 0 .15rem 1.75rem 0 rgba(0, 0, 0, .35) !important;
+}
+
+body.dark-mode .topbar .navbar-nav .nav-link {
+    color: #d3d5f3;
+}
+
+body.dark-mode .topbar .navbar-nav .nav-link:hover {
+    color: #ffffff;
+}
+
+/* --- Cartes --- */
+body.dark-mode .card {
+    background-color: #1a2942;
+    border-color: #0e1824;
+    -webkit-box-shadow: 0 .15rem 1.75rem 0 rgba(0, 0, 0, .45) !important;
+    box-shadow: 0 .15rem 1.75rem 0 rgba(0, 0, 0, .45) !important;
+}
+
+body.dark-mode .card .card-body {
+    color: #d3d5f3;
+}
+
+body.dark-mode .text-primary {
+    color: #7a8cf0 !important;
+}
+
+body.dark-mode .text-xs {
+    color: #a8b3e0;
+}
+
+/* --- Footer --- */
+body.dark-mode footer.sticky-footer {
+    background-color: #0e1824;
+}
+
+body.dark-mode footer.sticky-footer .copyright a {
+    color: #a8b3e0;
+}
+
+/* --- Divers --- */
+body.dark-mode .scroll-to-top {
+    background-color: #4c60da;
+}

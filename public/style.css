@@ -73,11 +73,11 @@ a:hover {
 }
 .contenedor-tabs li a {
   display: flex;
-  align-items: center; /* Centra el texto verticalmente */
+  align-items: center; /* Centre le texte verticalement */
   justify-content: center;  
   text-decoration: none;
   padding: 15px;
-  background: rgba(0, 204, 255, 0.25); /* Azul neón transparente */
+  background: rgba(0, 204, 255, 0.25); /* Bleu neon transparent */
   color: #a0b3b0;
   font-size: 20px;
   text-align: center;
@@ -87,11 +87,11 @@ a:hover {
   width: 100%; 
 }
 .contenedor-tabs li a:hover {
-  background: #CC00CC; /* Morado neón */
+  background: #CC00CC; /* Violet neon */
   color: #fff;
 }
 .contenedor-tabs .active a {
-  background: #00CCFF; /* Azul neón */
+  background: #00CCFF; /* Bleu neon */
   color: #fff;
 }
 
@@ -118,7 +118,7 @@ label {
 }
 label .req {
   margin: 2px;
-  color: #00CCFF; /* Azul neón */
+  color: #00CCFF; /* Bleu neon */
 }
 
 label.active {
@@ -153,7 +153,7 @@ input {
 }
 input:focus {
   outline: none;
-  border-color: #00CCFF; /* Azul neón */
+  border-color: #00CCFF; /* Bleu neon */
 }
 
 .contenedor-input {
@@ -173,13 +173,13 @@ input:focus {
   cursor: pointer;
   padding: 15px 0;
   font-size: 2rem;
-  background: #00CCFF; /* Azul neón */
+  background: #00CCFF; /* Bleu neon */
   color: #fff;
   transition: background 0.5s ease;
   -webkit-appearance: none;
 }
 .button:hover, .button:focus {
-  background: #CC00CC; /* Morado neón */
+  background: #CC00CC; /* Violet neon */
 }
 
 .button-block {

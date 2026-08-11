@@ -10,7 +10,7 @@ router.get('/', async (req, res) => {
     if (!input) {
       const errorResponse = {
         status: false,
-        message: 'Debes especificar la URL de un Álbum de Spotify.'
+        message: "Vous devez indiquer l URL d un album Spotify."
       };
       res.setHeader('Content-Type', 'application/json');
       res.send(JSON.stringify(errorResponse, null, 2));

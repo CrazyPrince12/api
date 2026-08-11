@@ -9,7 +9,7 @@ router.get('/', async (req, res) => {
     if (!query) {
       const errorResponse = {
         status: false,
-        message: 'Debes especificar un término de búsqueda'
+        message: "Vous devez indiquer un terme de recherche"
       };
       const formattedResults_e = JSON.stringify(errorResponse, null, 2);
       res.setHeader('Content-Type', 'application/json');

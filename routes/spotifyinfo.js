@@ -11,7 +11,7 @@ router.get('/', async (req, res) => {
     if (!input) {
       const errorResponse = {
         status: false,
-        message: 'Debes especificar la URL o el titulo de la musica.'
+        message: "Vous devez indiquer l URL ou le titre du morceau."
       };
       const formattedResults_e = JSON.stringify(errorResponse, null, 2);
       res.setHeader('Content-Type', 'application/json');

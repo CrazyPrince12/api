@@ -8,8 +8,8 @@ const { tiktokdl } = require('@bochilteam/scraper');
 const getTikTokBuffer = async (url) => {
   if (!url) {
     return {
-      error: 'URL de TikTok no proporcionada',
-      message: 'Por favor, ingrese una URL de TikTok válida. Ejemplo: ' +
+      error: "URL TikTok non fournie",
+      message: "Veuillez indiquer une URL TikTok valide. Exemple : " +
         'https://vm.tiktok.com/ZMYWFhKt2'
     };
   }
@@ -47,8 +47,8 @@ const getTikTokBuffer = async (url) => {
           return videoBuffer;
         } catch {
           return {
-            error: 'Error interno en las APIs',
-            message: 'No se encontraron resultados. Por favor, inténtelo de nuevo más tarde.'
+            error: "Erreur interne des APIs",
+            message: "Aucun resultat. Veuillez reessayer plus tard."
           };
         }
       }
@@ -57,7 +57,7 @@ const getTikTokBuffer = async (url) => {
 }}
 
 async function tiktokdlF(url) {
-  if (!/tiktok/.test(url)) return 'Enlace incorrecto';
+  if (!/tiktok/.test(url)) return "Lien incorrect";
   const gettoken = await axios.get('https://tikdown.org/id');
   const $ = cheerio.load(gettoken.data);
   const token = $('#download-form > input[type=hidden]:nth-child(2)').attr('value');

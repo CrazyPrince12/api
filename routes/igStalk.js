@@ -9,7 +9,7 @@ router.get('/', async (req, res) => {
     if (!texto) {
       const errorResponse = {
         status: false,
-        message: 'Debes especificar el nombre de algun usuario (username) de Instagram.'
+        message: "Vous devez indiquer un nom d utilisateur (username) Instagram."
       };
       const formattedResults_e = JSON.stringify(errorResponse, null, 2);
       res.setHeader('Content-Type', 'application/json');

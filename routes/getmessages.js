@@ -8,7 +8,7 @@ router.get('/', async (req, res) => {
   const correoCompleto = req.query.mail;
   try {
     if (!correoCompleto) {
-      const formattedError = {status: false, message: 'Debes proporcionar un correo'};
+      const formattedError = {status: false, message: "Vous devez indiquer un e-mail"};
       const formattedResults = JSON.stringify(formattedError, null, 2);
       return res.send(formattedResults);
     }

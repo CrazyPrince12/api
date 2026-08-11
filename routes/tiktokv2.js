@@ -10,7 +10,7 @@ router.get('/', async (req, res) => {
     if (!link) {
       const errorResponse = {
         status: false,
-        message: 'Debes especificar la URL del video de tiktok.'
+        message: "Vous devez indiquer l URL de la video TikTok."
       };
       const formattedResults_e = JSON.stringify(errorResponse, null, 2);
       res.setHeader('Content-Type', 'application/json');

@@ -13,7 +13,7 @@ router.get('/', async (req, res) => {
     if (!url) {
       const errorResponse = {
         status: false,
-        message: 'Debes especificar la URL del video, post, reel, imagen de Instagram.'
+        message: "Vous devez indiquer l URL de la video, publication, reel ou image Instagram."
       };
       const formattedResults_e = JSON.stringify(errorResponse, null, 2);
       res.setHeader('Content-Type', 'application/json');
@@ -91,7 +91,7 @@ router.get('/', async (req, res) => {
       res.send(archivoBuffer);
     }
   } catch (error) {
-    console.error(`Error al procesar la solicitud: ${error.message}`);
+    console.error(`Erreur lors du traitement de la requete : ${error.message}`);
     res.sendFile(path.join(__dirname, '../../public/500.html'));
   }
 });

@@ -7,7 +7,7 @@ router.get('/', async (req, res) => {
   const textoo = req.query.text;
   try {
     if (!textoo) {
-      const formattedError = {status: false, message: 'Debes proporcionar un texto.'};
+      const formattedError = {status: false, message: "Vous devez indiquer un texte."};
       const formattedResults = JSON.stringify(formattedError, null, 2);
       return res.send(formattedResults);
     }

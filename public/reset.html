@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,7 +7,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
   <meta property="og:image" content="https://github.com/BrunoSobrino.png">
-  <title>API | Reset password</title>
+  <title>API | Reinitialiser le mot de passe</title>
   <link href="https://fonts.googleapis.com/css?family=Raleway|Ubuntu" rel="stylesheet">
   <link rel="stylesheet" href="./style.css">
 </head>
@@ -15,21 +15,21 @@
   <div class="contenedor-formularios">
     <div class="contenido-tab">
       <div id="iniciar-sesion" style="display: block;">
-        <h1>Reestablecer Contraseña</h1>
+        <h1>Reinitialiser le mot de passe</h1>
         <form action="#" method="post" id="logg">
           <div class="contenedor-input">
             <label>
-              Nueva Contraseña <span class="req">*</span>
+              Nouveau mot de passe <span class="req">*</span>
             </label>
             <input type="password" required id="logmail" oninput="moveLabel('logmail')">  
           </div>
           <div class="contenedor-input">
             <label>
-              Confirmar Contraseña <span class="req">*</span>
+              Confirmer le mot de passe <span class="req">*</span>
             </label>
             <input type="password" required id="logpass_confirm" oninput="moveLabel('logpass_confirm')">    
           </div>
-          <input type="submit" class="button button-block" value="Reestablecer Contraseña">
+          <input type="submit" class="button button-block" value="Reinitialiser le mot de passe">
         </form>
       </div>
     </div>
@@ -54,7 +54,7 @@
       logg.addEventListener("submit", function(event) {
         event.preventDefault();
         if (logmail.value !== logpass_confirm.value) {
-          alert("Las contraseñas no coinciden");
+          alert("Les mots de passe ne correspondent pas");
           return;
         }
         const urlParams = new URLSearchParams(window.location.search);
@@ -74,14 +74,14 @@
             if (!data.status) {
               alert(data.message);
             } else if (logmail.value.length < 8) {  
-                alert("[❗] La contraseña debe tener al menos 8 caracteres.");
+                alert("[❗] Le mot de passe doit contenir au moins 8 caracteres.");
                 return;                     
             } else {
               window.location.href = "/login.html";
             }
           })
           .catch(error => {
-            alert("Error en el login");
+            alert("Erreur lors de la reinitialisation");
           });
       });
     });

@@ -15,14 +15,14 @@ class YT {
   }
 
   static getVideoID(url) {
-    if (!this.isYTUrl(url)) throw new Error("is not YouTube URL");
+    if (!this.isYTUrl(url)) throw new Error("Ce n est pas une URL YouTube");
     return ytIdRegex.exec(url)[1];
   }
 
   static async mp3(url) {
     try {
       if (!url) {
-          throw new Error("Video ID or YouTube Url is required");
+          throw new Error("Identifiant video ou URL YouTube requis");
       }
       url = this.isYTUrl(url) ? `https://www.youtube.com/watch?v=${this.getVideoID(url)}` : url;
       const stream = ytdl(url, {
@@ -55,7 +55,7 @@ class YT {
   static async mp4(url) {
 try {
   if (!url) {
-    throw new Error("Video ID or YouTube Url is required");
+    throw new Error("Identifiant video ou URL YouTube requis");
   }
   url = this.isYTUrl(url) ? `https://www.youtube.com/watch?v=${this.getVideoID(url)}` : url;
   const stream = ytdl(url, {
@@ -99,7 +99,7 @@ try {
   static async mp3_2(url, quality = '128kbps') {
   try {
     if (!url) {
-      throw new Error("Video ID or YouTube Url is required");
+      throw new Error("Identifiant video ou URL YouTube requis");
     }
     url = this.isYTUrl(url) ? `https://www.youtube.com/watch?v=${this.getVideoID(url)}` : url;
     const yt = await youtubedl(url).catch(async (_) => await youtubedlv2(url));
@@ -114,7 +114,7 @@ try {
   static async mp4_2(url, quality = '360p') {
     try {
       if (!url) {
-        throw new Error("Video ID or YouTube Url is required");
+        throw new Error("Identifiant video ou URL YouTube requis");
       }
       url = this.isYTUrl(url) ? `https://www.youtube.com/watch?v=${this.getVideoID(url)}` : url;
       const yt = await youtubedl(url).catch(async (_) => await youtubedlv2(url));
@@ -128,7 +128,7 @@ try {
     
   static ytinfo = async (url) => {
     try {
-      if (!url) throw new Error("Video ID or YouTube Url is required");
+      if (!url) throw new Error("Identifiant video ou URL YouTube requis");
       url = this.isYTUrl(url) ? "https://www.youtube.com/watch?v=" + this.getVideoID(url) : url;
       const info = await ytdl.getInfo(url, { lang: "id" });    
       const { videoDetails } = info;    
@@ -166,7 +166,7 @@ try {
 
   static ytinfo2 = async (url) => {
     try {
-      if (!url) throw new Error("Video ID or YouTube Url is required");
+      if (!url) throw new Error("Identifiant video ou URL YouTube requis");
       url = this.isYTUrl(url) ? "https://www.youtube.com/watch?v=" + this.getVideoID(url) : url;
       const info = await ytdl.getInfo(url, { lang: "id" });    
       const { videoDetails } = info;    

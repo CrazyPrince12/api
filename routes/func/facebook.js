@@ -46,7 +46,7 @@ const facebookdlfunc = async (url) => {
       res = `${data.urls[0]?.hd || data.urls[1]?.sd || ''}`;
     }
     if (!res || res == '' || res == undefined || res == null) {
-      throw new Error('No se pudo obtener el video de Facebook');
+      throw new Error("Impossible d obtenir la video Facebook");
     }
     return {
       status: true,
@@ -60,7 +60,7 @@ const facebookdlfunc = async (url) => {
       const req = await igeh(url);
       const res = req.url_list;
       if (!res || res == '' || res == undefined || res == null) {
-        throw new Error('No se pudo obtener el video de Facebook');
+        throw new Error("Impossible d obtenir la video Facebook");
       }
       return {
         status: true,
@@ -76,7 +76,7 @@ const facebookdlfunc = async (url) => {
         let VIDEO = Jjson.result[0];
         if (VIDEO == '' || !VIDEO || VIDEO == null) VIDEO = Jjson.result[1];
         if (!VIDEO || VIDEO == '' || VIDEO == undefined || VIDEO == null) {
-          throw new Error('No se pudo obtener el video de Facebook');
+          throw new Error("Impossible d obtenir la video Facebook");
         }
         return {
           status: true,
@@ -90,7 +90,7 @@ const facebookdlfunc = async (url) => {
           const ress = await fg.fbdl(url);
           const urll = ress.data[0].url;
           if (!urll || urll == '' || urll == undefined || urll == null) {
-            throw new Error('No se pudo obtener el video de Facebook');
+            throw new Error("Impossible d obtenir la video Facebook");
           }
           return {
             status: true,
@@ -105,7 +105,7 @@ const facebookdlfunc = async (url) => {
             for (const result of res.download) {
               const ur = result.url;
               if (!ur || ur == '' || ur == undefined || ur == null) {
-                throw new Error('No se pudo obtener el video de Facebook');
+                throw new Error("Impossible d obtenir la video Facebook");
               }
               return {
                 status: true,
@@ -121,7 +121,7 @@ const facebookdlfunc = async (url) => {
               const json = await res3.json();
               const url3 = json.video;
               if (!url3 || url3 == '' || url3 == undefined || url3 == null) {
-                throw new Error('No se pudo obtener el video de Facebook');
+                throw new Error("Impossible d obtenir la video Facebook");
               }
               return {
                 status: true,
@@ -135,7 +135,7 @@ const facebookdlfunc = async (url) => {
                 const { result } = await facebookdl(url).catch(async (_) => await facebookdlv2(url)).catch(async (_) => await savefrom(url));
                 const urls = result.map(({ url, isVideo }) => ({ url }));
                 if (!urls || urls == '' || urls == undefined || urls == null) {
-                  throw new Error('No se pudo obtener el video de Facebook');
+                  throw new Error("Impossible d obtenir la video Facebook");
                 }
                 return {
                   status: true,
@@ -148,7 +148,7 @@ const facebookdlfunc = async (url) => {
                 return {
                   status: false,
                   resultado: {
-                    data: 'No se pudo obtener el video de Facebook'
+                    data: "Impossible d obtenir la video Facebook"
                   }
                 };
               }

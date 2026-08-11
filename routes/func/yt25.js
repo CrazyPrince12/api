@@ -1,29 +1,29 @@
 /*
-Licencia MIT
+Licence MIT
 
-Derechos de autor (c) 2023 Arom
+Copyright (c) 2023 Arom
 
-Se concede permiso, sin cargo, a cualquier persona que obtenga una copia
-de este software y los archivos de documentación asociados (el "Software"),
-para usar, copiar, modificar, fusionar, publicar, distribuir, sublicenciar
-y/o vender copias del Software, y permitir a las personas a quienes se les 
-proporcione el Software a hacerlo, sujeto a las siguientes condiciones:
+Permission est accordee, gratuitement, a toute personne obtenant une copie
+de ce logiciel et des fichiers de documentation associes (le "Logiciel"),
+de l utiliser, le copier, le modifier, le fusionner, le publier, le distribuer,
+le sous-licencier et/ou vendre des copies du Logiciel, et d autoriser les
+personnes a qui le Logiciel est fourni a le faire, sous reserve des conditions suivantes :
 
-El aviso de derechos de autor y esta nota de permiso deben incluirse en todas
-las copias o partes sustanciales del Software.
+L avis de copyright et cette note d autorisation doivent etre inclus dans toutes
+les copies ou parties substantielles du Logiciel.
 
-EL SOFTWARE SE PROPORCIONA "TAL CUAL", SIN GARANTÍA DE NINGÚN TIPO, EXPRESA O 
-IMPLÍCITA, INCLUYENDO PERO NO LIMITADO A GARANTÍAS DE COMERCIALIZACIÓN,
-IDONEIDAD PARA UN PROPÓSITO PARTICULAR E INFRACCIÓN. EN NINGÚN CASO LOS AUTORES 
-O TITULARES DEL COPYRIGHT SERÁN RESPONSABLES DE NINGUNA RECLAMACIÓN, DAÑO U 
-OTRA RESPONSABILIDAD, YA SEA EN UNA ACCIÓN DE CONTRATO, AGRAVIO O DE OTRO TIPO,
-DERIVADA DE, FUERA O EN CONEXIÓN CON EL SOFTWARE O SU USO U OTROS TRATOS EN EL 
-SOFTWARE.
+LE LOGICIEL EST FOURNI "TEL QUEL", SANS GARANTIE D AUCUNE SORTE, EXPRESSE OU
+IMPLICITE, Y COMPRIS MAIS SANS S Y LIMITER LES GARANTIES DE QUALITE MARCHANDE,
+D ADEQUATION A UN USAGE PARTICULIER ET D ABSENCE DE CONTREFACON. EN AUCUN CAS
+LES AUTEURS OU TITULAIRES DU COPYRIGHT NE POURRONT ETRE TENUS RESPONSABLES
+D UNE RECLAMATION, D UN DOMMAGE OU D UNE AUTRE RESPONSABILITE, QUE CE SOIT
+DANS LE CADRE D UN CONTRAT, D UN DELIT OU AUTRE, DECOULANT DE, OU EN LIEN AVEC
+LE LOGICIEL OU SON UTILISATION OU D AUTRES TRAITEMENTS DANS LE LOGICIEL.
 
-Créditos:
-- Código original: https://github.com/ruhend2001/ruhend-ytmp3
-- Código original: https://github.com/ruhend2001/ruhend-ytmp4
-- Editado por: https://github.com/BrunoSobrino
+Credits :
+- Code original : https://github.com/ruhend2001/ruhend-ytmp3
+- Code original : https://github.com/ruhend2001/ruhend-ytmp4
+- Edite par : https://github.com/BrunoSobrino
 */
 
 const axios = require('axios');
@@ -40,13 +40,13 @@ const ytmp33 = async (url) => {
   try {
     const conversionResponse = await axios.post('https://s64.notube.net/recover_weight.php', querystring.stringify(parameters));
     if (!conversionResponse.data.token) {
-      throw new Error('No se recibió un token de la respuesta de conversión.');
+      throw new Error("Aucun jeton recu dans la reponse de conversion.");
     }
     const token = conversionResponse.data.token;
     const downloadPageResponse = await axios.get('https://notube.net/en/download?token=' + token);
 
     if (downloadPageResponse.status !== 200) {
-      throw new Error('No se pudo recuperar la página de descarga.');
+      throw new Error("Impossible de recuperer la page de telechargement.");
     }
 
     const $ = cheerio.load(downloadPageResponse.data);
@@ -57,7 +57,7 @@ const ytmp33 = async (url) => {
 
     return { status: true, resultados: result };
   } catch (error) {
-    console.error('Error al convertir el video de YouTube:', error);
+    console.error("Erreur lors de la conversion de la video YouTube :", error);
     return { status: false, error: error.message };
   }
 };
@@ -72,13 +72,13 @@ const ytmp44 = async (url) => {
   try {
     const conversionResponse = await axios.post('https://s64.notube.net/recover_weight.php', querystring.stringify(parameters));
     if (!conversionResponse.data.token) {
-      throw new Error('No se recibió un token de la respuesta de conversión.');
+      throw new Error("Aucun jeton recu dans la reponse de conversion.");
     }
     const token = conversionResponse.data.token;
     const downloadPageResponse = await axios.get('https://notube.net/en/download?token=' + token);
 
     if (downloadPageResponse.status !== 200) {
-      throw new Error('No se pudo recuperar la página de descarga.');
+      throw new Error("Impossible de recuperer la page de telechargement.");
     }
 
     const $ = cheerio.load(downloadPageResponse.data);
@@ -89,7 +89,7 @@ const ytmp44 = async (url) => {
 
     return { status: true, resultados: result };
   } catch (error) {
-    console.error('Error al convertir el video de YouTube:', error);
+    console.error("Erreur lors de la conversion de la video YouTube :", error);
     return { status: false, error: error.message };
   }
 };

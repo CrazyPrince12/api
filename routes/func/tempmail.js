@@ -6,7 +6,7 @@ async function generarCorreoAleatorio() {
     try {
         let respuesta = await fetch(enlace);
         if (!respuesta.ok) {
-            throw new Error(`Error HTTP! estado: ${respuesta.status}`);
+            throw new Error(`Erreur HTTP ! etat : ${respuesta.status}`);
         }
         let datos = await respuesta.json();
         return {
@@ -17,7 +17,7 @@ async function generarCorreoAleatorio() {
         console.log(error);
         return {
             status: false,
-            error: "Ocurrió un error al generar el correo aleatorio."
+            error: "Une erreur est survenue lors de la generation de l e-mail aleatoire."
         };
     }
 }
@@ -29,14 +29,14 @@ async function obtenerCorreos(correoCompleto) {
     try {
         let respuesta = await fetch(link);
         if (!respuesta.ok) {
-            throw new Error(`Error HTTP! estado: ${respuesta.status}`);
+            throw new Error(`Erreur HTTP ! etat : ${respuesta.status}`);
         }
         let datos = await respuesta.json();
 
         if (datos.length === 0) {
             return {
                 status: true,
-                correos: 'No hay correos recibidos hasta el momento.'
+                correos: "Aucun e-mail recu pour le moment."
             };
         }
 
@@ -48,7 +48,7 @@ async function obtenerCorreos(correoCompleto) {
         console.log(error);
         return {
             status: false,
-            error: "Ocurrió un error al obtener los mensajes."
+            error: "Une erreur est survenue lors de la recuperation des messages."
         };
     }
 }

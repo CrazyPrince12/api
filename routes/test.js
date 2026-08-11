@@ -13,7 +13,7 @@ router.get('/', async (req, res) => {
   if (!username || !groupname || !profile || !membercount || !background) {
     const errorResponse = {
       status: false,
-      message: 'Debes proporcionar los parámetros necesarios: username, groupname, groupicon, membercount, profile y background.',
+      message: "Vous devez fournir les parametres requis : username, groupname, groupicon, membercount, profile et background.",
       example: 'api/maker/canvas/welcome5?username=bruno&groupname=api%20empire&membercount=12&groupicon=https://telegra.ph/file/4cc51944c9130560fb4a9.jpg&profile=https://github.com/BrunoSobrino.png&background=https://telegra.ph/file/82d079999da723cc80899.png'
     };
     const formattedResults_e = JSON.stringify(errorResponse, null, 2);

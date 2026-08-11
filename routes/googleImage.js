@@ -11,7 +11,7 @@ router.get('/', async (req, res) => {
     if (!texto) {
       const errorResponse = {
         status: false,
-        message: 'Debes especificar el texto para buscar la imagen.'
+        message: "Vous devez indiquer le texte pour rechercher l image."
       };
       const formattedResults_e = JSON.stringify(errorResponse, null, 2);
       res.setHeader('Content-Type', 'application/json');

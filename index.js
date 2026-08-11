@@ -19,7 +19,7 @@ var allowedOrigins = ['https://api.cafirexos.com', 'http://localhost:2027'];
 
 app.set('trust proxy', 1)
 
-// Inicicializar el servidor de correo
+// Initialiser le serveur de messagerie
 
 if (process.env.new_user_verification === "true") {
 const transporter = nodemailer.createTransport({
@@ -36,7 +36,7 @@ global.mTransporter = transporter;
 
 
 
-// Funciones
+// Fonctions
 
 const home = require('./routes/home');
 const docs = require('./routes/docs');
@@ -50,7 +50,7 @@ const getUptime = () => {
   return `${hours}h ${minutes}m ${seconds}s`;
 };
 
-// Subpaginas y usos
+// Sous-pages et usages
 
 app.use((req, res, next) => {
   req.startTime = Date.now();
@@ -69,10 +69,10 @@ app.use('/docs', docs);
 
 app.use('/api', require('./routes'))
 
-// si es /human/algo usa las rutas dinamicas de ./routes/human
+// si /human/quelque-chose, utiliser les routes dynamiques de ./routes/human
 app.use('/human', require('./routes/human'))
 
-//si es /human entra aqui directamente
+// si c est /human, entrer ici directement
 app.use('/human', apirouter5);
 
 app.use('/tmp', express.static('tmp'));
@@ -108,18 +108,18 @@ app.use(function(req, res, next) {
 
 global.lolkeysapi = 'GataDiosV2';
 
-// Funciones automáticas 
+// Fonctions automatiques 
 const clearTmpFiles = () => {
   const tmpDir = './tmp';
   fs.readdir(tmpDir, (err, files) => {
-    if (err) return console.error('Error al leer directorio temporal:', err);
+    if (err) return console.error('Erreur de lecture du dossier temporaire :', err);
     const filesToDelete = files.filter((file) => file !== 'file');
     if (filesToDelete.length > 0) {
       filesToDelete.forEach((file) => {
         const filePath = path.join(tmpDir, file);
         fs.unlink(filePath, (unlinkErr) => {
           if (unlinkErr) {
-            console.error('Error al eliminar el archivo:', unlinkErr);
+            console.error('Erreur lors de la suppression du fichier :', unlinkErr);
           }
         });
       });
@@ -148,14 +148,14 @@ async function checkRepoUpdates() {
 }
 setInterval(checkRepoUpdates, 300000); //300000
 
-// Log incial 
+// Journal de demarrage 
 app.listen(PORT, function() {
     const line = chalk.yellow('==========================================');
     const serverUrl = 'http://localhost:' + PORT;
-    const serverMessage = chalk.green.bold('| Server activo: ') + chalk.blue.bold(serverUrl);
-    const creatorMessage = chalk.magenta.bold('| Creador: BrunoSobrino');
-    const numberMessage = chalk.magenta.bold('| Numero: +52 1 999 612 5657');
-    const apiMessage = chalk.red.bold('|          "Free Api Rest"');
+    const serverMessage = chalk.green.bold('| Serveur actif : ') + chalk.blue.bold(serverUrl);
+    const creatorMessage = chalk.magenta.bold('| Createur : BrunoSobrino');
+    const numberMessage = chalk.magenta.bold('| Numero : +52 1 999 612 5657');
+    const apiMessage = chalk.red.bold('|          "API REST gratuite"');
     console.log(chalk.yellow(line));
     console.log(apiMessage);
     console.log(chalk.yellow(line));

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" >
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,14 +7,14 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <meta property="og:image" content="https://github.com/BrunoSobrino.png">
-    <title>API | Login</title>
+    <title>API | Connexion</title>
     <link rel="stylesheet" href="./style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
 <body>
 <!-- partial:index.partial.html -->
 <!DOCTYPE html>
-<html lang="es">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -33,69 +33,69 @@
 </head>
 <body>
 
-   <!-- Formularios -->
+   <!-- Formulaires -->
     <div class="contenedor-formularios">
-        <!-- Links de los formularios -->
+        <!-- Liens des formulaires -->
         <ul class="contenedor-tabs">
-            <li class="tab tab-segunda active"><a href="#iniciar-sesion">Iniciar Sesión</a></li>
-            <li class="tab tab-primera"><a href="#registrarse">Registrarse</a></li>
+            <li class="tab tab-segunda active"><a href="#iniciar-sesion">Connexion</a></li>
+            <li class="tab tab-primera"><a href="#registrarse">Inscription</a></li>
         </ul>
 
-        <!-- Contenido de los Formularios -->
+        <!-- Contenu des formulaires -->
         <div class="contenido-tab">
-            <!-- Iniciar Sesion -->
+            <!-- Connexion -->
             <div id="iniciar-sesion">
-                <h1>Iniciar Sesión</h1>
+                <h1>Connexion</h1>
                 <form action="#" method="post" id="logg">
                     <div class="contenedor-input">
                         <label>
-                            Correo <span class="req">*</span>
+                            E-mail <span class="req">*</span>
                         </label>
                         <input type="text" required id="logmail">
                     </div>
 
                     <div class="contenedor-input">
                         <label>
-                            Contraseña <span class="req">*</span>
+                            Mot de passe <span class="req">*</span>
                         </label>
                         <input type="password" required id="logpass">
                     </div>
-                    <p class="forgot"><a href="javascript:void(0);" onclick="requestReset()">Se te olvidó la contraseña?</a></p>
-                    <!--<p class="forgot"><a href="#" onclick="requestReset()">Se te olvidó la contraseña?</a></p> -->
-                    <input type="submit" class="button button-block" value="Iniciar Sesión">
+                    <p class="forgot"><a href="javascript:void(0);" onclick="requestReset()">Mot de passe oublié ?</a></p>
+                    <!--<p class="forgot"><a href="#" onclick="requestReset()">Mot de passe oublié ?</a></p> -->
+                    <input type="submit" class="button button-block" value="Connexion">
                 </form>
             </div>
 
-            <!-- Registrarse -->
+            <!-- Inscription -->
             <div id="registrarse">
-                <h1>Registrarse</h1>
+                <h1>Inscription</h1>
                 <form action="#" method="post" id="regg">
                     <div class="contenedor-input">
                             <label>
-                                Email <span class="req">*</span>
+                                E-mail <span class="req">*</span>
                             </label>
                         <input type="email" required id="regmail">
                     </div>
                     <div class="contenedor-input">
                         <label>
-                            Contraseña <span class="req">*</span>
+                            Mot de passe <span class="req">*</span>
                         </label>
                         <input type="password" required id="reggpass">
                     </div>
 
                     <div class="contenedor-input">
                         <label>
-                            Repetir Contraseña <span class="req">*</span>
+                            Confirmer le mot de passe <span class="req">*</span>
                         </label>
                         <input type="password" required id="reggpass2">
                     </div>
 
-                    <input type="submit" class="button button-block" value="Registrarse" id="submitButton">
+                    <input type="submit" class="button button-block" value="Inscription" id="submitButton">
                 </form>
             </div>
         </div>
     </div>
-    <!-- Contenedor de Contacto -->
+    <!-- Bloc contact -->
     <div class="contenedor-contacto">
         <div class="contacto-info">
             <a href="https://wa.me/5219996125657" target="_blank"><i class="fab fa-whatsapp"></i></a>
@@ -107,7 +107,7 @@
 
     async function requestReset() {
       if (!logmail.value) {
-        alert("[❗] Ingrese su correo");
+        alert("[❗] Veuillez saisir votre e-mail");
         return;
       }
                 
@@ -133,7 +133,7 @@
                 }
               })
               .catch(error => {
-                alert("[⚠️] Error en el registro, reporte el error en Github.");
+                alert("[⚠️] Erreur lors de la demande de reinitialisation, signalez le probleme sur Github.");
               });
           });
         });
@@ -156,7 +156,7 @@
             }
           })
           .catch(error => {
-            alert("[⚠️] Error en el registro, reporte el error en Github.");
+            alert("[⚠️] Erreur lors de la demande de reinitialisation, signalez le probleme sur Github.");
           });
       }
     }
@@ -164,12 +164,12 @@
     regg.addEventListener("submit", function(event) {
   event.preventDefault();
   if (reggpass.value !== reggpass2.value) {
-    alert("[❗] Las contraseñas no coinciden.");
+    alert("[❗] Les mots de passe ne correspondent pas.");
     return;
   }
 
   if (reggpass.value.length < 8) {
-    alert("[❗] La contraseña debe tener al menos 8 caracteres.");
+    alert("[❗] Le mot de passe doit contenir au moins 8 caracteres.");
     return;
   }        
         
@@ -177,7 +177,7 @@
 
   grecaptcha.ready(function() {
           grecaptcha.execute(window.recaptchaKey, {action: 'submit'}).then(function(token) {
-              // Add your logic to submit to your backend server here.
+              // Envoi au serveur.
 
   fetch("/api/manageusers/register", {
     method: "POST",
@@ -195,7 +195,7 @@
       if (!data.status) {
         alert(data.message);
       } else if (reggpass.value.length < 8) {
-          alert("[❗] La contraseña debe tener al menos 8 caracteres.");
+          alert("[❗] Le mot de passe doit contenir au moins 8 caracteres.");
           return;    
       } else {
         alert(data.message);
@@ -203,7 +203,7 @@
       }
     })
     .catch(error => {
-      alert("[⚠️] Error en el registro, reporte el error en Github.");
+      alert("[⚠️] Erreur lors de l'inscription, signalez le probleme sur Github.");
     });
 });
 });
@@ -224,12 +224,12 @@
       if (!data.status) {
         alert(data.message);
       } else {
-        alert("[❗] Usuario registrado con éxito, revise su bandeja de entrada o de spam en su correo para validarlo.");
+        alert("[❗] Compte cree avec succes. Verifiez votre boite de reception ou les spams pour le valider.");
         window.location.reload()
       }
     })
     .catch(error => {
-      alert("[⚠️] Error en el registro, reporte el error en Github.");
+      alert("[⚠️] Erreur lors de l'inscription, signalez le probleme sur Github.");
     });
     }
 
@@ -257,7 +257,7 @@ logg.addEventListener("submit", function(event) {
       }
     })
     .catch(error => {
-      alert("[⚠️] Error en el login, reporte el error en Github.");
+      alert("[⚠️] Erreur de connexion, signalez le probleme sur Github.");
     });    
 });
 

@@ -10,7 +10,7 @@ if (!fs.existsSync(databaseDir)) {
 const database = JSON.parse(fs.readFileSync(databaseDir))
 
 /**
- * Obtiene un usuario de la base de datos, si no existe devuelve undefined
+ * Recupere un utilisateur de la base de donnees, sinon undefined
  * @param {String} mail 
  * @param {Boolean} includePassword
  * @returns {{
@@ -38,7 +38,7 @@ const getDatabaseByUser = (mail, includePassword) => {
 
 
 /**
- * Obtiene un usuario de la base de datos, si no existe devuelve undefined
+ * Recupere un utilisateur de la base de donnees, sinon undefined
  * @param {String} apikey
  * @returns {{
  *   mail: String,
@@ -60,7 +60,7 @@ const getDatabaseByApiKey = (apikey) => {
 }
 
 /**
- * Obtiene un usuario de la base de datos, si no existe devuelve undefined
+ * Recupere un utilisateur de la base de donnees, sinon undefined
  * @param {String} userId 
  * @returns {{
  *   mail: String,
@@ -82,7 +82,7 @@ const getDatabaseByUserId = (userId) => {
 }
 
 /**
- * Obtiene un usuario de la base de datos, si no existe devuelve undefined
+ * Recupere un utilisateur de la base de donnees, sinon undefined
  * @param {String} verifyCode 
  * @returns {{
  *   mail: String,
@@ -105,7 +105,7 @@ const getDatabaseByVerifyCode = (verifyCode) => {
 }
 
 /**
- * Obtiene un usuario de la base de datos, si no existe devuelve undefined
+ * Recupere un utilisateur de la base de donnees, sinon undefined
  * @returns {[{
  *   mail: String,
  *   apikey: String,
@@ -125,7 +125,7 @@ const getDatabase = () => {
 
 
 /**
- * Agrega un usuario a la base de datos
+ * Ajoute un utilisateur a la base de donnees
 * @returns {{
  *   mail: String,
  *   hashPassword: String,
@@ -163,7 +163,7 @@ const PostDatabase = (mail, password, verify) => {
 }
 
 /**
- * Modifica un usuario en la base de datos
+ * Modifie un utilisateur dans la base de donnees
   * @returns {{
  *   mail: String,
  *   hashPassword: String,
@@ -186,7 +186,7 @@ const UpdateDatabase = (mail, data) => {
 }
 
 /**
- * Añade un uso a un usuario
+ * Ajoute une utilisation a un utilisateur
  * @returns {Boolean}
  */
 
@@ -199,7 +199,7 @@ const addUse = (mail) => {
 }
 
 /**
- * Extermina un usuario de la base de datos
+ * Supprime un utilisateur de la base de donnees
  * @returns {Boolean}
  */
 

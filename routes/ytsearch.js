@@ -9,7 +9,7 @@ router.get('/', async (req, res) => {
     if (!searchText) {
       const errorResponse = {
         status: false,
-        message: 'Debes especificar un texto para hacer la busqueda de vieos en YouTube.'
+        message: "Vous devez indiquer un texte pour rechercher des videos YouTube."
       };
       const formattedResults_e = JSON.stringify(errorResponse, null, 2);
       res.setHeader('Content-Type', 'application/json');

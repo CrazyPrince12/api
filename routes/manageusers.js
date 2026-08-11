@@ -10,7 +10,7 @@ processR = processR === 'true';
 router.post('/login', async (req, res) => {
     const { mail, password } = req.body;
     if (!mail || !password) {
-        return res.status(400).json({ status: false, message: 'Faltan datos' });
+        return res.status(400).json({ status: false, message: "Donnees manquantes" });
     }
     const unbase64 = Buffer.from(password, 'base64').toString('utf-8');
     const hashPasswd = crypto.createHash('md5').update(unbase64).digest('hex')
@@ -18,13 +18,13 @@ router.post('/login', async (req, res) => {
     //console.log(hashPasswd);
     //7console.log(user);
     if (!user) {
-        return res.status(404).json({ status: false, message: '[❗] Usuario no encontrado, por favor registrese.' });
+        return res.status(404).json({ status: false, message: "[❗] Utilisateur introuvable, veuillez vous inscrire." });
     }
     if (user.hashPassword !== hashPasswd) {
-        return res.status(401).json({ status: false, message: '[❗] Contraseña incorrecta, recuerde que debe ser de 8 digitos o más.' });
+        return res.status(401).json({ status: false, message: "[❗] Mot de passe incorrect. Il doit contenir au moins 8 caracteres." });
     }
     if (!user.isVerified) {
-        return res.status(401).json({ status: false, message: '[❗] Usuario no verificado, revise la bandeja de entrada o de spam de su correo.' });
+        return res.status(401).json({ status: false, message: "[❗] Compte non verifie. Consultez votre boite de reception ou les spams." });
     }
 
     const token = jwt.sign({ mail: mail, userid: user.userId }, process.env.JWT_SECRET || 'B3tterTh@nB');
@@ -35,16 +35,16 @@ router.post('/login', async (req, res) => {
 router.post('/register', async (req, res) => {
     const { mail, password, recaptchaVerify } = req.body;
     if (!mail || !password) {
-        return res.status(400).json({ status: false, message: 'Faltan datos' });
+        return res.status(400).json({ status: false, message: "Donnees manquantes" });
     }
 
     if (processR && !recaptchaVerify) {
-        return res.status(400).json({ status: false, message: 'Falta recaptcha' });
+        return res.status(400).json({ status: false, message: "reCAPTCHA manquant" });
     }
 
     const user = database.getDatabaseByUser(mail);
     if (user) {
-        return res.status(409).json({ status: false, message: '[❗] Usuario ya registrado, verifique su correo e inicie sesión.' });
+        return res.status(409).json({ status: false, message: "[❗] Compte deja enregistre. Verifiez votre e-mail et connectez-vous." });
     }
     if (processR) {
         const recaptcha = await fetch(`https://www.google.com/recaptcha/api/siteverify?secret=${process.env.recaptcha_secret}&response=${recaptchaVerify}`, {
@@ -52,7 +52,7 @@ router.post('/register', async (req, res) => {
         });
         const recaptchaJson = await recaptcha.json();
         if (!recaptchaJson.success) {
-            return res.status(400).json({ status: false, message: 'Recaptcha inválido' });
+            return res.status(400).json({ status: false, message: "reCAPTCHA invalide" });
         }
     }
     const unbase64 = Buffer.from(password, 'base64').toString('utf-8');
@@ -60,11 +60,11 @@ router.post('/register', async (req, res) => {
     if (process.env.new_user_verification === 'true') {
         // send mail
         try {
-        //console.log('Enviando correo a ' + mail);
+        //console.log('Envoi de l e-mail a ' + mail);
         const info = await mTransporter.sendMail({
             from: process.env.smtp_user,
             to: mail,
-            subject: "Verificación de correo electrónico",
+            subject: "Verification de votre e-mail",
             html: `
                 <html>
                 <head>
@@ -105,12 +105,12 @@ router.post('/register', async (req, res) => {
                 </head>
                 <body>
                 <div class="container">
-                <h1>Verificación de Correo Electrónico</h1>
-                <p>Hola Usuario,</p>
-                <p>Para completar tu registro y poder utilizar nuestros servicios de API, por favor haz clic en el siguiente enlace:</p>
-                <p><a href="https://${req.headers.host}/api/manageusers/verify?token=${newUser.verifyCode}">Verificar Correo</a></p>
-                <p>Si no has solicitado este correo, simplemente ignóralo.</p>
-                <p>¡Gracias!</p>
+                <h1>Verification de l e-mail</h1>
+                <p>Bonjour,</p>
+                <p>Pour terminer votre inscription et utiliser nos services API, cliquez sur le lien suivant :</p>
+                <p><a href="https://${req.headers.host}/api/manageusers/verify?token=${newUser.verifyCode}">Verifier l e-mail</a></p>
+                <p>Si vous n avez pas demande cet e-mail, ignorez-le simplement.</p>
+                <p>Merci !</p>
                 <div class="signature">
                 <p><strong>The Shadow Brokers - TEAM</strong></p>
                 <p><strong>Bruno Sobrino</strong></p>
@@ -121,14 +121,14 @@ router.post('/register', async (req, res) => {
                 `
           });
         //console.log("Message sent: %s", info.messageId);
-        return res.status(200).json({ status: true, message: '[❗] Usuario registrado, para completar el registro, verifica tu correo, si no ves el correo revisa la carpeta de spam.' });
+        return res.status(200).json({ status: true, message: "[❗] Compte enregistre. Pour terminer, verifiez votre e-mail (pensez a regarder les spams)." });
         } catch (error) {
             console.log(error);
             database.DeleteDatabase(newUser.mail);
-            return res.status(500).json({ status: false, message: '[⚠️] Error al enviar el correo, reporte el error en Github.' });
+            return res.status(500).json({ status: false, message: "[⚠️] Erreur lors de l envoi de l e-mail, signalez le probleme sur Github." });
         }
     }
-    return res.status(200).json({ status: true, message: '[❗] Usuario registrado.' });
+    return res.status(200).json({ status: true, message: "[❗] Compte enregistre." });
 });
 
 router.get('/user', async (req, res) => {
@@ -136,23 +136,23 @@ router.get('/user', async (req, res) => {
     // remove Bearer from token
     token = token.split(' ')[1];
     if (!token) {
-        return res.status(401).json({ status: false, message: '[❗] No se proporcionó un token, haga click en el enlace que fue enviado a su correo.' });
+        return res.status(401).json({ status: false, message: "[❗] Aucun jeton fourni. Cliquez sur le lien envoye par e-mail." });
     }
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET || 'B3tterTh@nB');
         const user = database.getDatabaseByUser(decoded.mail);
         if (!user) {
-            return res.status(404).json({ status: false, message: 'Usuario no encontrado' });
+            return res.status(404).json({ status: false, message: "Utilisateur introuvable" });
         }
         return res.status(200).json({ status: true, user: user, CurrentLimit: user.isPremium ? Number(process.env.premium_user_limit) : Number(process.env.free_user_limit) });
     } catch (error) {
-        return res.status(401).json({ status: false, message: '[❗] Token inválido, haga click en el enlace que fue enviado a su correo.' });
+        return res.status(401).json({ status: false, message: "[❗] Jeton invalide. Cliquez sur le lien envoye par e-mail." });
     }
 });
 
 router.get('/fetchRecaptcha', async (req, res) => {
     if (!processR) {
-        return res.status(404).json({ status: false, message: '[❗] Recaptcha no habilitado.' });
+        return res.status(404).json({ status: false, message: "[❗] reCAPTCHA desactive." });
     }
     const recaptchaSiteKey = process.env.recaptcha_site_key;
     return res.status(200).json({ status: true, sitekey: recaptchaSiteKey });
@@ -161,14 +161,14 @@ router.get('/fetchRecaptcha', async (req, res) => {
 router.get('/verify', async (req, res) => {
     const token = req.query.token;
     if (!token) {
-        return res.status(400).json({ status: false, message: 'Falta token' });
+        return res.status(400).json({ status: false, message: "Jeton manquant" });
     }
     const user = database.getDatabaseByVerifyCode(token);
     if (!user) {
-        return res.status(404).json({ status: false, message: 'Usuario no encontrado' });
+        return res.status(404).json({ status: false, message: "Utilisateur introuvable" });
     }
     if (user.isVerified) {
-        return res.status(400).json({ status: false, message: 'Usuario ya verificado' });
+        return res.status(400).json({ status: false, message: "Compte deja verifie" });
     }
     const updatedUser = database.UpdateDatabase(user.mail, { isVerified: true });
     return res.redirect("/login.html?verified=true");
@@ -178,15 +178,15 @@ router.post('/requestReset', async (req, res) => {
     const mail = req.body.mail;
     const recaptchaVerify = req.body.recaptchaVerify;
     if (!mail) {
-        return res.status(400).json({ status: false, message: 'Falta mail' });
+        return res.status(400).json({ status: false, message: "E-mail manquant" });
     }
     const user = database.getDatabaseByUser(mail);
     if (!user) {
-        return res.status(404).json({ status: false, message: '[❗] Usuario no encontrado, por favor verifique que sea el correo correcto.' });
+        return res.status(404).json({ status: false, message: "[❗] Utilisateur introuvable. Verifiez que l e-mail est correct." });
     }
 
     if (processR && !recaptchaVerify) {
-        return res.status(400).json({ status: false, message: 'Falta recaptcha' });
+        return res.status(400).json({ status: false, message: "reCAPTCHA manquant" });
     }
 
     if (processR) {
@@ -195,7 +195,7 @@ router.post('/requestReset', async (req, res) => {
         });
         const recaptchaJson = await recaptcha.json();
         if (!recaptchaJson.success) {
-            return res.status(400).json({ status: false, message: 'Recaptcha inválido' });
+            return res.status(400).json({ status: false, message: "reCAPTCHA invalide" });
         }
     }
 
@@ -205,7 +205,7 @@ router.post('/requestReset', async (req, res) => {
         const info = await mTransporter.sendMail({
             from: process.env.smtp_user,
             to: mail,
-            subject: "Restablecer contraseña",
+            subject: "Reinitialiser le mot de passe",
             html: `
             <html>
             <head>
@@ -246,12 +246,12 @@ router.post('/requestReset', async (req, res) => {
             </head>
             <body>
             <div class="container">
-            <h1>Restablecer Contraseña</h1>
-            <p>Hola Usuario,</p>
-            <p>Para restablecer tu contraseña, haz clic en el siguiente enlace:</p>
-            <p><a href="https://${req.headers.host}/api/manageusers/reset?token=${resetCode}">Restablecer Contraseña</a></p>
-            <p>Si no has solicitado restablecer tu contraseña, simplemente ignora este correo.</p>
-            <p>¡Gracias!</p>
+            <h1>Reinitialiser le mot de passe</h1>
+            <p>Bonjour,</p>
+            <p>Pour reinitialiser votre mot de passe, cliquez sur le lien suivant :</p>
+            <p><a href="https://${req.headers.host}/api/manageusers/reset?token=${resetCode}">Reinitialiser le mot de passe</a></p>
+            <p>Si vous n avez pas demande cette reinitialisation, ignorez simplement cet e-mail.</p>
+            <p>Merci !</p>
             <div class="signature">
             <p><strong>The Shadow Brokers - TEAM</strong></p>
             <p><strong>Bruno Sobrino</strong></p>
@@ -262,10 +262,10 @@ router.post('/requestReset', async (req, res) => {
             `
         });
         //console.log("Message sent: %s", info.messageId);
-        return res.status(200).json({ status: true, message: '[❗] Correo enviado, verifique su bandeja de entradas o la carpeta de spam.' });
+        return res.status(200).json({ status: true, message: "[❗] E-mail envoye. Consultez votre boite de reception ou les spams." });
     } catch (error) {
         console.log(error);
-        return res.status(500).json({ status: false, message: '[⚠️] Error al enviar el correo, reporte en Github.' });
+        return res.status(500).json({ status: false, message: "[⚠️] Erreur lors de l envoi de l e-mail, signalez le probleme sur Github." });
     }
 })
 
@@ -278,16 +278,16 @@ router.post('/reset', async (req, res) => {
     const token = req.body.tokenReset;
     const password = req.body.password;
     if (!token || !password) {
-        return res.status(400).json({ status: false, message: 'Faltan datos' });
+        return res.status(400).json({ status: false, message: "Donnees manquantes" });
     }
     const users = database.getDatabase()
     const user = users.find(user => user.resetCode === token);
     if (!user) {
-        return res.status(404).json({ status: false, message: '[❗] Usuario no encontrado, por favor registrese.' });
+        return res.status(404).json({ status: false, message: "[❗] Utilisateur introuvable, veuillez vous inscrire." });
     }
     const unbase64 = Buffer.from(password, 'base64').toString('utf-8');
     const updatedUser = database.UpdateDatabase(user.mail, { hashPassword: crypto.createHash('md5').update(unbase64).digest('hex'), resetCode: undefined });
-    return res.status(200).json({ status: true, message: '[❗] Contraseña restablecida.' });
+    return res.status(200).json({ status: true, message: "[❗] Mot de passe reinitialise." });
 })
 
 

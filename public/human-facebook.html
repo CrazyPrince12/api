@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="fr">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="utf-8">
@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <meta property="og:image" content="https://github.com/BrunoSobrino.png">   
-    <title>API | Facebook Downloader</title>
+    <title>API | Telechargeur Facebook</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
@@ -141,31 +141,31 @@
                 <i class="fa fa-moon-o"></i><i class="fa fa-sun-o"></i>
             </button>
         <h1>Facebook Downloader</h1>
-        <p>◉ Inserte el enlace de un video de Facebook y seleccione la opción de descarga:</p>
+        <p>◉ Inserer le lien d une video Facebook et choisir l option de telechargement :</p>
         <input type="text" id="youtubeLink" class="form-control" placeholder="Ex: https://fb.watch/fOTpgn6UFQ" />
         <div id="downloadButtons">
-            <button class="btn btn-primary download-button" onclick="downloadFacebook('fbdl')">Descargar</button>
+            <button class="btn btn-primary download-button" onclick="downloadFacebook('fbdl')">Telecharger</button>
         </div>
         <p id="downloadLink" style="display: none;"></p>
     </div>
- <!-- Barra de créditos -->
+ <!-- Barre de credits -->
 <div class="credits-bar">
-    <p>👉Desarrollado por Bruno Sobrino👈</p>
-    <p>Agradecimientos: <a href="https://github.com/BrunoSobrino" target="_blank"><i class="fa fa-github"></i></a> | <a href="https://www.paypal.me/TheShadowBrokers133" target="_blank"><i class="fa fa-paypal"></i></a></p>
+    <p>👉Developpe par Bruno Sobrino👈</p>
+    <p>Remerciements : <a href="https://github.com/BrunoSobrino" target="_blank"><i class="fa fa-github"></i></a> | <a href="https://www.paypal.me/TheShadowBrokers133" target="_blank"><i class="fa fa-paypal"></i></a></p>
 </div>
    
     <script>
         function downloadFacebook(option) {
             const facebookLink = document.getElementById("youtubeLink").value.trim();
             if (facebookLink === "") {
-                alert("[❗] Inserta el enlace de un video de Facebook.");
+                alert("[❗] Inserer le lien d une video Facebook.");
                 return;
             }
             if (isValidFacebookLink(facebookLink)) {
                 const downloadUrl = `/human/${option}?url=${facebookLink}`;
                 window.open(downloadUrl, '_blank');
             } else {
-                alert("[❗] El enlace no coincide con un enlace de Facebook válido.");
+                alert("[❗] Ce lien n est pas une URL Facebook valide.");
             }
         }
         function isValidFacebookLink(link) {

@@ -1,6 +1,15 @@
 const axios = require('axios');
 const { fromBuffer  } = require('file-type');
-const instagramDl = require("@sasmeee/igdl");
+// @sasmeee/igdl was removed from the npm registry (only a 0.0.1-security
+// placeholder remains), so require it defensively: if it is unavailable the
+// other Instagram scrapers below are used as fallback instead of crashing the
+// whole API at boot (MODULE_NOT_FOUND).
+let instagramDl = null;
+try {
+  instagramDl = require("@sasmeee/igdl");
+} catch {
+  instagramDl = null;
+}
 const instagramGetUrl = require('instagram-url-direct');
 const { instagram } = require('@xct007/frieren-scraper');
 const { instagramdl } = require('@bochilteam/scraper');

@@ -1,12 +1,16 @@
-FROM node:lts-buster
+FROM node:20-bookworm
+
+ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && \
-  apt-get install -y \
+  apt-get install -y --no-install-recommends \
+  ca-certificates \
   ffmpeg \
   imagemagick \
   webp && \
-  apt-get upgrade -y && \
   rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
 
 COPY package.json .
 

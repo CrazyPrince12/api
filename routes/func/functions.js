@@ -56,7 +56,7 @@ function getFileTypeFromUrl(url) {
 }
 
 async function maker(url, text) {
-   if (/https?:\/\/(ephoto360|photooxy|textpro)\/\.(com|me)/i.test(url)) throw new Error("URL Invalid")
+   if (/https?:\/\/(ephoto360|photooxy|textpro)\/\.(com|me)/i.test(url)) throw new Error("URL invalide")
    try {
       let a = await axios.get(url, {
          headers: {
@@ -216,7 +216,7 @@ async function igStalk(username) {
         const $$ = cheerio.load(html);
         const errorTitle = $$('h1.error__title').text().trim();
         if (errorTitle === 'Page not found') {
-          return { status: false, message: `El usuario "${username}" no existe.` };
+          return { status: false, message: `L utilisateur "${username}" n existe pas.` };
         }
         const name = $$('div.user__title > a > h1').text().trim();
         const Uname = $$('div.user__title > h4').text().trim();
@@ -241,7 +241,7 @@ async function getCookie() {
     const { data: cookie } = await axios.get("https://pastebin.com/raw/ELJjcbZT");
     return cookie;
   } catch (e) {
-    return { status: "error", message: "Failed to fetch cookie." };
+    return { status: "error", message: "Echec de recuperation du cookie." };
   }
 }
 
@@ -249,7 +249,7 @@ async function tiktokStalk(username, options) {
   try {
     username = username.replace("@", "");
     const data = await Tiktok.StalkUser(username, { cookie: await getCookie() });
-    if (!data || !data?.result || !data?.result?.users || !data?.result?.stats) return { status: false, message: 'Username no encontrado, verifique nuevamente.' };
+    if (!data || !data?.result || !data?.result?.users || !data?.result?.stats) return { status: false, message: "Nom d utilisateur introuvable, verifiez a nouveau." };
     const userData = data.result.users;
     const statsData = data.result.stats;
     return {

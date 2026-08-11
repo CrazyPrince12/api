@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="fr">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="utf-8">
@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <meta property="og:image" content="https://github.com/BrunoSobrino.png">   
-    <title>API | YouTube Downloader</title>
+    <title>API | Telechargeur YouTube</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
@@ -140,35 +140,35 @@
             <button class="btn btn-primary theme-button" onclick="toggleTheme()">
                 <i class="fa fa-moon-o"></i><i class="fa fa-sun-o"></i>
             </button>
-        <h1>YouTube Downloader</h1>
-        <p>◉ Inserte el enlace del vídeo de YouTube y elija una opción de descarga:</p>
+        <h1>Telechargeur YouTube</h1>
+        <p>◉ Inserer le lien de la video YouTube et choisir une option de telechargement :</p>
         <input type="text" id="youtubeLink" class="form-control" placeholder="Ex: https://www.youtube.com/watch?v=videoID" />
         <div id="downloadButtons">
-            <button class="btn btn-primary download-button" onclick="downloadYouTube('v1/ytmp3')">Descargar Audio 1</button>
-            <button class="btn btn-primary download-button" onclick="downloadYouTube('v2/ytmp3')">Descargar Audio 2</button>
-            <button class="btn btn-primary download-button" onclick="downloadYouTube('v1/ytmp4')">Descargar Video 1</button>
-            <button class="btn btn-primary download-button" onclick="downloadYouTube('v2/ytmp4')">Descargar Video 2</button>
+            <button class="btn btn-primary download-button" onclick="downloadYouTube('v1/ytmp3')">Telecharger audio 1</button>
+            <button class="btn btn-primary download-button" onclick="downloadYouTube('v2/ytmp3')">Telecharger audio 2</button>
+            <button class="btn btn-primary download-button" onclick="downloadYouTube('v1/ytmp4')">Telecharger video 1</button>
+            <button class="btn btn-primary download-button" onclick="downloadYouTube('v2/ytmp4')">Telecharger video 2</button>
         </div>
         <p id="downloadLink" style="display: none;"></p>
     </div>
- <!-- Barra de créditos -->
+ <!-- Barre de credits -->
 <div class="credits-bar">
-    <p>👉Desarrollado por Bruno Sobrino👈</p>
-    <p>Agradecimientos: <a href="https://github.com/BrunoSobrino" target="_blank"><i class="fa fa-github"></i></a> | <a href="https://www.paypal.me/TheShadowBrokers133" target="_blank"><i class="fa fa-paypal"></i></a></p>
+    <p>👉Developpe par Bruno Sobrino👈</p>
+    <p>Remerciements : <a href="https://github.com/BrunoSobrino" target="_blank"><i class="fa fa-github"></i></a> | <a href="https://www.paypal.me/TheShadowBrokers133" target="_blank"><i class="fa fa-paypal"></i></a></p>
 </div>
    
     <script>
         function downloadYouTube(option) {
             const youtubeLink = document.getElementById("youtubeLink").value.trim();
             if (youtubeLink === "") {
-                alert("Inserta el enlace de un video de YouTube.");
+                alert("Inserer le lien d une video YouTube.");
                 return;
             }
             if (isValidYouTubeLink(youtubeLink)) {
                 const downloadUrl = `/human/${option}?url=${youtubeLink}`;
                 window.open(downloadUrl, '_blank');
             } else {
-                alert("El enlace no coincide con un enlace de YouTube válido.");
+                alert("Ce lien n est pas une URL YouTube valide.");
             }
         }
         function isValidYouTubeLink(link) {

@@ -10,7 +10,7 @@ router.get('/', async (req, res) => {
     if (!match_url) {
       const errorResponse = {
         status: false,
-        message: 'Debes especificar la URL de la web que quieras tomar captura.'
+        message: "Vous devez indiquer l URL du site dont vous voulez une capture."
       };
       const formattedResults_e = JSON.stringify(errorResponse, null, 2);
       res.setHeader('Content-Type', 'application/json');

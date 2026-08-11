@@ -6,7 +6,7 @@ async function chatgpt(text, lenguaje = 'es') {
   if (!text) {
     return {
       status: false,
-      message: "No has ingresado un texto."
+      message: "Vous n avez pas saisi de texte."
     };
   }    
   const result = {
@@ -59,7 +59,7 @@ for (const apiEndpoint of apiEndpoints) {
   } catch {}
 }
   result.status = false;
-  result.resultado = "Error en todas las APIs";
+  result.resultado = "Erreur sur toutes les APIs";
   return result;
 }
 
@@ -67,7 +67,7 @@ async function gpt(content, senderName = 'null', prompt, lenguaje = 'es') {
   if (!content) {
     return {
       status: false,
-      message: "No has ingresado un texto."
+      message: "Vous n avez pas saisi de texte."
     };
   }    
   const result = {

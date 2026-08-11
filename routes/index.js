@@ -16,7 +16,7 @@ const routerVersion = {
   getmessages: '/tempmail'
 }
 
-// se ignoran estas rutas porque se estan usando directamente en el index y las de func no son rutas 
+// ces routes sont ignorees car elles sont utilisees directement dans index, et func n est pas une route 
 
 const pathIgnore = ['func', 'human', 'human-apis']
 
@@ -30,29 +30,29 @@ router.use(function (req, res, next) {
   const apiKey = req.query.apikey
   //console.log(apiKey);
   if (!apiKey) {
-    return res.status(401).json({ status: false, message: 'No se proporcionó una clave de API' })
+    return res.status(401).json({ status: false, message: "Aucune cle API fournie" })
   }
   let search = database.getDatabaseByApiKey(apiKey)
   if (!search) {
-    return res.status(401).json({ status: false, message: 'Clave de API no válida' })
+    return res.status(401).json({ status: false, message: "Cle API invalide" })
   }
 
   if (search.isBanned) {
-    return res.status(401).json({ status: false, message: 'El usuario ha sido baneado' })
+    return res.status(401).json({ status: false, message: "Cet utilisateur a ete banni" })
   }
 
   if (!search.isVerified) {
-    return res.status(401).json({ status: false, message: 'El usuario no ha verificado su correo electrónico' })
+    return res.status(401).json({ status: false, message: "L utilisateur n a pas verifie son e-mail" })
   }
 
   if (!search.isPremium) {
-    // Comprobar si ya pasaron 24 horas
+    // Verifier si 24 heures se sont ecoulees
     if (search.lastUsed < Date.now() - 86400000) {
       search.lastUsed = Date.now()
       search.uses = 0
     }
     if (search.uses >= Number(process.env.free_user_limit)) {
-      return res.status(401).json({ status: false, message: 'Límite de uso diario alcanzado, Vuelve mañana' })
+      return res.status(401).json({ status: false, message: "Limite quotidienne atteinte, revenez demain" })
     }
   } else {
     if (search.lastUsed < Date.now() - 86400000) {
@@ -60,7 +60,7 @@ router.use(function (req, res, next) {
       search.uses = 0
     }
     if (search.uses >= Number(process.env.premium_user_limit)) {
-      return res.status(401).json({ status: false, message: 'Límite de uso diario alcanzado, Vuelve mañana' })
+      return res.status(401).json({ status: false, message: "Limite quotidienne atteinte, revenez demain" })
     }
   }
 

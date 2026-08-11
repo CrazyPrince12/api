@@ -46,14 +46,14 @@ async function getMusicBuffer(text) {
         artist: artist,
         album: dataInfo.album ? dataInfo.album : dataInfo.name || '-',
         year: dataInfo.year || '-',
-        genre: 'Música',
+        genre: 'Musique',
         comment: {
-          language: 'spa',
-          text: '🤴🏻 Descarga por BrunoSobrino & TheMystic-Bot-MD 🤖',
+          language: 'fra',
+          text: '🤴🏻 Telecharge par BrunoSobrino & TheMystic-Bot-MD 🤖',
         },
         unsynchronisedLyrics: {
-          language: 'spa',
-          text: '🤴🏻 Descarga por BrunoSobrino & TheMystic-Bot-MD 🤖',
+          language: 'fra',
+          text: '🤴🏻 Telecharge par BrunoSobrino & TheMystic-Bot-MD 🤖',
         },
         image: {
           mime: 'image/jpeg',
@@ -104,14 +104,14 @@ async function getMusicBuffer(text) {
         artist: artist,
         album: dataInfo.album || '-',
         year: dataInfo.year || '-',
-        genre: 'Música',
+        genre: 'Musique',
         comment: {
-          language: 'spa',
-          text: '🤴🏻 Descarga por BrunoSobrino & TheMystic-Bot-MD 🤖',
+          language: 'fra',
+          text: '🤴🏻 Telecharge par BrunoSobrino & TheMystic-Bot-MD 🤖',
         },
         unsynchronisedLyrics: {
-          language: 'spa',
-          text: '🤴🏻 Descarga por BrunoSobrino & TheMystic-Bot-MD 🤖',
+          language: 'fra',
+          text: '🤴🏻 Telecharge par BrunoSobrino & TheMystic-Bot-MD 🤖',
         },
         image: {
           mime: 'image/jpeg',
@@ -131,7 +131,7 @@ async function getMusicBuffer(text) {
     }
   } catch (error) {
     console.error(error);
-    throw 'Error al obtener la ruta de la música.';
+    throw "Erreur lors de la recuperation du fichier audio.";
   }
 }
 
@@ -158,14 +158,14 @@ async function spotifySearch1(input) {
       album: dataInfo.album || '-',
       url: linkDL || '-',
       year: dataInfo.year || '-',
-      genre: 'Música',
+      genre: 'Musique',
       thumbnail: dataInfo.albumCoverURL || '-'
     };
     const audiodl = await uploadFile(dlspoty.audioBuffer)
     return { resultado: data, download: { audio: audiodl } };
   } catch (error) {
     console.error(error);
-    throw 'Error al obtener los datos de la música.';
+    throw "Erreur lors de la recuperation des donnees du morceau.";
   }
 }
 
@@ -181,7 +181,7 @@ async function spotifySearch2(text) {
     return { resultado: jsonDLl.result };
   } catch (error) {
     console.error(error);
-    throw 'Error en la búsqueda de Spotify.';
+    throw "Erreur lors de la recherche Spotify.";
   }
  }
 }
@@ -189,7 +189,7 @@ async function spotifySearch2(text) {
 async function spotifyDownload(input) {
     input = String(input); 
     const isSpotifyUrl = input.match(/^(https:\/\/open\.spotify\.com\/(album)\/[a-zA-Z0-9]+)/i);
-    if (!isSpotifyUrl) return { status: false, message: 'El link ingresado no es de algun album de spotify.' };
+    if (!isSpotifyUrl) return { status: false, message: "Le lien indique n est pas un album Spotify." };
    try {
         const response = await downloadAlbum(isSpotifyUrl[0]);
         return response;
@@ -217,7 +217,7 @@ const spotify = new Spotify.default(credentials);*/
       const res = await spotify.getTrack(url);
       const timeoutPromise = new Promise((_, reject) => {
         setTimeout(() => {
-          reject(new Error('Tiempo de espera agotado'));
+          reject(new Error('Delai d attente depasse'));
         }, 300000);
       });
       const audioPromise = spotify.downloadTrack(url);
@@ -257,14 +257,14 @@ const spotify = new Spotify.default(credentials);*/
         artist: artist,
         album: spty.data.album_name || '-',
         year: spty.data.release_date || '-',
-        genre: 'Música',
+        genre: 'Musique',
         comment: {
-          language: 'spa',
-          text: '🤴🏻 Descarga por BrunoSobrino & TheMystic-Bot-MD 🤖',
+          language: 'fra',
+          text: '🤴🏻 Telecharge par BrunoSobrino & TheMystic-Bot-MD 🤖',
         },
         unsynchronisedLyrics: {
-          language: 'spa',
-          text: '🤴🏻 Descarga por BrunoSobrino & TheMystic-Bot-MD 🤖',
+          language: 'fra',
+          text: '🤴🏻 Telecharge par BrunoSobrino & TheMystic-Bot-MD 🤖',
         },
         image: {
           mime: 'image/jpeg',

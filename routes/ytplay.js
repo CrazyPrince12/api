@@ -10,7 +10,7 @@ router.get('/', async (req, res) => {
     if (!searchText && !videoUrl) {
       const errorResponse = {
         status: false,
-        message: 'Debes especificar un texto de búsqueda o una URL de video'
+        message: "Vous devez indiquer un texte de recherche ou une URL de video"
       };
       const formattedResults_e = JSON.stringify(errorResponse, null, 2);
       res.setHeader('Content-Type', 'application/json');

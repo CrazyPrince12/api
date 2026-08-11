@@ -9,7 +9,7 @@ router.get('/', async (req, res) => {
     if (!videoUrl) {
       const errorResponse = {
         status: false,
-        message: 'Debes especificar una URL de video'
+        message: "Vous devez indiquer une URL de video"
       };
       const formattedResults_e = JSON.stringify(errorResponse, null, 2);
       res.setHeader('Content-Type', 'application/json');

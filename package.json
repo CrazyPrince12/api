@@ -1,7 +1,7 @@
 {
   "name": "BrunoSobrino_-_Api_Rest",
   "version": "0.0.1",
-  "description": "Simple Api Rest para Bots - By BrunoSobrino.",
+  "description": "API REST simple pour bots - Par BrunoSobrino.",
   "private": true,
   "main": "index.js",
   "scripts": {

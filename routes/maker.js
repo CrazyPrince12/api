@@ -7,7 +7,7 @@ let { welCard } = (() => {
   try {
     return require("@delirius/welcard");
   } catch (error) {
-    console.error(`No se pudo importar "@delirius/welcard".`);
+    console.error(`Impossible d importer "@delirius/welcard".`);
     return {};
   }
 })();
@@ -16,7 +16,7 @@ const tryRequire = (moduleName) => {
   try {
     return require(moduleName);
   } catch (error) {
-    console.error(`No se pudo importar "${moduleName}".`);
+    console.error(`Impossible d importer "${moduleName}".`);
     return null;
   }
 };
@@ -35,8 +35,8 @@ router.get('/canvas/welcome', async (req, res) => {
   if (!username || !groupname || !profile || !titulo || !isUrl(profile)) {
     const errorResponse = {
       status: false,
-      message: 'Debes proporcionar los parámetros necesarios y validos: titulo, username, groupname y profile.',
-      example: 'api/maker/canvas/welcome?titulo=Bienvenido/a&username=Nombre%20del%20user&groupname=Nombre%20del%20grupo&profile=https://telegra.ph/file/24fa902ead26340f3df2c.png'  
+      message: "Vous devez fournir les parametres requis et valides : titulo, username, groupname et profile.",
+      example: 'api/maker/canvas/welcome?titulo=Bienvenue&username=Nom%20de%20lutilisateur&groupname=Nom%20du%20groupe&profile=https://telegra.ph/file/24fa902ead26340f3df2c.png'  
     };
     const formattedResults_e = JSON.stringify(errorResponse, null, 2);
     res.setHeader('Content-Type', 'application/json');
@@ -73,8 +73,8 @@ router.get('/canvas/welcome2', async (req, res) => {
   if (!username || !groupname || !profile || !membercount || !description) {
     const errorResponse = {
       status: false,
-      message: 'Debes proporcionar los parámetros necesarios: username, groupname, membercoun, descriptiont y profile.',
-      example: 'api/maker/canvas/welcome?username=Bruno%20Sobrino&groupname=API%20Empire%20-%20Comunidad&membercount=12&description=Bienvenido(a),%20lee%20las%20reglas%20del%20grupo&profile=https://github.com/BrunoSobrino.png'
+      message: "Vous devez fournir les parametres requis : username, groupname, membercount, description et profile.",
+      example: 'api/maker/canvas/welcome?username=Bruno%20Sobrino&groupname=API%20Empire%20-%20Communaute&membercount=12&description=Bienvenue,%20lis%20les%20regles%20du%20groupe&profile=https://github.com/BrunoSobrino.png'
     };
     const formattedResults_e = JSON.stringify(errorResponse, null, 2);
     res.setHeader('Content-Type', 'application/json');
@@ -117,8 +117,8 @@ router.get('/canvas/welcome3', async (req, res) => {
   if (!username || !groupname || !profile || !membercount || !description) {
     const errorResponse = {
       status: false,
-      message: 'Debes proporcionar los parámetros necesarios: username, groupname, membercoun, descriptiont y profile.',
-      example: 'api/maker/canvas/welcome?username=Bruno%20Sobrino&groupname=API%20Empire%20-%20Comunidad&membercount=12&description=Bienvenido(a),%20lee%20las%20reglas%20del%20grupo&profile=https://github.com/BrunoSobrino.png'
+      message: "Vous devez fournir les parametres requis : username, groupname, membercount, description et profile.",
+      example: 'api/maker/canvas/welcome?username=Bruno%20Sobrino&groupname=API%20Empire%20-%20Communaute&membercount=12&description=Bienvenue,%20lis%20les%20regles%20du%20groupe&profile=https://github.com/BrunoSobrino.png'
     };
     const formattedResults_e = JSON.stringify(errorResponse, null, 2);
     res.setHeader('Content-Type', 'application/json');
@@ -161,8 +161,8 @@ router.get('/canvas/welcome4', async (req, res) => {
   if (!username || !groupname || !profile || !membercount || !description) {
     const errorResponse = {
       status: false,
-      message: 'Debes proporcionar los parámetros necesarios: username, groupname, membercoun, descriptiont y profile.',
-      example: 'api/maker/canvas/welcome?username=Bruno%20Sobrino&groupname=API%20Empire%20-%20Comunidad&membercount=12&description=Bienvenido(a),%20lee%20las%20reglas%20del%20grupo&profile=https://github.com/BrunoSobrino.png'
+      message: "Vous devez fournir les parametres requis : username, groupname, membercount, description et profile.",
+      example: 'api/maker/canvas/welcome?username=Bruno%20Sobrino&groupname=API%20Empire%20-%20Communaute&membercount=12&description=Bienvenue,%20lis%20les%20regles%20du%20groupe&profile=https://github.com/BrunoSobrino.png'
     };
     const formattedResults_e = JSON.stringify(errorResponse, null, 2);
     res.setHeader('Content-Type', 'application/json');
@@ -205,7 +205,7 @@ router.get('/canvas/welcome5', async (req, res) => {
   if (!username || !groupname || !profile || !membercount || !background || !groupicon) {
     const errorResponse = {
       status: false,
-      message: 'Debes proporcionar los parámetros necesarios: username, groupname, groupicon, membercount, profile y background.',
+      message: "Vous devez fournir les parametres requis : username, groupname, groupicon, membercount, profile et background.",
       example: 'api/maker/canvas/welcome5?username=bruno&groupname=api%20empire&membercount=12&groupicon=https://telegra.ph/file/4cc51944c9130560fb4a9.jpg&profile=https://github.com/BrunoSobrino.png&background=https://telegra.ph/file/82d079999da723cc80899.png'
     };
     const formattedResults_e = JSON.stringify(errorResponse, null, 2);
@@ -240,7 +240,7 @@ router.get('/canvas/goodbye', async (req, res) => {
   if (!username || !groupname || !profile || !membercount || !background || !memberdiscriminator) {
     const errorResponse = {
       status: false,
-      message: 'Debes proporcionar los parámetros necesarios: username, groupname, membercount, profile, memberdiscriminator y background.',
+      message: "Vous devez fournir les parametres requis : username, groupname, membercount, profile, memberdiscriminator et background.",
       example: 'api/maker/canvas/goodbye?username=bruno&groupname=api%20empire&membercount=12&memberdiscriminator=13&profile=https://github.com/BrunoSobrino.png&background=https://telegra.ph/file/82d079999da723cc80899.png'
     };
     const formattedResults_e = JSON.stringify(errorResponse, null, 2);
@@ -281,7 +281,7 @@ router.get('/canvas/goodbye2', async (req, res) => {
   if (!username || !groupname || !profile || !membercount || !background || !groupicon) {
     const errorResponse = {
       status: false,
-      message: 'Debes proporcionar los parámetros necesarios: username, groupname, groupicon, membercount, profile y background.',
+      message: "Vous devez fournir les parametres requis : username, groupname, groupicon, membercount, profile et background.",
       example: 'api/maker/canvas/goodbye2?username=bruno&groupname=api%20empire&membercount=12&groupicon=https://telegra.ph/file/4cc51944c9130560fb4a9.jpg&profile=https://github.com/BrunoSobrino.png&background=https://telegra.ph/file/82d079999da723cc80899.png'
     };
     const formattedResults_e = JSON.stringify(errorResponse, null, 2);
@@ -314,7 +314,7 @@ router.get('/canvas/goodbye3', async (req, res) => {
   if (!username || !profile || !membercount || !background) {
     const errorResponse = {
       status: false,
-      message: 'Debes proporcionar los parámetros necesarios: username, membercount, profile y background.',
+      message: "Vous devez fournir les parametres requis : username, membercount, profile et background.",
       example: 'api/maker/canvas/goodbye3?username=Bruno&membercount=12&profile=https://github.com/BrunoSobrino.png&background=https://telegra.ph/file/82d079999da723cc80899.png'
     };
     const formattedResults_e = JSON.stringify(errorResponse, null, 2);
@@ -345,7 +345,7 @@ router.get('/canvas/goodbye4', async (req, res) => {
   if (!username || !profile) {
     const errorResponse = {
       status: false,
-      message: 'Debes proporcionar los parámetros necesarios: username, membercount, profile y background.',
+      message: "Vous devez fournir les parametres requis : username, membercount, profile et background.",
       example: 'api/maker/canvas/goodbye4?username=Bruno&profile=https://github.com/BrunoSobrino.png'
     };
     const formattedResults_e = JSON.stringify(errorResponse, null, 2);
@@ -374,7 +374,7 @@ router.get('/attp', async (req, res) => {
     if (!texto) {
       const errorResponse = {
         status: false,
-        message: 'Debes especificar un texto de búsqueda.'
+        message: "Vous devez indiquer un texte de recherche."
       };
       const formattedResults_e = JSON.stringify(errorResponse, null, 2);
       res.setHeader('Content-Type', 'application/json');
@@ -399,7 +399,7 @@ router.get('/textpro/deep-sea-metal', async (req, res) => {
     if (!texto) {
       const errorResponse = {
         status: false,
-        message: 'Debes especificar un texto para el logo.',
+        message: "Vous devez indiquer un texte pour le logo.",
         example: 'api/maker/textpro/deep-sea-metal?text=api%20empire'
       };
       const formattedResults_e = JSON.stringify(errorResponse, null, 2);
@@ -424,7 +424,7 @@ router.get('/textpro/wolf-logo-galaxy', async (req, res) => {
     if (!texto1 || !texto2) {
       const errorResponse = {
         status: false,
-        message: 'Debes especificar un texto para el logo.',
+        message: "Vous devez indiquer un texte pour le logo.",
         example: 'api/maker/textpro/wolf-logo-galaxy?text1=api%20empire&text2=by%20brunosobrino'
       };
       const formattedResults_e = JSON.stringify(errorResponse, null, 2);
@@ -451,7 +451,7 @@ router.get('/photooxy/flaming', async (req, res) => {
     if (!texto) {
       const errorResponse = {
         status: false,
-        message: 'Debes especificar un texto para el logo.',
+        message: "Vous devez indiquer un texte pour le logo.",
         example: 'api/maker/photooxy/flaming?text=api%20empire'
       };
       const formattedResults_e = JSON.stringify(errorResponse, null, 2);
@@ -478,7 +478,7 @@ router.get('/ephoto360/eraser-deleting-text', async (req, res) => {
     if (!texto) {
       const errorResponse = {
         status: false,
-        message: 'Debes especificar un texto para el logo.',
+        message: "Vous devez indiquer un texte pour le logo.",
         example: 'api/maker/ephoto360/eraser-deleting-text?text=api%20empire'
       };
       const formattedResults_e = JSON.stringify(errorResponse, null, 2);

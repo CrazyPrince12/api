@@ -60,7 +60,7 @@ async function igdl2(url) {
   try {
     const resultss = await instagramGetUrl(url);
     if (!resultss || resultss.length === 0) {
-      throw new Error('No se encontraron datos de Instagram para la URL proporcionada');
+      throw new Error("Aucune donnee Instagram trouvee pour cette URL");
     }
     const formattedData = [];
     for (const dataresult of resultss) {
@@ -149,7 +149,7 @@ async function getBuffer(url, options) {
     const detectedType = await fromBuffer (buffer);
     return { buffer, detectedType };
   } catch (error) {
-    console.error('Error al obtener el buffer en igdl:', error);
+    console.error("Erreur lors de la recuperation du buffer igdl :", error);
     return { buffer: null, detectedType: null };
   }
 }

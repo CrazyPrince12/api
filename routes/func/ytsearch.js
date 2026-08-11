@@ -2,7 +2,7 @@ const yts = require('yt-search');
 
 const ytsearch = async (searchText) => {
   if (!searchText) {
-    throw new Error('Texto de búsqueda no especificado');
+    throw new Error("Texte de recherche non specifie");
   }
 
   const results = await yts(searchText);

@@ -9,7 +9,7 @@ router.get('/', async (req, res) => {
     if (!texto) {
       const errorResponse = {
         status: false,
-        message: 'Debes especificar el titulo o nombre al cual se le extraera la letra.'
+        message: "Vous devez indiquer le titre ou le nom dont extraire les paroles."
       };
       const formattedResults_e = JSON.stringify(errorResponse, null, 2);
       res.setHeader('Content-Type', 'application/json');

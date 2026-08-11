@@ -1,7 +1,7 @@
 const router = require('express').Router()
 const fs = require('fs')
 
-// para no romper compativilidad con los endpoints ya creados
+// pour ne pas casser la compatibilite avec les endpoints existants
 
 const routerVersion = {
   ytmp3_1: '/v1/ytmp3',
@@ -16,10 +16,10 @@ const removeExtention = (filename) => {
   return filename.split('.').shift()
 }
 
-// lee todos los archivos del file human y crea las rutas dinamicamente
-// ejemplo:
-// ytmp3_1.js: primero remueve la ext .js se queda con el nombre ytmp3
-// pasa por la version -> /v1/ytmp3 y en caso que el name empieze por ytmp la ruta queda siendo /v1/ytmp3 y por ultimo requiere el archivo ./ytmp3_1.js
+// lit tous les fichiers du dossier human et cree les routes dynamiquement
+// exemple :
+// ytmp3_1.js : retire d abord l extension .js, il reste le nom ytmp3
+// passe par la version -> /v1/ytmp3 et si le nom commence par ytmp la route reste /v1/ytmp3 puis require du fichier ./ytmp3_1.js
 
 fs.readdirSync(path).filter(filename => {
   const name = removeExtention(filename)

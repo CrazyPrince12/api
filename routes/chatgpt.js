@@ -12,7 +12,7 @@ router.get('/', async (req, res) => {
     if (!inputText) {
       const errorResponse = {
         status: false,
-        message: 'Debes especificar un texto para usar chatgpt.'
+        message: "Vous devez indiquer un texte pour utiliser ChatGPT."
       };
       const formattedResults_e = JSON.stringify(errorResponse, null, 2);
       res.setHeader('Content-Type', 'application/json');

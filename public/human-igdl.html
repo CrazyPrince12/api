@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="fr">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="utf-8">
@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <meta property="og:image" content="https://github.com/BrunoSobrino.png">   
-    <title>API | Instagram Downloader</title>
+    <title>API | Telechargeur Instagram</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
@@ -140,32 +140,32 @@
             <button class="btn btn-primary theme-button" onclick="toggleTheme()">
                 <i class="fa fa-moon-o"></i><i class="fa fa-sun-o"></i>
             </button>
-        <h1>Instagram Downloader</h1>
-        <p>◉ Inserte el enlace de una publicación o reel de Instagram y seleccione la opción de descarga:</p>
+        <h1>Telechargeur Instagram</h1>
+        <p>◉ Inserer le lien d une publication ou d un reel Instagram et choisir l option de telechargement :</p>
         <input type="text" id="youtubeLink" class="form-control" placeholder="Ex: https://www.instagram.com/reel/Cc0NuYBg8CR/?utm_source=ig_web_copy_link" />
         <div id="downloadButtons">
-            <button class="btn btn-primary download-button" onclick="downloadInstagram('igdl')">Descargar</button>
+            <button class="btn btn-primary download-button" onclick="downloadInstagram('igdl')">Telecharger</button>
         </div>
         <p id="downloadLink" style="display: none;"></p>
     </div>
- <!-- Barra de créditos -->
+ <!-- Barre de credits -->
 <div class="credits-bar">
-    <p>👉Desarrollado por Bruno Sobrino👈</p>
-    <p>Agradecimientos: <a href="https://github.com/BrunoSobrino" target="_blank"><i class="fa fa-github"></i></a> | <a href="https://www.paypal.me/TheShadowBrokers133" target="_blank"><i class="fa fa-paypal"></i></a></p>
+    <p>👉Developpe par Bruno Sobrino👈</p>
+    <p>Remerciements : <a href="https://github.com/BrunoSobrino" target="_blank"><i class="fa fa-github"></i></a> | <a href="https://www.paypal.me/TheShadowBrokers133" target="_blank"><i class="fa fa-paypal"></i></a></p>
 </div>
    
     <script>
         function downloadInstagram(option) {
             const youtubeLink = document.getElementById("youtubeLink").value.trim();
             if (youtubeLink === "") {
-                alert("[❗] Inserta el enlace de una publicación o reel Instagram.");
+                alert("[❗] Inserer le lien d une publication ou d un reel Instagram.");
                 return;
             }
             if (isValidInstagramLink(youtubeLink)) {
                 const downloadUrl = `/human/${option}?url=${youtubeLink}`;
                 window.open(downloadUrl, '_blank');
             } else {
-                alert("[❗] El enlace no coincide con un enlace de Instagram válido.");
+                alert("[❗] Ce lien n est pas une URL Instagram valide.");
             }
         }
         function isValidInstagramLink(link) {

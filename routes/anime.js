@@ -4,6 +4,12 @@ const axios = require('axios');
 const path = require('path');
 const fetch = require('node-fetch');
 const { RandomAgresivo } = require('./func/functions');
+const { attachCategory } = require('./func/bridge');
+const { catalog } = require('./func/catalog');
+
+attachCategory(router, 'anime', catalog, {
+  skip: ['loli', 'lolipc', 'lolivid', '/loli', '/lolipc', '/lolivid', '/waifu']
+});
 
 router.get('/lolivid', async (req, res) => {
   try {

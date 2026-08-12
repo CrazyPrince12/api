@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const fs = require('fs');
 const path = require('path');
+const YT = require('../func/YT_mp3_mp4');
 const { obtenerInformacionYoutube } = require('../func/ytdl3');
 const { getBuffer } = require('../func/functions');
 const { tryUpstreams, guessExt } = require('../func/humanProxy');
@@ -32,7 +33,22 @@ router.get('/', async (req, res) => {
         }, null, 2));
     }
 
-    // 1) NOUVEAU ENDPOINT (delirius) en première option
+    // 1) ENDPOINT fonctionnalités (ytdl3 -> ruhend-scraper ytmp3v2) en première option
+    try {
+      const youtubeInfo = await obtenerInformacionYoutube(match_url);
+      const audio = youtubeInfo?.resultado?.ytmp3v2?.audio;
+      const title = youtubeInfo?.resultado?.ytmp3v2?.title;
+      if (!youtubeInfo?.status || !audio) {
+        throw new Error('ytmp3 indisponible via fonctionnalites');
+      }
+      const audioBuffer = await getBuffer(audio);
+      const fileName = writeTmp(audioBuffer, 'audiomp3', 'mp3');
+      res.setHeader('Content-Type', 'audio/mpeg');
+      res.setHeader('Content-Disposition', `attachment; filename="${title || fileName}.mp3"`);
+      return res.sendFile(fileName, { root: './tmp' });
+    } catch (_) {}
+
+    // 2) UPSTREAMS EXTERNES (delirius) en secours
     try {
       const { buffer, contentType } = await tryUpstreams([
         `${D}/download/ytmp3`,
@@ -45,12 +61,11 @@ router.get('/', async (req, res) => {
       return res.sendFile(fileName, { root: './tmp' });
     } catch (_) {}
 
-    // 2) ANCIENLE METHODE
-    const youtubeInfo = await obtenerInformacionYoutube(match_url);
-    const audioBuffer = await getBuffer(youtubeInfo.resultado.ytmp3v2.audio);
+    // 3) ANCIENNE METHODE (ytdl-core) en dernier recours
+    const audioBuffer = await YT.mp3(match_url);
     const fileName = writeTmp(audioBuffer, 'audiomp3', 'mp3');
     res.setHeader('Content-Type', 'audio/mpeg');
-    res.setHeader('Content-Disposition', `attachment; filename="${youtubeInfo.resultado.ytmp3v2.title || fileName}.mp3"`);
+    res.setHeader('Content-Disposition', `attachment; filename="${fileName}"`);
     res.sendFile(fileName, { root: './tmp' });
   } catch (error) {
     res.sendFile(path.join(__dirname, '../../public/500.html'));

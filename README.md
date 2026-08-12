@@ -12,6 +12,21 @@
 - Compatible avec Canvas : [api-brunosobrino-dcaf9040.koyeb.app](https://api-brunosobrino-dcaf9040.koyeb.app)
 * Note : Presque toutes les autres fonctions marchent normalement, API non mise a jour.
 
+## —◉ Nouveaux endpoints (option principale)
+Les routes d origine restent intactes. De nouvelles categories sont disponibles en premier dans `/docs` :
+- `/api/download/*` telechargeurs
+- `/api/search/*` recherches
+- `/api/ia/*` intelligence artificielle
+- `/api/tools/*` outils
+- `/api/canvas/*` canvas et memes
+- `/api/plus/*` memes, infos, et `/api/plus/v1|v2/:name`
+- `/api/maker/flaming/:script` logos flaming
+- `/api/reactions/*` reactions
+- `/api/random/*` images aleatoires
+- `/api/shorten/*` raccourcisseurs
+
+Les reponses JSON suivent le format BrunoSobrino : `{ status, resultado, creator }`.
+
 ## —◉ Fonctions supplementaires :
 - YouTube : [api.cafirexos.com/human/youtube](https://api-brunosobrino.onrender.com/human/youtube)
 - Instagram : [api.cafirexos.com/human/instagram](https://api-brunosobrino.onrender.com/human/instagram)

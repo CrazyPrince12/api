@@ -366,6 +366,71 @@ router.get('/canvas/goodbye4', async (req, res) => {
   }
 });
 
+/* ------------{ flaming }------------ */
+
+const flamingStyles = {
+  'water-logo': (text) => require('./func/catalog').flamingUrl('water-logo', text, { fontsize: 100, fillTextColor: '%23000', shadowGlowColor: '%23000', backgroundColor: '%23000', host: 'https://flamingtext.com' }),
+  'crafts-logo': (text) => require('./func/catalog').flamingUrl('crafts-logo', text, { host: 'https://flamingtext.com' }),
+  'amped-logo': (text) => require('./func/catalog').flamingUrl('amped-logo', text, { host: 'https://flamingtext.com' }),
+  'sketch-name': (text) => require('./func/catalog').flamingUrl('sketch-name', text, { fontsize: 100, fillTextType: 1, fillTextPattern: 'Warning!', host: 'https://www6.flamingtext.com' }),
+  'sketch-name-gold': (text) => require('./func/catalog').flamingUrl('sketch-name', text, {
+    fontsize: 100,
+    fillTextType: 1,
+    fillTextPattern: 'Warning!',
+    fillColor1Color: '%23f2aa4c',
+    fillColor2Color: '%23f2aa4c',
+    fillColor3Color: '%23f2aa4c',
+    fillColor4Color: '%23f2aa4c',
+    fillColor5Color: '%23f2aa4c',
+    fillColor6Color: '%23f2aa4c',
+    fillColor7Color: '%23f2aa4c',
+    fillColor8Color: '%23f2aa4c',
+    fillColor9Color: '%23f2aa4c',
+    fillColor10Color: '%23f2aa4c',
+    fillOutlineColor: '%23f2aa4c',
+    fillOutline2Color: '%23f2aa4c',
+    backgroundColor: '%23101820',
+    host: 'https://www6.flamingtext.com'
+  })
+};
+
+router.get('/flaming/:script', async (req, res) => {
+  const texto = req.query.text;
+  const script = req.params.script;
+  try {
+    if (!texto) {
+      const errorResponse = {
+        status: false,
+        message: 'Vous devez indiquer un texte pour le logo.',
+        example: 'api/maker/flaming/water-logo?text=api%20empire',
+        creator: 'BrunoSobrino'
+      };
+      res.setHeader('Content-Type', 'application/json');
+      return res.send(JSON.stringify(errorResponse, null, 2));
+    }
+    const builder = flamingStyles[script];
+    if (!builder) {
+      const errorResponse = {
+        status: false,
+        message: 'Style flaming inconnu.',
+        resultado: Object.keys(flamingStyles),
+        creator: 'BrunoSobrino'
+      };
+      res.setHeader('Content-Type', 'application/json');
+      return res.status(400).send(JSON.stringify(errorResponse, null, 2));
+    }
+    const imageResponse = await axios.get(builder(texto), {
+      responseType: 'arraybuffer',
+      timeout: 45000,
+      headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36' }
+    });
+    res.setHeader('Content-Type', imageResponse.headers['content-type'] || 'image/png');
+    res.send(Buffer.from(imageResponse.data, 'binary'));
+  } catch {
+    res.sendFile(path.join(__dirname, '../public/500.html'));
+  }
+});
+
 /* ------------{ stickers }------------ */
 
 router.get('/attp', async (req, res) => {

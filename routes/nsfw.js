@@ -3,6 +3,10 @@ const router = express.Router();
 const axios = require('axios');
 const path = require('path');
 const { RandomAgresivo } = require('./func/functions');
+const { attachCategory } = require('./func/bridge');
+const { catalog } = require('./func/catalog');
+
+attachCategory(router, 'nsfw', catalog, { skip: ['nsfwloli', '/nsfwloli'] });
 
 router.get('/nsfwass', async (req, res) => {
   try {

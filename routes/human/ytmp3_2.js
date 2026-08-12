@@ -32,7 +32,16 @@ router.get('/', async (req, res) => {
         }, null, 2));
     }
 
-    // 1) NOUVEAUX ENDPOINTS en première option (autres upstreams)
+    // 1) ENDPOINT fonctionnalités (YT_mp3_mp4 -> @bochilteam/scraper) en première option
+    try {
+      const audioBuffer = await YT.mp3_2(match_url);
+      const fileName = writeTmp(Buffer.isBuffer(audioBuffer) ? audioBuffer : Buffer.from(audioBuffer), 'audio', 'mp3');
+      res.setHeader('Content-Type', 'audio/mpeg');
+      res.setHeader('Content-Disposition', `attachment; filename="${fileName}"`);
+      return res.sendFile(fileName, { root: './tmp' });
+    } catch (_) {}
+
+    // 2) UPSTREAMS EXTERNES (delirius + dorratz) en secours
     try {
       const { buffer, contentType } = await tryUpstreams([
         `${D}/download/ytmp3v2`,
@@ -46,8 +55,8 @@ router.get('/', async (req, res) => {
       return res.sendFile(fileName, { root: './tmp' });
     } catch (_) {}
 
-    // 2) ANCIENLE METHODE
-    const audioBuffer = await YT.mp3_2(match_url);
+    // 3) ANCIENNE METHODE (ytdl-core) en dernier recours
+    const audioBuffer = await YT.mp3(match_url);
     let infoaud;
     try { infoaud = await YT.ytinfo(match_url); } catch { infoaud = { resultado: { title: null } }; }
     const fileName = writeTmp(audioBuffer, 'audio', 'mp3');

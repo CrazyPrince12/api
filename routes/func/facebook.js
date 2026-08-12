@@ -6,6 +6,22 @@ const { savefrom, facebookdl, facebookdlv2 } = require('@bochilteam/scraper');
 const { facebook } = require('@xct007/frieren-scraper');
 const fbDownloader = require('fb-downloader-scrapper');
 
+const isVideoUrl = (u) => /\.mp4(?:\?|$)/i.test(u) || /\/video\//i.test(u) || /video\//i.test(u);
+const isImageUrl = (u) => /\.(?:jpe?g|png|webp|gif)(?:\?|$)/i.test(u) || /thumb|image|cover|preview|poster|photo/i.test(u);
+
+/**
+ * Choisit une URL de video parmi les candidats (jamais une image).
+ * Prefere une URL de video explicite, sinon la premiere URL qui ne ressemble pas a une image.
+ */
+function pickVideoUrl(candidates) {
+  const urls = (Array.isArray(candidates) ? candidates : [candidates])
+    .filter((u) => typeof u === 'string' && /^https?:/i.test(u));
+  if (!urls.length) return '';
+  let video = urls.find((u) => isVideoUrl(u) && !isImageUrl(u));
+  if (video) return video;
+  return urls.find((u) => !isImageUrl(u)) || '';
+}
+
 const facebookdlfunc = async (url) => {
   if (!url) {
     return {
@@ -25,19 +41,22 @@ const facebookdlfunc = async (url) => {
           data: fbdlResult.result.hd || fbdlResult.result.sd
         }
       };
-    } else { throw XD }
+    } else { throw new Error("Aucune video Facebook (getfvid)"); }
   } catch (error) {
   try {
     const fbdlResult = await facebookVideo(url);
-    if (fbdlResult?.result[0]?.url || fbdlResult?.result[1]?.url) {
-      return {
-        status: true,
-        resultado: {
-          title: "Facebook video download",
-          data: fbdlResult?.result[0]?.url || fbdlResult?.result[1]?.url
-        }
-      };
-    }
+    const fbVideo = pickVideoUrl([
+      fbdlResult?.result?.[0]?.url,
+      fbdlResult?.result?.[1]?.url
+    ]);
+    if (!fbVideo) throw new Error("Aucune video Facebook (fdownloader)");
+    return {
+      status: true,
+      resultado: {
+        title: "Facebook video download",
+        data: fbVideo
+      }
+    };
   } catch (error) {    
   try {
     const data = await facebook.v1(url);
@@ -62,20 +81,28 @@ const facebookdlfunc = async (url) => {
       if (!res || res == '' || res == undefined || res == null) {
         throw new Error("Impossible d obtenir la video Facebook");
       }
+      const video = pickVideoUrl(res);
+      if (!video) {
+        throw new Error("Impossible d obtenir la video Facebook (aucune URL video)");
+      }
       return {
         status: true,
         resultado: {
           title: "Facebook video download",
-          data: res
+          data: video
         }
       };
     } catch (error2) {
       try {
         const Rres = await fetch(`https://api.lolhuman.xyz/api/facebook?apikey=${global.lolkeysapi}&url=${url}`);
         const Jjson = await Rres.json();
-        let VIDEO = Jjson.result[0];
-        if (VIDEO == '' || !VIDEO || VIDEO == null) VIDEO = Jjson.result[1];
-        if (!VIDEO || VIDEO == '' || VIDEO == undefined || VIDEO == null) {
+        const rawResults = Array.isArray(Jjson.result) ? Jjson.result : [Jjson.result];
+        const VIDEO = pickVideoUrl(rawResults.map((item) => {
+          if (typeof item === 'string') return item;
+          if (item && typeof item === 'object') return item.url || item.url_download || item.hd || item.sd;
+          return null;
+        }));
+        if (!VIDEO) {
           throw new Error("Impossible d obtenir la video Facebook");
         }
         return {
@@ -133,15 +160,23 @@ const facebookdlfunc = async (url) => {
             } catch (error6) {
               try {
                 const { result } = await facebookdl(url).catch(async (_) => await facebookdlv2(url)).catch(async (_) => await savefrom(url));
-                const urls = result.map(({ url, isVideo }) => ({ url }));
-                if (!urls || urls == '' || urls == undefined || urls == null) {
+                if (!Array.isArray(result) || result.length === 0) {
                   throw new Error("Impossible d obtenir la video Facebook");
+                }
+                // Ne garder que les URLs video (jamais les images)
+                const videoUrl = pickVideoUrl(
+                  result
+                    .filter((item) => !item || item.isVideo !== false)
+                    .map((item) => (typeof item === 'string' ? item : item.url))
+                );
+                if (!videoUrl) {
+                  throw new Error("Impossible d obtenir la video Facebook (aucune URL video)");
                 }
                 return {
                   status: true,
                   resultado: {
                     title: "Facebook video download",
-                    data: urls
+                    data: videoUrl
                   }
                 };
               } catch (error7) {
@@ -233,55 +268,44 @@ async function facebookVideo(url) {
 };
 
 async function igeh(url_media) {
-  return new Promise(async (resolve, reject)=>{
-    const BASE_URL = 'https://instasupersave.com/';
-    try {
-      const resp = await axios(BASE_URL);
-      const cookie = resp.headers['set-cookie']; 
-      const session = cookie[0].split(';')[0].replace('XSRF-TOKEN=', '').replace('%3D', '');
-      const config = {method: 'post', url: `${BASE_URL}api/convert`, headers: {'origin': 'https://instasupersave.com', 'referer': 'https://instasupersave.com/pt/', 'sec-fetch-dest': 'empty', 'sec-fetch-mode': 'cors', 'sec-fetch-site': 'same-origin', 'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36 Edg/107.0.1418.52', 'x-xsrf-token': session, 'Content-Type': 'application/json', 'Cookie': `XSRF-TOKEN=${session}; instasupersave_session=${session}`}, data: {url: url_media}};
-      axios(config).then(function(response) {
-        const ig = [];
-        if (Array.isArray(response.data)) {
-          response.data.forEach((post) => {
-            ig.push(post.sd === undefined ? post.thumb : post.sd.url);
-          });
-        } else {
-          ig.push(response.data.url[0].url);
-        }
-        resolve({results_number: ig.length, url_list: ig});
-      }).catch(function(error) {
-        reject(error.message);
-      });
-    } catch (e) {
-      reject(e.message);
-    }
-  });
+  const BASE_URL = 'https://instasupersave.com/';
+  const resp = await axios(BASE_URL);
+  const cookie = resp.headers['set-cookie'];
+  const session = cookie[0].split(';')[0].replace('XSRF-TOKEN=', '').replace('%3D', '');
+  const config = {method: 'post', url: `${BASE_URL}api/convert`, headers: {'origin': 'https://instasupersave.com', 'referer': 'https://instasupersave.com/pt/', 'sec-fetch-dest': 'empty', 'sec-fetch-mode': 'cors', 'sec-fetch-site': 'same-origin', 'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36 Edg/107.0.1418.52', 'x-xsrf-token': session, 'Content-Type': 'application/json', 'Cookie': `XSRF-TOKEN=${session}; instasupersave_session=${session}`}, data: {url: url_media}};
+  const response = await axios(config);
+  const ig = [];
+  if (Array.isArray(response.data)) {
+    response.data.forEach((post) => {
+      ig.push(post.sd === undefined ? post.thumb : post.sd.url);
+    });
+  } else {
+    ig.push(response.data.url[0].url);
+  }
+  return {results_number: ig.length, url_list: ig};
 }
 
 async function fbdl(t) {
-  return new Promise(async (e, a) => {
-    const i = await fetch("https://www.getfvid.com/downloader", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-        Referer: "https://www.getfvid.com/"
-      },
-      body: new URLSearchParams(Object.entries({
-        url: t
-      }))
-    });
-    const o = cheerio.load(await i.text());
-    e({
-      result: {
-        url: t,
-        title: o("body > div.page-content > div > div > div.col-lg-10.col-md-10.col-centered > div > div:nth-child(3) > div > div.col-md-5.no-padd > div > h5 > a").text() || "Video downloader",
-        hd: o("body > div.page-content > div > div > div.col-lg-10.col-md-10.col-centered > div > div:nth-child(3) > div > div.col-md-4.btns-download > p:nth-child(1) > a").attr("href"),
-        sd: o("body > div.page-content > div > div > div.col-lg-10.col-md-10.col-centered > div > div:nth-child(3) > div > div.col-md-4.btns-download > p:nth-child(2) > a").attr("href"),
-        audio: o("body > div.page-content > div > div > div.col-lg-10.col-md-10.col-centered > div > div:nth-child(3) > div > div.col-md-4.btns-download > p:nth-child(3) > a").attr("href")
-      }
-    });
+  const i = await fetch("https://www.getfvid.com/downloader", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      Referer: "https://www.getfvid.com/"
+    },
+    body: new URLSearchParams(Object.entries({
+      url: t
+    }))
   });
+  const o = cheerio.load(await i.text());
+  return {
+    result: {
+      url: t,
+      title: o("body > div.page-content > div > div > div.col-lg-10.col-md-10.col-centered > div > div:nth-child(3) > div > div.col-md-5.no-padd > div > h5 > a").text() || "Video downloader",
+      hd: o("body > div.page-content > div > div > div.col-lg-10.col-md-10.col-centered > div > div:nth-child(3) > div > div.col-md-4.btns-download > p:nth-child(1) > a").attr("href"),
+      sd: o("body > div.page-content > div > div > div.col-lg-10.col-md-10.col-centered > div > div:nth-child(3) > div > div.col-md-4.btns-download > p:nth-child(2) > a").attr("href"),
+      audio: o("body > div.page-content > div > div > div.col-lg-10.col-md-10.col-centered > div > div:nth-child(3) > div > div.col-md-4.btns-download > p:nth-child(3) > a").attr("href")
+    }
+  };
 }
 
 module.exports = { facebookdlfunc };

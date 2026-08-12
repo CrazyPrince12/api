@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const fs = require('fs');
 const path = require('path');
+const YT = require('../func/YT_mp3_mp4');
 const { obtenerInformacionYoutube } = require('../func/ytdl3');
 const { getBuffer } = require('../func/functions');
 const { tryUpstreams, guessExt } = require('../func/humanProxy');
@@ -33,7 +34,22 @@ router.get('/', async (req, res) => {
         }, null, 2));
     }
 
-    // 1) NOUVEAU ENDPOINT (delirius) en première option
+    // 1) ENDPOINT fonctionnalités (ytdl3 -> ruhend-scraper ytmp4) en première option
+    try {
+      const youtubeInfo = await obtenerInformacionYoutube(match_url);
+      const video = youtubeInfo?.resultado?.ytmp4?.video;
+      const title = youtubeInfo?.resultado?.ytmp4?.title;
+      if (!youtubeInfo?.status || !video) {
+        throw new Error('ytmp4 indisponible via fonctionnalites');
+      }
+      const videoBuffer = await getBuffer(video);
+      const fileName = writeTmp(Buffer.isBuffer(videoBuffer) ? videoBuffer : Buffer.from(videoBuffer), 'videomp4', 'mp4');
+      res.setHeader('Content-Type', 'video/mp4');
+      res.setHeader('Content-Disposition', `attachment; filename="${title || fileName}.mp4"`);
+      return res.sendFile(fileName, { root: './tmp' });
+    } catch (_) {}
+
+    // 2) UPSTREAMS EXTERNES (delirius) en secours
     try {
       const params = { url: match_url };
       if (format) params.format = format;
@@ -48,12 +64,12 @@ router.get('/', async (req, res) => {
       return res.sendFile(fileName, { root: './tmp' });
     } catch (_) {}
 
-    // 2) ANCIENLE METHODE
-    const youtubeInfo = await obtenerInformacionYoutube(match_url);
-    const videoBuffer = await getBuffer(youtubeInfo.resultado.ytmp4.video);
-    const fileName = writeTmp(videoBuffer, 'videomp4', 'mp4');
+    // 3) ANCIENNE METHODE (ytdl-core) en dernier recours
+    const videoData = await YT.mp4(match_url);
+    const videoPath = videoData.path;
+    const fileName = path.basename(videoPath);
     res.setHeader('Content-Type', 'video/mp4');
-    res.setHeader('Content-Disposition', `attachment; filename="${youtubeInfo.resultado.ytmp4.title || fileName}.mp4"`);
+    res.setHeader('Content-Disposition', `attachment; filename="${fileName}"`);
     res.sendFile(fileName, { root: './tmp' });
   } catch (error) {
     res.sendFile(path.join(__dirname, '../../public/500.html'));

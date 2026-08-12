@@ -33,7 +33,17 @@ router.get('/', async (req, res) => {
         }, null, 2));
     }
 
-    // 1) NOUVEAUX ENDPOINTS en première option (autres upstreams)
+    // 1) ENDPOINT fonctionnalités (YT_mp3_mp4 -> @bochilteam/scraper) en première option
+    try {
+      const videoData = await YT.mp4_2(link);
+      const videoBuffer = Buffer.isBuffer(videoData) ? videoData : Buffer.from(videoData.buffer || videoData);
+      const fileName = writeTmp(videoBuffer, 'video', 'mp4');
+      res.setHeader('Content-Type', 'video/mp4');
+      res.setHeader('Content-Disposition', `attachment; filename="${fileName}"`);
+      return res.sendFile(fileName, { root: './tmp' });
+    } catch (_) {}
+
+    // 2) UPSTREAMS EXTERNES (delirius + dorratz) en secours
     try {
       const params = { url: link };
       if (format) params.format = format;
@@ -49,15 +59,13 @@ router.get('/', async (req, res) => {
       return res.sendFile(fileName, { root: './tmp' });
     } catch (_) {}
 
-    // 2) ANCIENLE METHODE
-    const videoData = await YT.mp4_2(link);
-    let infovid;
-    try { infovid = await YT.ytinfo(link); } catch { infovid = { resultado: { title: null } }; }
-    const videoBuffer = Buffer.from(videoData.buffer);
-    const fileName = writeTmp(videoBuffer, 'video', 'mp4');
-    res.download(`./tmp/${fileName}`, `${infovid.resultado?.title || fileName}.mp4`, (err) => {
-      if (err) res.sendFile(path.join(__dirname, '../../public/500.html'));
-    });
+    // 3) ANCIENNE METHODE (ytdl-core) en dernier recours
+    const videoData2 = await YT.mp4(link);
+    const videoPath = videoData2.path;
+    const fileName = path.basename(videoPath);
+    res.setHeader('Content-Type', 'video/mp4');
+    res.setHeader('Content-Disposition', `attachment; filename="${fileName}"`);
+    res.sendFile(fileName, { root: './tmp' });
   } catch (error) {
     res.sendFile(path.join(__dirname, '../../public/500.html'));
   }

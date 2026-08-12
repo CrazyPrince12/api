@@ -492,28 +492,151 @@ const PREFIX = {
   flaming: '/api/maker/flaming'
 };
 
+const LEGACY_DOCS = {
+  download: [
+    { header: 'Classiques YouTube', items: [
+      { href: '/api/v1/ytmp3?url=https://youtu.be/JLWRZ8eWyZo', label: 'MP3 V1' },
+      { href: '/api/v2/ytmp3?url=https://youtu.be/JLWRZ8eWyZo', label: 'MP3 V2' },
+      { href: '/api/v1/ytmp4?url=https://youtu.be/JLWRZ8eWyZo', label: 'MP4 V1' },
+      { href: '/api/v2/ytmp4?url=https://youtu.be/JLWRZ8eWyZo', label: 'MP4 V2' },
+      { href: '/api/ytplay?text=begin%20you', label: 'Lecture texte' },
+      { href: '/api/ytplay?url=https://youtu.be/JLWRZ8eWyZo', label: 'Lecture URL' },
+      { href: '/api/ytinfo?url=https://youtu.be/JLWRZ8eWyZo', label: 'YT Info' }
+    ]},
+    { header: 'Classiques reseaux', items: [
+      { href: '/api/v1/igdl?url=https://www.instagram.com/reel/C6Xf0ZvLQnl/', label: 'Instagram V1' },
+      { href: '/api/tiktokv1?url=https://vm.tiktok.com/ZM6Wcc2ag', label: 'TikTok V1' },
+      { href: '/api/tiktokv2?url=https://vm.tiktok.com/ZM6Wcc2ag', label: 'TikTok V2' },
+      { href: '/api/ttimg?url=https://vm.tiktok.com/ZM6WcvHcP', label: 'TikTok image' },
+      { href: '/api/facebook?url=https://fb.watch/fOTpgn6UFQ', label: 'Facebook' },
+      { href: '/api/twitterdl?url=https://twitter.com/auronplay/status/1586487664274206720', label: 'X Twitter' },
+      { href: '/api/spotifydl?url=https://open.spotify.com/track/3Wrjm47oTz2sjIgck11l5e', label: 'Spotify DL' },
+      { href: '/api/spotifyinfo?url=https://open.spotify.com/track/3Wrjm47oTz2sjIgck11l5e', label: 'Spotify info' },
+      { href: '/api/xnxxdl?url=https://www.xnxx.com/video-11qev1b8/estudiante_latina_se_da_unos_sentones_', label: 'XNXX' }
+    ]}
+  ],
+  search: [
+    { header: 'Classiques', items: [
+      { href: '/api/ytsearch?text=begin%20you', label: 'Recherche YT' },
+      { href: '/api/spotifysearch?text=maneskin%20beggin', label: 'Recherche Spotify' },
+      { href: '/api/xnxxsearch?text=latina', label: 'Recherche XNXX' },
+      { href: '/api/stickersearch?text=flores', label: 'Recherche stickers' }
+    ]}
+  ],
+  tools: [
+    { header: 'Classiques', items: [
+      { href: '/api/chatgpt?text=Bonjour', label: 'ChatGPT' },
+      { href: '/api/tempmail/getmail', label: 'TempMail' },
+      { href: '/api/lyrics?text=maneskin%20beggin', label: 'Paroles' },
+      { href: '/api/googleImage?text=naruto', label: 'Google Image' },
+      { href: '/api/ssweb?url=https://github.com/BrunoSobrino', label: 'SSWEB' },
+      { href: '/api/igstalk?username=luisitocomunica', label: 'IG Stalk' },
+      { href: '/api/tiktokstalk?username=luisitocomunica', label: 'TikTok Stalk' },
+      { href: '/api/pinterest?text=girl', label: 'Pinterest' }
+    ]}
+  ]
+};
+
+const STATIC_DOCS = [
+  {
+    id: 'collapseNsfwLegacy',
+    icon: 'fas fa-exclamation-triangle',
+    title: 'NSFW',
+    groups: [{
+      header: 'NSFW aleatoire',
+      items: ['girls', 'boobs', 'corean', 'tiktok', 'nsfwass', 'nsfwbdsm', 'nsfwcum', 'nsfwero', 'nsfwfemdom', 'nsfwfoot', 'nsfwglass', 'nsfworgy', 'nsfwtrap', 'ecchi', 'hentai', 'yuri', 'yaoi']
+        .map((name) => ({ href: `/api/nsfw/${name}`, label: name }))
+    }]
+  },
+  {
+    id: 'collapse18plus',
+    icon: 'fas fa-user-slash',
+    title: 'Aleatoire +18',
+    groups: [{
+      header: '+18 aleatoire',
+      items: [
+        ['packgirl', 'Packs filles'], ['packmen', 'Packs hommes'], ['gawrgura', 'Gawr Gura'],
+        ['booty', 'Booty'], ['furro', 'Furro'], ['imglesbian', 'Image lesbienne'],
+        ['panties', 'Panties'], ['pechos', 'Seins'], ['pene', 'Penis'],
+        ['porno', 'Porno'], ['tetas', 'Poitrine'], ['videoxxx', 'Video XXX'],
+        ['videoxxxlesbi', 'Video XXX lesbienne']
+      ].map(([name, label]) => ({ href: `/api/adult/${name}`, label }))
+    }]
+  },
+  {
+    id: 'collapseAnimeLegacy',
+    icon: 'fas fa-fw fa-tv',
+    title: 'Anime aleatoire',
+    groups: [{
+      header: 'Personnages',
+      items: ['neko', 'foxgirl', 'maid', 'gacha', 'waifu', 'cosplay', 'akira', 'akiyama', 'anna', 'asuna', 'ayuzawa', 'boruto', 'chiho', 'chitoge', 'deidara', 'eba', 'elaina', 'emilia', 'erza', 'hestia', 'hinata', 'inori', 'isuzu', 'itachi', 'itori', 'kaga', 'kagura', 'kaori', 'keneki', 'kotori', 'kurumi', 'madara', 'mikasa', 'miku', 'minato', 'naruto', 'nezuko', 'sagiri', 'sakura', 'sasuke']
+        .map((name) => ({ href: `/api/anime/${name}`, label: name }))
+        .concat([{ href: '/api/anime/animesearch?query=Naruto', label: 'recherche anime' }])
+    }]
+  },
+  {
+    id: 'collapseWallpaper',
+    icon: 'fas fa-fw fa-image',
+    title: 'Fonds d ecran',
+    groups: [{
+      header: 'Fonds aleatoires',
+      items: ['coffee', 'wprandom', 'cristianoronaldo', 'messi', 'itzy', 'navidad', 'wpmountain', 'pubg', 'wpgaming', 'aesthetic', 'pentol', 'cartoon', 'cyberspace', 'technology', 'doraemon', 'hacker', 'planet']
+        .map((name) => ({ href: `/api/wallpaper/${name}`, label: name }))
+    }]
+  },
+  {
+    id: 'collapseMarker',
+    icon: 'fas fa-fw fa-paint-brush',
+    title: 'Createur',
+    groups: [
+      { header: 'stickers', items: [{ href: '/api/maker/attp?text=api%20empire', label: 'Attp' }] },
+      { header: 'Canvas', items: [
+        { href: '/api/maker/canvas/welcome?titulo=Bienvenue&username=User&groupname=Groupe&profile=https://github.com/BrunoSobrino.png', label: 'Carte bienvenue' },
+        { href: '/api/maker/canvas/welcome2?username=Bruno&groupname=API%20Empire&membercount=12&description=Bienvenue&profile=https://github.com/BrunoSobrino.png', label: 'Carte bienvenue 2' },
+        { href: '/api/maker/canvas/goodbye?username=bruno&groupname=api%20empire&membercount=12&memberdiscriminator=13&profile=https://github.com/BrunoSobrino.png&background=https://telegra.ph/file/82d079999da723cc80899.png', label: 'Carte au revoir' }
+      ]},
+      { header: 'textpro', items: [
+        { href: '/api/maker/textpro/deep-sea-metal?text=api%20empire', label: 'Deep Sea Metal' },
+        { href: '/api/maker/textpro/wolf-logo-galaxy?text1=api%20empire&text2=by%20brunosobrino', label: 'Wolf Logo Galaxy' }
+      ]},
+      { header: 'photooxy', items: [{ href: '/api/maker/photooxy/flaming?text=api%20empire', label: 'Texte enflamme' }] },
+      { header: 'ephoto360', items: [{ href: '/api/maker/ephoto360/eraser-deleting-text?text=api%20empire', label: 'Texte gomme' }] }
+    ]
+  }
+];
+
 function toDocs() {
   const byCat = {};
   for (const item of catalog) {
     if (!byCat[item.category]) byCat[item.category] = [];
     byCat[item.category].push(item);
   }
-  return Object.keys(DOCS_META).map((category) => {
+  const dynamic = Object.keys(DOCS_META).map((category) => {
     const meta = DOCS_META[category];
     const groups = {};
     for (const item of byCat[category] || []) {
       if (!groups[item.group]) groups[item.group] = [];
-      const localPath = item.path.includes(':') ? item.path.replace(/\/:([^/?]+)\??/g, '') : item.path;
+      const localPath = item.path.includes(':')
+        ? item.path.replace(/\/:([^/?]+)\??/g, (_, key) => {
+          const sample = (item.example.match(new RegExp(`${key}=([^&]+)`)) || [])[1];
+          return `/${sample || 'empire'}`;
+        })
+        : item.path;
       const href = `${PREFIX[category]}${localPath}${item.example ? `?${item.example}` : ''}`;
       groups[item.group].push({ href, label: item.label });
     }
+    const extra = LEGACY_DOCS[category] || [];
     return {
       id: meta.id,
       icon: meta.icon,
       title: meta.title,
-      groups: Object.entries(groups).map(([header, items]) => ({ header, items }))
+      groups: [
+        ...extra,
+        ...Object.entries(groups).map(([header, items]) => ({ header, items }))
+      ]
     };
   });
+  return [...dynamic, ...STATIC_DOCS];
 }
 
 module.exports = {

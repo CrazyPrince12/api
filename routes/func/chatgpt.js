@@ -92,7 +92,7 @@ async function gpt(content, senderName = 'null', prompt, lenguaje = 'es') {
       }
     ],
     id: 1695108574472,
-    title: "BrunoSobrino & Samuel - Dev",
+    title: "CrazyPrince - Dev",
     time: "2023-9-19 14:29:34",
     prompt: prompt,
     models: 0,

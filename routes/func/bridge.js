@@ -5,8 +5,8 @@ const express = require('express');
 const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36';
 
 const DROP_KEYS = /^(creator|author|powered|poweredby|powered_by|source|source_name|api_name|owner|by|ts)$/i;
-const SOURCE_NAME = /delirius|dorratz|popcat|itsdevdiego|darlyn1234|darlyn|delirius api|welcome to delirius/gi;
-const SOURCE_URL = /https?:\/\/(?:api\.)?(?:delirius\.online|dorratz\.com|popcat\.xyz)[^\s"'<>]*/gi;
+const SOURCE_NAME = /delirius|dorratz|popcat|itsdevdiego|darlyn1234|darlyn|delirius api|welcome to delirius|brunosobrino|cafirexo|cafirexos/gi;
+const SOURCE_URL = /https?:\/\/(?:api\.)?(?:delirius\.online|dorratz\.com|popcat\.xyz|cafirexos\.com)[^\s"'<>]*/gi;
 
 function scrub(value) {
   if (Array.isArray(value)) return value.map(scrub);
@@ -14,23 +14,23 @@ function scrub(value) {
     const out = {};
     for (const [key, val] of Object.entries(value)) {
       if (DROP_KEYS.test(key)) continue;
-      if (/delirius|dorratz|popcat|itsdevdiego|darlyn/i.test(key)) continue;
+      if (/delirius|dorratz|popcat|itsdevdiego|darlyn|brunosobrino|cafirexo/i.test(key)) continue;
       out[key] = scrub(val);
     }
     return out;
   }
   if (typeof value === 'string') {
-    return value.replace(SOURCE_URL, '').replace(SOURCE_NAME, 'Empire').trim();
+    return value.replace(SOURCE_URL, '').replace(SOURCE_NAME, 'Crown').replace(/BrunoSobrino/gi, 'CrazyPrince').trim();
   }
   return value;
 }
 
 function wrapJson(payload) {
   if (payload == null) {
-    return { status: false, message: 'Aucune donnee recue.', creator: 'BrunoSobrino' };
+    return { status: false, message: 'Aucune donnee recue.', creator: 'CrazyPrince' };
   }
   if (typeof payload !== 'object') {
-    return { status: true, resultado: payload, creator: 'BrunoSobrino' };
+    return { status: true, resultado: payload, creator: 'CrazyPrince' };
   }
   const clean = scrub(payload);
   const failed = clean.ok === false || clean.status === false || clean.success === false;
@@ -43,10 +43,10 @@ function wrapJson(payload) {
     return {
       status: false,
       message: clean.error || clean.message || 'La requete a echoue.',
-      creator: 'BrunoSobrino'
+      creator: 'CrazyPrince'
     };
   }
-  return { status: true, resultado, creator: 'BrunoSobrino' };
+  return { status: true, resultado, creator: 'CrazyPrince' };
 }
 
 function pickParams(req, item) {
@@ -122,7 +122,7 @@ async function handle(item, req, res) {
         status: false,
         message: `Vous devez fournir le parametre requis : ${key}.`,
         example: item.example || undefined,
-        creator: 'BrunoSobrino'
+        creator: 'CrazyPrince'
       };
       res.setHeader('Content-Type', 'application/json');
       return res.status(400).send(JSON.stringify(errorResponse, null, 2));

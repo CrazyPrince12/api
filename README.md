@@ -1,85 +1,164 @@
-# API REST par BrunoSobrino
+<div align="center">
 
-- EN COURS DE DEVELOPPEMENT
+  <img src="public/crown-logo.png" alt="CROWN API Logo" width="160" height="160" style="border-radius: 24px;" />
 
-------------------
+  # CROWN API
 
-## —◉ APIs en ligne :
-- Cafirexos : [api.cafirexos.com](https://api.cafirexos.com)
-* Note : Disponible uniquement depuis le bot heberge sur [cafirexos](https://dash.cafirexos.com)
-- Onrender : [api-brunosobrino.onrender.com](https://api-brunosobrino.onrender.com/docs)
-* Note : API a jour a 100 % et compatible avec canvas, apikey : BrunoSobrino
-- Compatible avec Canvas : [api-brunosobrino-dcaf9040.koyeb.app](https://api-brunosobrino-dcaf9040.koyeb.app)
-* Note : Presque toutes les autres fonctions marchent normalement, API non mise a jour.
+  **Plateforme d'API REST publique moderne, ultra-rapide et modulaire.**  
+  *Propulsée par CrazyPrince, Développeur Camerounais.*
 
-## —◉ Nouveaux endpoints (option principale)
-Les routes d origine restent intactes. De nouvelles categories sont disponibles en premier dans `/docs` :
-- `/api/download/*` telechargeurs
-- `/api/search/*` recherches
-- `/api/ia/*` intelligence artificielle
-- `/api/tools/*` outils
-- `/api/canvas/*` canvas et memes
-- `/api/plus/*` memes, infos, et `/api/plus/v1|v2/:name`
-- `/api/maker/flaming/:script` logos flaming
-- `/api/reactions/*` reactions
-- `/api/random/*` images aleatoires
-- `/api/shorten/*` raccourcisseurs
+  <p>
+    <a href="https://nodejs.org/"><img src="https://img.shields.io/badge/Node.js-22.x-339933?style=for-the-badge&logo=node.js&logoColor=white" alt="Node.js"></a>
+    <a href="https://expressjs.com/"><img src="https://img.shields.io/badge/Express-4.x-000000?style=for-the-badge&logo=express&logoColor=white" alt="Express"></a>
+    <a href="https://axios-http.com/"><img src="https://img.shields.io/badge/Axios-1.5+-5A29E4?style=for-the-badge&logo=axios&logoColor=white" alt="Axios"></a>
+    <a href="https://developer.mozilla.org/fr/docs/Web/JavaScript"><img src="https://img.shields.io/badge/JavaScript-ES2024-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black" alt="JavaScript"></a>
+    <img src="https://img.shields.io/badge/Status-100%25%20Op%C3%A9rationnel-10B981?style=for-the-badge" alt="Status">
+    <img src="https://img.shields.io/badge/Endpoints-481%2B-7C3AED?style=for-the-badge" alt="Endpoints">
+  </p>
 
-Les reponses JSON suivent le format BrunoSobrino : `{ status, resultado, creator }`.
+  <p>
+    <a href="#-d%C3%A9ploiement-rapide"><strong>Déployer</strong></a> •
+    <a href="#-caract%C3%A9ristiques"><strong>Caractéristiques</strong></a> •
+    <a href="#-installation--d%C3%A9marrage"><strong>Installation</strong></a> •
+    <a href="#-documentation--exemples"><strong>Exemples</strong></a> •
+    <a href="#-sources-de-redon"><strong>Sources</strong></a> •
+    <a href="#-contact--support"><strong>Contact</strong></a>
+  </p>
 
-## —◉ Fonctions supplementaires :
-- YouTube : [api.cafirexos.com/human/youtube](https://api-brunosobrino.onrender.com/human/youtube)
-- Instagram : [api.cafirexos.com/human/instagram](https://api-brunosobrino.onrender.com/human/instagram)
-- Facebook : [api.cafirexos.com/human/facebook](https://api-brunosobrino.onrender.com/human/facebook)
+</div>
 
-------------------
+---
 
-## —◉ Bugs et plus :
-- IgStalk [BUG]
-- Connexion des utilisateurs [BETA]
-- Cle API requise [BETA]
-- Cle API Premium [PARTIEL]
+##  Déploiement Rapide
 
-------------------
+Déployez votre propre instance de **CROWN API** en un clic sur vos plateformes favorites :
 
-## —◉ Configuration
-- Apres l installation de cette API, modifiez le fichier "example.env", puis une fois configure, renommez-le en ".env".
-- Nous recommandons de definir un [JWT_SECRET](https://github.com/BrunoSobrino/api/blob/2109f7c00962c8ede489337e1b0218c8783e3ce3/example.env#L2) unique, sinon il serait facile de voler les jetons de session.
-- Pour utiliser reCAPTCHA, creez votre cle privee et publique sur [ce site](https://www.google.com/recaptcha/admin/create?hl=fr)
-- Vous pouvez utiliser le service SMTP de [Brevo](https://www.brevo.com/free-smtp-server/). Pour commencer, inscrivez-vous, renseignez quelques informations, allez dans la section transactionnelle et copiez les identifiants SMTP.
-- Les limites de chaque cle API se reinitialisent toutes les 24 heures.
+<div align="center">
 
-------------------
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://dashboard.render.com/blueprint/new?repo=https%3A%2F%2Fgithub.com%2FCrazyPrince12%2Fapi)
+[![Deploy to Koyeb](https://www.koyeb.com/static/images/deploy/button.svg)](https://app.koyeb.com/deploy?type=git&repository=github.com/CrazyPrince12/api&branch=main&name=crown-api&ports=2035;http;/)
+[![Run on Replit](https://replit.com/badge/github/CrazyPrince12/api)](https://replit.com/github/CrazyPrince12/api)
 
-## —◉ Activer sur Cafirexos
-<a href="https://www.cafirexos.com"><img src="https://grxcwmcwbxwj.objectstorage.sa-saopaulo-1.oci.customer-oci.com/n/grxcwmcwbxwj/b/cafirexos/o/logos%2Flogo_2.png" height="125px"></a>
-- Site web : [www.cafirexos.com](https://www.cafirexos.com)
-- Dash : [dash.cafirexos.com](https://dash.cafirexos.com)
-- Panneau : [panel.cafirexos.com](https://panel.cafirexos.com)
-- Documentation : [docs.cafirexos.com](https://docs.cafirexos.com)
-- Canal WhatsApp : [cafirexos.com/whatsapp](https://cafirexos.com/whatsapp)
-- Communaute WhatsApp : [cafirexos.com/comunidad](https://cafirexos.com/comunidad)
+</div>
 
-## —◉ Activer sur Koyeb
+---
 
-[![Deploy to Koyeb](https://www.koyeb.com/static/images/deploy/button.svg)](https://app.koyeb.com/deploy?type=git&repository=github.com/BrunoSobrino/api&branch=koyeb&name=api-for-canvas&ports=2027;http;/) 
+##  Caractéristiques
 
-## —◉ Activer sur Replit
+- **481+ Endpoints haute performance** : Téléchargements multimédias (YouTube, TikTok, Instagram, Facebook, Twitter/X, Spotify, Soundcloud, Pinterest, etc.), IA, Outils web, Recherche, Canvas, Memes, Logos Flaming et NSFW.
+- **Réponses JSON uniformisées** : Structure claire `{ "status": true, "resultado": { ... }, "creator": "CrazyPrince" }`.
+- **Authentification & Gestion des clés** : Système de quotas journaliers, clés personnalisables, gestion des statuts premium et bannissements en temps réel.
+- **Interface UI 2026** : Dashboard élégant, switch thème sombre/clair, documentation interactive avec coloration syntaxique et code multi-langages (Node.js, TypeScript, Python, cURL).
+- **Intégration bot simplifiée** : Compatible avec vos bots WhatsApp, Telegram, Discord via `axios` ou `fetch`.
 
-[![Run on Repl.it](https://repl.it/badge/github/BrunoSobrino/api)](https://repl.it/github/BrunoSobrino/api) 
-  
-## —◉ Activer sur Render
+---
 
-[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://dashboard.render.com/blueprint/new?repo=https%3A%2F%2Fgithub.com%2FBrunoSobrino%2Fapi) 
+##  Installation & Démarrage
 
-------------------
+### Prérequis
+- [Node.js](https://nodejs.org/) v18 ou supérieur
+- `npm` ou `yarn`
 
-## —◉ Collaborateurs
-<a href="https://github.com/Daniel9822"><img src="https://github.com/Daniel9822.png" width="100" height="100" alt="Daniel9822"/></a>
-<a href="https://github.com/Shizu-SH"><img src="https://github.com/Shizu-SH.png" width="100" height="100" alt="Shizu-SH"/></a>
-<a href="https://github.com/dftzippo"><img src="https://github.com/dftzippo.png" width="100" height="100" alt="dftzippo"/></a>
-<a href="https://github.com/ferhacks"><img src="https://github.com/ferhacks.png" width="100" height="100" alt="ferhacks"/></a>
+### 1. Cloner le dépôt
+```bash
+git clone https://github.com/CrazyPrince12/api.git
+cd api
+```
 
-## —◉ Proprietaire
-<a href="https://github.com/BrunoSobrino"><img src="https://github.com/BrunoSobrino.png" width="150" height="150" alt="BrunoSobrino"/></a>
-- API REST par Bruno Sobrino
+### 2. Installer les dépendances
+```bash
+npm install --omit=optional
+```
+
+### 3. Configurer l'environnement
+Copiez le fichier d'exemple et personnalisez vos variables :
+```bash
+cp example.env .env
+```
+
+| Variable | Description | Valeur par défaut |
+| :--- | :--- | :--- |
+| `PORT` | Port d'écoute du serveur | `2035` |
+| `JWT_SECRET` | Clé secrète pour les jetons de session | `votre_cle_secrete_jwt` |
+| `free_user_limit` | Quota quotidien utilisateurs gratuits | `10000` |
+| `premium_user_limit` | Quota quotidien utilisateurs premium | `1000000` |
+| `new_user_verification` | Vérification par e-mail | `false` (ou `true` avec SMTP) |
+
+### 4. Lancer le serveur
+```bash
+npm start
+```
+Accédez au dashboard sur `http://localhost:2035`.
+
+---
+
+##  Documentation & Exemples
+
+### Exemple en Node.js (Axios)
+```javascript
+const axios = require('axios');
+
+async function searchYouTube(query, apiKey) {
+  try {
+    const response = await axios.get('https://api-domain.com/api/ytsearch', {
+      params: {
+        text: query,
+        apikey: apiKey
+      }
+    });
+    console.log(response.data);
+  } catch (error) {
+    console.error('Erreur API :', error.response?.data || error.message);
+  }
+}
+
+searchYouTube('Alan Walker Faded', 'CrazyPrince');
+```
+
+### Exemple en TypeScript (Fetch)
+```typescript
+interface ApiResponse<T = any> {
+  status: boolean;
+  resultado: T;
+  creator: string;
+}
+
+async function getStatus(): Promise<ApiResponse> {
+  const res = await fetch('https://api-domain.com/status');
+  return res.json();
+}
+```
+
+---
+
+##  Sources de Redon
+
+CROWN API intègre et optimise des ponts vers des architectures de référence pour assurer la stabilité des flux :
+- [api.delirius.online](https://api.delirius.online)
+- [api.dorratz.com](https://api.dorratz.com)
+- [api.popcat.xyz](https://api.popcat.xyz)
+- [flamingtext.com](https://flamingtext.com)
+
+---
+
+##  Gestion des Utilisateurs
+
+Les identifiants et clés API sont gérés dans `database.json`.  
+- **Clé API par défaut** : `CrazyPrince`
+- **Clé API Premium pré-configurée** : `CRAZY237`
+- **Ajout manuel** : Ajoutez directement un nouvel objet utilisateur dans `database.json` ; les modifications sont immédiatement prises en compte sans redémarrage.
+
+---
+
+##  Contact & Support
+
+- **Développeur** : CrazyPrince (Développeur Camerounais)
+- **WhatsApp** : [+237 694 268 225](https://wa.me/237694268225)
+- **GitHub** : [BanditDapi](https://github.com/BanditDapi/)
+- **Paiements & Dons** : Mobile Money / Orange Money uniquement au **+237 694 268 225**
+
+---
+
+<div align="center">
+  <sub>© 2026 CROWN API. Tous droits réservés. Développé avec excellence au Cameroun par CrazyPrince.</sub>
+</div>

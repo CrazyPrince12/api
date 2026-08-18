@@ -1,224 +1,174 @@
-const fs = require('fs')
-const crypto = require('crypto')
+const fs = require('fs');
+const path = require('path');
+const crypto = require('crypto');
 
-const databaseDir = "./database.json"
+const databaseDir = path.resolve(__dirname, '../../database.json');
 
 if (!fs.existsSync(databaseDir)) {
-  fs.writeFileSync(databaseDir, JSON.stringify([]))
+  fs.writeFileSync(databaseDir, JSON.stringify([], null, 2), 'utf-8');
 }
 
-const database = JSON.parse(fs.readFileSync(databaseDir))
-
 /**
- * Recupere un utilisateur de la base de donnees, sinon undefined
- * @param {String} mail 
- * @param {Boolean} includePassword
- * @returns {{
- *   mail: String,
- *   hashPassword: String | undefined,
- *   apikey: String,
- *   date: Date,
- *   isVerified: Boolean,
- *   isPremium: Boolean,
- *   isBanned: Boolean,
- *   lastUsed: Date,
- *   uses: Number,
- *   userId: String
- * }}
+ * Lit la base de données depuis database.json
+ * @returns {Array<object>}
  */
-
-const getDatabaseByUser = (mail, includePassword) => {
-    return database.find(user => user.mail === mail)
-    ? includePassword
-      ? database.find(user => user.mail === mail)
-      : { ...database.find(user => user.mail === mail), hashPassword: undefined }
-    : undefined
-
+function readDb() {
+  try {
+    if (!fs.existsSync(databaseDir)) {
+      fs.writeFileSync(databaseDir, JSON.stringify([], null, 2), 'utf-8');
+      return [];
+    }
+    const raw = fs.readFileSync(databaseDir, 'utf-8');
+    return JSON.parse(raw);
+  } catch (error) {
+    console.error('Erreur de lecture de database.json :', error);
+    return [];
+  }
 }
 
+/**
+ * Écrit la base de données dans database.json
+ * @param {Array<object>} data
+ * @returns {boolean}
+ */
+function writeDb(data) {
+  try {
+    fs.writeFileSync(databaseDir, JSON.stringify(data, null, 2), 'utf-8');
+    return true;
+  } catch (error) {
+    console.error('Erreur d ecriture dans database.json :', error);
+    return false;
+  }
+}
 
 /**
- * Recupere un utilisateur de la base de donnees, sinon undefined
- * @param {String} apikey
- * @returns {{
- *   mail: String,
- *   apikey: String,
- *   date: Date,
- *   isVerified: Boolean,
- *   isPremium: Boolean,
- *   isBanned: Boolean,
- *   lastUsed: Date,
- *   uses: Number,
- *   userId: String
- * }}
+ * Récupère un utilisateur par email
+ * @param {string} mail 
+ * @param {boolean} [includePassword=false]
  */
+const getDatabaseByUser = (mail, includePassword = false) => {
+  const database = readDb();
+  const user = database.find(u => u.mail === mail);
+  if (!user) return undefined;
+  if (includePassword) return { ...user };
+  const { hashPassword, ...safeUser } = user;
+  return safeUser;
+};
 
+/**
+ * Récupère un utilisateur par clé API
+ * @param {string} apikey 
+ */
 const getDatabaseByApiKey = (apikey) => {
-    return database.find(user => user.apikey === apikey)
-    ? { ...database.find(user => user.apikey === apikey), hashPassword: undefined }
-    : undefined
-}
+  const database = readDb();
+  const user = database.find(u => u.apikey === apikey);
+  if (!user) return undefined;
+  const { hashPassword, ...safeUser } = user;
+  return safeUser;
+};
 
 /**
- * Recupere un utilisateur de la base de donnees, sinon undefined
- * @param {String} userId 
- * @returns {{
- *   mail: String,
- *   apikey: String,
- *   date: Date,
- *   isVerified: Boolean,
- *   isPremium: Boolean,
- *   isBanned: Boolean,
- *   lastUsed: Date,
- *   uses: Number,
- *   userId: String
- * }}
+ * Récupère un utilisateur par ID utilisateur
+ * @param {string} userId 
  */
-
 const getDatabaseByUserId = (userId) => {
-    return database.find(user => user.userId === userId)
-    ? { ...database.find(user => user.userId === userId), hashPassword: undefined }
-    : undefined
-}
+  const database = readDb();
+  const user = database.find(u => u.userId === userId);
+  if (!user) return undefined;
+  const { hashPassword, ...safeUser } = user;
+  return safeUser;
+};
 
 /**
- * Recupere un utilisateur de la base de donnees, sinon undefined
- * @param {String} verifyCode 
- * @returns {{
- *   mail: String,
- *   apikey: String,
- *   date: Date,
- *   isVerified: Boolean,
- *   verifyCode: String | undefined,
- *   isPremium: Boolean,
- *   isBanned: Boolean,
- *   lastUsed: Date,
- *   uses: Number,
- *   userId: String
- * }}
+ * Récupère un utilisateur par code de vérification
+ * @param {string} verifyCode 
  */
-
 const getDatabaseByVerifyCode = (verifyCode) => {
-    return database.find(user => user.verifyCode === verifyCode)
-    ? { ...database.find(user => user.verifyCode === verifyCode), hashPassword: undefined }
-    : undefined
-}
+  const database = readDb();
+  const user = database.find(u => u.verifyCode === verifyCode);
+  if (!user) return undefined;
+  const { hashPassword, ...safeUser } = user;
+  return safeUser;
+};
 
 /**
- * Recupere un utilisateur de la base de donnees, sinon undefined
- * @returns {[{
- *   mail: String,
- *   apikey: String,
- *   date: Date,
- *   isVerified: Boolean,
- *   isPremium: Boolean,
- *   isBanned: Boolean,
- *   lastUsed: Date,
- *   uses: Number,
- *   userId: String
- * }]}
+ * Récupère l'ensemble des utilisateurs (sans hash de mot de passe)
  */
-
 const getDatabase = () => {
-    return database.map(user => ({ ...user, hashPassword: undefined }))
-}
-
+  const database = readDb();
+  return database.map(({ hashPassword, ...user }) => user);
+};
 
 /**
- * Ajoute un utilisateur a la base de donnees
-* @returns {{
- *   mail: String,
- *   hashPassword: String,
- *   apikey: String,
- *   date: Date,
- *   isVerified: Boolean,
- *   verifyCode: String | undefined,
- *   isPremium: Boolean,
- *   isBanned: Boolean,
- *   lastUsed: Date,
- *   uses: Number,
- *   userId: String
- * }}
+ * Ajoute un nouvel utilisateur
  */
-
 const PostDatabase = (mail, password, verify) => {
-    // make md5 with crypto
-    const hashPassword = crypto.createHash('md5').update(password).digest('hex')
-    const userId = crypto.createHash('md5').update(mail + hashPassword).digest('hex')
-    database.push({
-        mail,
-        hashPassword,
-        apikey: Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15),
-        date: new Date(),
-        isVerified: verify ? true : false,
-        verifyCode: !verify ? crypto.createHash('md5').update(userId + mail).digest('hex') : undefined,
-        isPremium: false,
-        isBanned: false,
-        lastUsed: new Date(),
-        uses: 0,
-        userId
-    })
-    fs.writeFileSync(databaseDir, JSON.stringify(database))
-    return database[database.length - 1]
-}
+  const database = readDb();
+  const hashPassword = crypto.createHash('md5').update(password).digest('hex');
+  const userId = crypto.createHash('md5').update(mail + hashPassword).digest('hex');
+  const newUser = {
+    mail,
+    hashPassword,
+    apikey: Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15),
+    date: new Date().toISOString(),
+    isVerified: verify ? true : false,
+    verifyCode: !verify ? crypto.createHash('md5').update(userId + mail).digest('hex') : undefined,
+    isPremium: false,
+    isBanned: false,
+    lastUsed: new Date().toISOString(),
+    uses: 0,
+    userId
+  };
+  database.push(newUser);
+  writeDb(database);
+  return newUser;
+};
 
 /**
- * Modifie un utilisateur dans la base de donnees
-  * @returns {{
- *   mail: String,
- *   hashPassword: String,
- *   apikey: String,
- *   date: Date,
- *   isVerified: Boolean,
- *   isPremium: Boolean,
- *   isBanned: Boolean,
- *   lastUsed: Date,
- *   uses: Number,
- *   userId: String
- * }}
+ * Met à jour un utilisateur
  */
-
 const UpdateDatabase = (mail, data) => {
-    const userIndex = database.findIndex(user => user.mail === mail)
-    database[userIndex] = { ...database[userIndex], ...data }
-    fs.writeFileSync(databaseDir, JSON.stringify(database))
-    return database[userIndex]
-}
+  const database = readDb();
+  const userIndex = database.findIndex(u => u.mail === mail);
+  if (userIndex === -1) return null;
+  database[userIndex] = { ...database[userIndex], ...data };
+  writeDb(database);
+  return database[userIndex];
+};
 
 /**
- * Ajoute une utilisation a un utilisateur
- * @returns {Boolean}
+ * Incrémente le compteur d'utilisation
  */
-
 const addUse = (mail) => {
-    const userIndex = database.findIndex(user => user.mail === mail)
-    if (userIndex === -1) return false
-    database[userIndex].uses++
-    fs.writeFileSync(databaseDir, JSON.stringify(database))
-    return true
-}
+  const database = readDb();
+  const userIndex = database.findIndex(u => u.mail === mail);
+  if (userIndex === -1) return false;
+  database[userIndex].uses = (database[userIndex].uses || 0) + 1;
+  database[userIndex].lastUsed = new Date().toISOString();
+  writeDb(database);
+  return true;
+};
 
 /**
- * Supprime un utilisateur de la base de donnees
- * @returns {Boolean}
+ * Supprime un utilisateur
  */
-
 const DeleteDatabase = (mail) => {
-    const userIndex = database.findIndex(user => user.mail === mail)
-    if (userIndex === -1) return false
-    database.splice(userIndex, 1)
-    fs.writeFileSync(databaseDir, JSON.stringify(database))
-    return true
-}
+  const database = readDb();
+  const userIndex = database.findIndex(u => u.mail === mail);
+  if (userIndex === -1) return false;
+  database.splice(userIndex, 1);
+  writeDb(database);
+  return true;
+};
 
 module.exports = {
-    getDatabaseByUser,
-    getDatabaseByApiKey,
-    getDatabaseByUserId,
-    getDatabaseByVerifyCode,
-    PostDatabase,
-    UpdateDatabase,
-    DeleteDatabase,
-    getDatabase,
-    addUse
-}
+  getDatabaseByUser,
+  getDatabaseByApiKey,
+  getDatabaseByUserId,
+  getDatabaseByVerifyCode,
+  PostDatabase,
+  UpdateDatabase,
+  DeleteDatabase,
+  getDatabase,
+  addUse
+};

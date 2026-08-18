@@ -1,1 +1,28 @@
-[{"mail":"i7v4qbd4i1@icznn.com","hashPassword":"25d55ad283aa400af464c76d713c07ad","apikey":"BrunoSobrino","date":"2024-05-06T07:20:18.488Z","isVerified":true,"verifyCode":"0564a96fa4c911091c4f966041cfbf24","isPremium":true,"isBanned":false,"lastUsed":"2024-05-06T07:20:18.488Z","uses":1,"userId":"8e3b3cf367ba07235ed04d9467540aaa"}]
+[
+  {
+    "mail": "i7v4qbd4i1@icznn.com",
+    "hashPassword": "25d55ad283aa400af464c76d713c07ad",
+    "apikey": "CrazyPrince",
+    "date": "2024-05-06T07:20:18.488Z",
+    "isVerified": true,
+    "verifyCode": "0564a96fa4c911091c4f966041cfbf24",
+    "isPremium": true,
+    "isBanned": false,
+    "lastUsed": "2024-05-06T07:20:18.488Z",
+    "uses": 1,
+    "userId": "8e3b3cf367ba07235ed04d9467540aaa"
+  },
+  {
+    "mail": "vip.crazy237@crownapi.cm",
+    "hashPassword": "25d55ad283aa400af464c76d713c07ad",
+    "apikey": "CRAZY237",
+    "date": "2026-08-18T00:00:00.000Z",
+    "isVerified": true,
+    "verifyCode": "7a8b9c0d1e2f3a4b5c6d7e8f90123456",
+    "isPremium": true,
+    "isBanned": false,
+    "lastUsed": "2026-08-18T00:00:00.000Z",
+    "uses": 0,
+    "userId": "9c8b7a6f5e4d3c2b1a0f9e8d7c6b5a4f"
+  }
+]

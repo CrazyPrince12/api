@@ -1,315 +1,502 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" data-theme="dark">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <meta property="og:image" content="https://github.com/BrunoSobrino.png">
-    <title>API | Connexion</title>
-    <link rel="stylesheet" href="./style.css">
-    <link rel="stylesheet" href="/template-api/vendor/fontawesome-free/css/all.min.css">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>CROWN API — Connexion & Espace Membre</title>
+
+  <!-- SEO & Social Preview Tags -->
+  <meta name="description" content="Connectez-vous à CROWN API pour gérer vos clés d'accès et vos quotas journaliers. Propulsé par CrazyPrince, Développeur Camerounais.">
+  <meta name="author" content="CrazyPrince">
+  <meta property="og:title" content="CROWN API — Connexion & Authentification">
+  <meta property="og:description" content="Accédez à votre compte CROWN API et vos endpoints REST. 100% Fonctionnel.">
+  <meta property="og:image" content="/crown-logo.png">
+  <meta name="theme-color" content="#07090e">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="/crown-logo.png">
+  <link rel="apple-touch-icon" href="/crown-logo.png">
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="/template-api/vendor/fontawesome-free/css/all.min.css">
+  <link rel="stylesheet" href="/crown.css">
+
+  <style>
+    .auth-container {
+      max-width: 500px;
+      margin: 3.5rem auto 4rem;
+      padding: 0 1.5rem;
+      position: relative;
+      z-index: 1;
+    }
+    .auth-card {
+      background: var(--bg-card);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--border-hover);
+      border-radius: 22px;
+      padding: 2.5rem;
+      box-shadow: 0 20px 45px -10px rgba(0, 0, 0, 0.7), var(--shadow-glow);
+    }
+    .auth-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .auth-logo {
+      width: 72px;
+      height: 72px;
+      object-fit: contain;
+      border-radius: 16px;
+      margin-bottom: 1rem;
+      transition: transform 0.3s ease;
+    }
+    .auth-logo:hover {
+      transform: scale(1.08);
+    }
+    .auth-title {
+      font-family: var(--font-heading);
+      font-size: 1.75rem;
+      font-weight: 800;
+      color: var(--text-bright);
+      margin-bottom: 0.35rem;
+    }
+    .auth-sub {
+      font-size: 0.92rem;
+      color: var(--text-secondary);
+    }
+    .auth-tabs {
+      display: flex;
+      background: rgba(0, 0, 0, 0.25);
+      border: 1px solid var(--border-card);
+      border-radius: 12px;
+      padding: 0.35rem;
+      margin-bottom: 1.75rem;
+      list-style: none;
+    }
+    .auth-tab {
+      flex: 1;
+      text-align: center;
+    }
+    .auth-tab-btn {
+      width: 100%;
+      background: transparent;
+      border: none;
+      color: var(--text-secondary);
+      font-family: var(--font-main);
+      font-weight: 700;
+      font-size: 0.92rem;
+      padding: 0.65rem 0.5rem;
+      border-radius: 9px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .auth-tab-btn.active {
+      background: var(--crown-violet);
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(124, 58, 237, 0.4);
+    }
+    .form-group {
+      margin-bottom: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+    }
+    .form-label {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+    .form-helper {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: -0.5rem;
+      margin-bottom: 1.25rem;
+      font-size: 0.85rem;
+    }
+    .form-link {
+      color: var(--crown-blue-light);
+      text-decoration: none;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .form-link:hover {
+      text-decoration: underline;
+    }
+    .auth-info-banner {
+      background: rgba(124, 58, 237, 0.12);
+      border: 1px solid rgba(124, 58, 237, 0.3);
+      border-radius: 12px;
+      padding: 1rem;
+      margin-top: 1.75rem;
+      font-size: 0.88rem;
+      line-height: 1.5;
+      color: var(--text-secondary);
+    }
+  </style>
 </head>
 <body>
-<!-- partial:index.partial.html -->
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <meta property="og:image" content="https://github.com/BrunoSobrino.png">
-    <title>API | BrunoSobrino</title>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <link href="https://fonts.googleapis.com/css?family=Raleway|Ubuntu" rel="stylesheet">
-    <script>
-        if (localStorage.getItem("token")) {
-            window.location.href = "/docs";
-        }
-    </script>
-</head>
-<body>
 
-   <!-- Formulaires -->
-    <div class="contenedor-formularios">
-        <!-- Liens des formulaires -->
-        <ul class="contenedor-tabs">
-            <li class="tab tab-segunda active"><a href="#iniciar-sesion">Connexion</a></li>
-            <li class="tab tab-primera"><a href="#registrarse">Inscription</a></li>
-        </ul>
+  <!-- Ambient Background Glow -->
+  <div class="crown-bg-glow"></div>
 
-        <!-- Contenu des formulaires -->
-        <div class="contenido-tab">
-            <!-- Connexion -->
-            <div id="iniciar-sesion">
-                <h1>Connexion</h1>
-                <form action="#" method="post" id="logg">
-                    <div class="contenedor-input">
-                        <label>
-                            E-mail <span class="req">*</span>
-                        </label>
-                        <input type="text" required id="logmail">
-                    </div>
+  <!-- Navbar -->
+  <header class="crown-nav">
+    <div class="crown-nav-inner">
+      <a href="/" class="crown-brand">
+        <img src="/crown-logo.png" alt="CROWN API" class="crown-logo-img">
+        <span class="crown-brand-text">CROWN API</span>
+      </a>
 
-                    <div class="contenedor-input">
-                        <label>
-                            Mot de passe <span class="req">*</span>
-                        </label>
-                        <input type="password" required id="logpass">
-                    </div>
-                    <p class="forgot"><a href="javascript:void(0);" onclick="requestReset()">Mot de passe oublié ?</a></p>
-                    <!--<p class="forgot"><a href="#" onclick="requestReset()">Mot de passe oublié ?</a></p> -->
-                    <input type="submit" class="button button-block" value="Connexion">
-                </form>
-            </div>
+      <ul class="crown-nav-links">
+        <li><a href="/" class="crown-nav-link"><i class="fas fa-home"></i> Accueil</a></li>
+        <li><a href="/docs" class="crown-nav-link"><i class="fas fa-book"></i> Documentation</a></li>
+        <li><a href="/human/youtube" class="crown-nav-link"><i class="fab fa-youtube"></i> YouTube</a></li>
+        <li><a href="/human/instagram" class="crown-nav-link"><i class="fab fa-instagram"></i> Instagram</a></li>
+        <li><a href="/human/facebook" class="crown-nav-link"><i class="fab fa-facebook"></i> Facebook</a></li>
+      </ul>
 
-            <!-- Inscription -->
-            <div id="registrarse">
-                <h1>Inscription</h1>
-                <form action="#" method="post" id="regg">
-                    <div class="contenedor-input">
-                            <label>
-                                E-mail <span class="req">*</span>
-                            </label>
-                        <input type="email" required id="regmail">
-                    </div>
-                    <div class="contenedor-input">
-                        <label>
-                            Mot de passe <span class="req">*</span>
-                        </label>
-                        <input type="password" required id="reggpass">
-                    </div>
-
-                    <div class="contenedor-input">
-                        <label>
-                            Confirmer le mot de passe <span class="req">*</span>
-                        </label>
-                        <input type="password" required id="reggpass2">
-                    </div>
-
-                    <input type="submit" class="button button-block" value="Inscription" id="submitButton">
-                </form>
-            </div>
-        </div>
+      <div class="crown-nav-actions">
+        <button class="theme-toggle-btn" onclick="toggleCrownTheme()" title="Basculer le thème">
+          <i class="fas fa-moon theme-toggle-icon"></i>
+        </button>
+      </div>
     </div>
-    <!-- Bloc contact -->
-    <div class="contenedor-contacto">
-        <div class="contacto-info">
-            <a href="https://wa.me/5219996125657" target="_blank"><i class="fab fa-whatsapp"></i></a>
-            <a href="https://github.com/BrunoSobrino" target="_blank"><i class="fab fa-github"></i></a>
-            <a href="https://www.paypal.com/paypalme/TheShadowBrokers133" target="_blank"><i class="fab fa-paypal"></i></a>
-        </div>
-    </div>        
-   <script>
+  </header>
 
-    async function requestReset() {
-      if (!logmail.value) {
-        alert("[❗] Veuillez saisir votre e-mail");
+  <!-- Main Auth Section -->
+  <main class="auth-container">
+    <div class="auth-card">
+      <div class="auth-header">
+        <img src="/crown-logo.png" alt="CROWN API Logo" class="auth-logo">
+        <h1 class="auth-title">Espace Authentification</h1>
+        <p class="auth-sub">Plateforme 100% opérationnelle & sécurisée</p>
+      </div>
+
+      <!-- Navigation Tabs -->
+      <ul class="auth-tabs">
+        <li class="auth-tab">
+          <button class="auth-tab-btn active" id="tabLoginBtn" onclick="switchAuthTab('login')">
+            <i class="fas fa-sign-in-alt"></i> Connexion
+          </button>
+        </li>
+        <li class="auth-tab">
+          <button class="auth-tab-btn" id="tabRegisterBtn" onclick="switchAuthTab('register')">
+            <i class="fas fa-user-plus"></i> Inscription
+          </button>
+        </li>
+      </ul>
+
+      <!-- Login Form -->
+      <div id="loginTabContent">
+        <form id="formLogin" onsubmit="handleLogin(event)">
+          <div class="form-group">
+            <label class="form-label" for="loginEmail">Adresse e-mail</label>
+            <div class="crown-input-group">
+              <i class="fas fa-envelope crown-input-icon"></i>
+              <input type="email" id="loginEmail" class="crown-input crown-input-with-icon" placeholder="nom@exemple.com" required autocomplete="email">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="loginPassword">Mot de passe</label>
+            <div class="crown-input-group">
+              <i class="fas fa-lock crown-input-icon"></i>
+              <input type="password" id="loginPassword" class="crown-input crown-input-with-icon" placeholder="Mot de passe" required autocomplete="current-password">
+            </div>
+          </div>
+
+          <div class="form-helper">
+            <div></div>
+            <a class="form-link" onclick="switchAuthTab('forgot')">Mot de passe oublié ?</a>
+          </div>
+
+          <button type="submit" class="crown-btn crown-btn-primary crown-btn-block crown-btn-lg" id="loginSubmitBtn">
+            <i class="fas fa-sign-in-alt"></i> Se Connecter
+          </button>
+        </form>
+      </div>
+
+      <!-- Register Form -->
+      <div id="registerTabContent" style="display: none;">
+        <form id="formRegister" onsubmit="handleRegister(event)">
+          <div class="form-group">
+            <label class="form-label" for="regEmail">Adresse e-mail</label>
+            <div class="crown-input-group">
+              <i class="fas fa-envelope crown-input-icon"></i>
+              <input type="email" id="regEmail" class="crown-input crown-input-with-icon" placeholder="nom@exemple.com" required autocomplete="email">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="regPassword">Mot de passe (8 caractères min.)</label>
+            <div class="crown-input-group">
+              <i class="fas fa-lock crown-input-icon"></i>
+              <input type="password" id="regPassword" class="crown-input crown-input-with-icon" placeholder="Au moins 8 caractères" minlength="8" required autocomplete="new-password">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="regPassword2">Confirmer le mot de passe</label>
+            <div class="crown-input-group">
+              <i class="fas fa-check-double crown-input-icon"></i>
+              <input type="password" id="regPassword2" class="crown-input crown-input-with-icon" placeholder="Répétez le mot de passe" minlength="8" required autocomplete="new-password">
+            </div>
+          </div>
+
+          <button type="submit" class="crown-btn crown-btn-accent crown-btn-block crown-btn-lg" id="regSubmitBtn">
+            <i class="fas fa-user-plus"></i> Créer mon Compte
+          </button>
+        </form>
+      </div>
+
+      <!-- Forgot Password Form -->
+      <div id="forgotTabContent" style="display: none;">
+        <form id="formForgot" onsubmit="handleForgot(event)">
+          <p style="font-size: 0.92rem; color: var(--text-secondary); margin-bottom: 1.25rem;">
+            Saisissez votre adresse e-mail pour recevoir les instructions de réinitialisation de mot de passe.
+          </p>
+          <div class="form-group">
+            <label class="form-label" for="forgotEmail">Adresse e-mail</label>
+            <div class="crown-input-group">
+              <i class="fas fa-envelope crown-input-icon"></i>
+              <input type="email" id="forgotEmail" class="crown-input crown-input-with-icon" placeholder="nom@exemple.com" required>
+            </div>
+          </div>
+
+          <div style="display: flex; gap: 0.75rem; margin-top: 1.25rem;">
+            <button type="button" class="crown-btn crown-btn-secondary" onclick="switchAuthTab('login')">
+              <i class="fas fa-arrow-left"></i>
+            </button>
+            <button type="submit" class="crown-btn crown-btn-primary crown-btn-block" id="forgotSubmitBtn">
+              <i class="fas fa-paper-plane"></i> Envoyer la demande
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Direct Purchase Info Banner -->
+      <div class="auth-info-banner">
+        <div style="font-weight: 700; color: #a855f7; margin-bottom: 0.4rem; display: flex; align-items: center; gap: 0.5rem;">
+          <i class="fas fa-info-circle"></i> Achat d'identifiants & Accès VIP
+        </div>
+        <p style="margin: 0 0 0.6rem 0;">
+          Les nouveaux utilisateurs peuvent acheter leurs identifiants de connexion et leurs clés d'accès auprès du développeur CrazyPrince via WhatsApp (+237 694 268 225) ou Mobile Money Orange Money.
+        </p>
+        <a href="https://wa.me/237694268225" target="_blank" class="crown-btn crown-btn-whatsapp crown-btn-sm crown-btn-block">
+          <i class="fab fa-whatsapp"></i> Contacter le Dev sur WhatsApp
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer Inspired by crazy-site.dev -->
+  <footer class="crown-footer">
+    <div class="crown-footer-inner">
+      <div class="crown-footer-brand">
+        <a href="/" class="crown-footer-logo-wrap">
+          <img src="/crown-logo.png" alt="CROWN API" class="crown-footer-logo-img">
+          <span class="crown-footer-brand-title">CROWN API</span>
+        </a>
+        <p class="crown-footer-desc">
+          Plateforme d'API REST publique propulsée par <strong>CrazyPrince</strong>, Développeur Camerounais.
+        </p>
+      </div>
+
+      <div>
+        <h4 class="crown-footer-col-title">Navigation</h4>
+        <ul class="crown-footer-links">
+          <li><a href="/" class="crown-footer-link"><i class="fas fa-angle-right"></i> Accueil</a></li>
+          <li><a href="/docs" class="crown-footer-link"><i class="fas fa-angle-right"></i> Documentation</a></li>
+          <li><a href="/status" class="crown-footer-link"><i class="fas fa-angle-right"></i> Statut & Métriques</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="crown-footer-col-title">Téléchargeurs</h4>
+        <ul class="crown-footer-links">
+          <li><a href="/human/youtube" class="crown-footer-link"><i class="fab fa-youtube"></i> YouTube DL</a></li>
+          <li><a href="/human/instagram" class="crown-footer-link"><i class="fab fa-instagram"></i> Instagram DL</a></li>
+          <li><a href="/human/facebook" class="crown-footer-link"><i class="fab fa-facebook"></i> Facebook DL</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="crown-footer-col-title">Dons & Paiement</h4>
+        <div class="crown-footer-momo-card">
+          <div class="crown-footer-momo-title">
+            <i class="fas fa-mobile-alt"></i> Mobile Money / Orange Money
+          </div>
+          <div class="crown-footer-momo-num">+237 694 268 225</div>
+          <p style="font-size: 0.82rem; color: #cbd5e1; margin: 0;">
+            CrazyPrince — Développeur Camerounais.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="crown-footer-bottom">
+      <div>&copy; 2026 <strong>CROWN API</strong>. Développé par <strong>CrazyPrince</strong>.</div>
+      <div class="crown-footer-socials">
+        <a href="https://wa.me/237694268225" target="_blank" class="crown-social-icon" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+        <a href="https://github.com/BanditDapi/" target="_blank" class="crown-social-icon" title="GitHub"><i class="fab fa-github"></i></a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/crown.js"></script>
+  <script>
+    // Tab Switching
+    function switchAuthTab(tab) {
+      const loginTab = document.getElementById('loginTabContent');
+      const regTab = document.getElementById('registerTabContent');
+      const forgotTab = document.getElementById('forgotTabContent');
+      const tabLoginBtn = document.getElementById('tabLoginBtn');
+      const tabRegisterBtn = document.getElementById('tabRegisterBtn');
+
+      if (tab === 'login') {
+        loginTab.style.display = 'block';
+        regTab.style.display = 'none';
+        forgotTab.style.display = 'none';
+        tabLoginBtn.classList.add('active');
+        tabRegisterBtn.classList.remove('active');
+      } else if (tab === 'register') {
+        loginTab.style.display = 'none';
+        regTab.style.display = 'block';
+        forgotTab.style.display = 'none';
+        tabLoginBtn.classList.remove('active');
+        tabRegisterBtn.classList.add('active');
+      } else if (tab === 'forgot') {
+        loginTab.style.display = 'none';
+        regTab.style.display = 'none';
+        forgotTab.style.display = 'block';
+        tabLoginBtn.classList.remove('active');
+        tabRegisterBtn.classList.remove('active');
+      }
+    }
+
+    // Login Submission
+    async function handleLogin(e) {
+      e.preventDefault();
+      const email = document.getElementById('loginEmail').value.trim();
+      const password = document.getElementById('loginPassword').value;
+      const btn = document.getElementById('loginSubmitBtn');
+
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Connexion en cours...';
+
+      try {
+        const res = await fetch('/api/manageusers/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            mail: email,
+            password: btoa(password)
+          })
+        });
+        const data = await res.json();
+        if (data.status && data.token) {
+          localStorage.setItem('token', data.token);
+          showCrownToast('Connexion réussie ! Redirection...', 'success');
+          setTimeout(() => {
+            window.location.href = '/docs';
+          }, 800);
+        } else {
+          showCrownToast(data.message || 'Échec de la connexion.', 'error');
+        }
+      } catch (err) {
+        showCrownToast('Erreur de communication avec le serveur.', 'error');
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Se Connecter';
+      }
+    }
+
+    // Register Submission
+    async function handleRegister(e) {
+      e.preventDefault();
+      const email = document.getElementById('regEmail').value.trim();
+      const pass1 = document.getElementById('regPassword').value;
+      const pass2 = document.getElementById('regPassword2').value;
+      const btn = document.getElementById('regSubmitBtn');
+
+      if (pass1 !== pass2) {
+        showCrownToast('Les mots de passe ne correspondent pas.', 'error');
         return;
       }
-                
-      if (window.recaptchaKey) {
-        grecaptcha.ready(function() {
-          grecaptcha.execute(window.recaptchaKey, {action: 'submit'}).then(function(token) {
-            fetch("/api/manageusers/requestReset", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json"
-              },
-              body: JSON.stringify({
-                mail: logmail.value,
-                recaptchaVerify: token
-              })
-            })
-              .then(response => response.json())
-              .then(data => {
-                if (!data.status) {
-                  alert(data.message);
-                } else {
-                  alert(data.message);
-                }
-              })
-              .catch(error => {
-                alert("[⚠️] Erreur lors de la demande de reinitialisation, signalez le probleme sur Github.");
-              });
-          });
-        });
-      } else {
-        fetch("/api/manageusers/requestReset", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
+      if (pass1.length < 8) {
+        showCrownToast('Le mot de passe doit comporter au moins 8 caractères.', 'error');
+        return;
+      }
+
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Inscription en cours...';
+
+      try {
+        const res = await fetch('/api/manageusers/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            mail: logmail.value
+            mail: email,
+            password: btoa(pass1)
           })
-        })
-          .then(response => response.json())
-          .then(data => {
-            if (!data.status) {
-              alert(data.message);
-            } else {
-              alert(data.message);
-            }
-          })
-          .catch(error => {
-            alert("[⚠️] Erreur lors de la demande de reinitialisation, signalez le probleme sur Github.");
-          });
+        });
+        const data = await res.json();
+        if (data.status) {
+          showCrownToast(data.message || 'Compte enregistré avec succès !', 'success');
+          switchAuthTab('login');
+          document.getElementById('loginEmail').value = email;
+        } else {
+          showCrownToast(data.message || 'Échec de l inscription.', 'error');
+        }
+      } catch (err) {
+        showCrownToast('Erreur de communication avec le serveur.', 'error');
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fas fa-user-plus"></i> Créer mon Compte';
       }
     }
 
-    regg.addEventListener("submit", function(event) {
-  event.preventDefault();
-  if (reggpass.value !== reggpass2.value) {
-    alert("[❗] Les mots de passe ne correspondent pas.");
-    return;
-  }
+    // Forgot Password Submission
+    async function handleForgot(e) {
+      e.preventDefault();
+      const email = document.getElementById('forgotEmail').value.trim();
+      const btn = document.getElementById('forgotSubmitBtn');
 
-  if (reggpass.value.length < 8) {
-    alert("[❗] Le mot de passe doit contenir au moins 8 caracteres.");
-    return;
-  }        
-        
-  if (window.recaptchaKey) {
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Envoi...';
 
-  grecaptcha.ready(function() {
-          grecaptcha.execute(window.recaptchaKey, {action: 'submit'}).then(function(token) {
-              // Envoi au serveur.
-
-  fetch("/api/manageusers/register", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      mail: regmail.value,
-      password: btoa(reggpass.value),
-      recaptchaVerify: token
-    })
-  })
-    .then(response => response.json())
-    .then(data => {
-      if (!data.status) {
-        alert(data.message);
-      } else if (reggpass.value.length < 8) {
-          alert("[❗] Le mot de passe doit contenir au moins 8 caracteres.");
-          return;    
-      } else {
-        alert(data.message);
-        window.location.reload()
+      try {
+        const res = await fetch('/api/manageusers/requestReset', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ mail: email })
+        });
+        const data = await res.json();
+        if (data.status) {
+          showCrownToast(data.message || 'E-mail de réinitialisation envoyé.', 'success');
+        } else {
+          showCrownToast(data.message || 'Erreur lors de la demande.', 'error');
+        }
+      } catch (err) {
+        showCrownToast('Erreur de communication avec le serveur.', 'error');
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fas fa-paper-plane"></i> Envoyer la demande';
       }
-    })
-    .catch(error => {
-      alert("[⚠️] Erreur lors de l'inscription, signalez le probleme sur Github.");
-    });
-});
-});
-
-} else {
-  fetch("/api/manageusers/register", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      mail: regmail.value,
-      password: btoa(reggpass.value)
-    })
-  })
-    .then(response => response.json())
-    .then(data => {
-      if (!data.status) {
-        alert(data.message);
-      } else {
-        alert("[❗] Compte cree avec succes. Verifiez votre boite de reception ou les spams pour le valider.");
-        window.location.reload()
-      }
-    })
-    .catch(error => {
-      alert("[⚠️] Erreur lors de l'inscription, signalez le probleme sur Github.");
-    });
     }
 
+    // Auto redirect if already logged in
+    document.addEventListener('DOMContentLoaded', () => {
+      if (localStorage.getItem('token')) {
+        CrownAuth.checkUser().then(user => {
+          if (user) {
+            window.location.href = '/docs';
+          }
         });
-logg.addEventListener("submit", function(event) {
-  event.preventDefault();
-    
-  fetch("/api/manageusers/login", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      mail: logmail.value,
-      password: btoa(logpass.value)
-    })
-  })
-    .then(response => response.json())
-    .then(data => {
-      if (!data.status) {
-        alert(data.message);
-      } else {
-        localStorage.setItem("token", data.token);
-        window.location.href = "/docs";
       }
-    })
-    .catch(error => {
-      alert("[⚠️] Erreur de connexion, signalez le probleme sur Github.");
-    });    
-});
-
-fetch("/api/manageusers/fetchRecaptcha").then(response => response.json()).then(data => {
-  if (!data.status) return;
-  window.recaptchaKey = data.sitekey;
-  let recap = document.createElement("script")
-  recap.src = "https://www.google.com/recaptcha/api.js?render=" + data.sitekey;
-  document.head.appendChild(recap);
-
-});
-   </script>
-   <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-   <script>
-    $(document).ready(function(){
-        $('.tab a').on('click', function (e) {
-            e.preventDefault();
-
-            $(this).parent().addClass('active');
-            $(this).parent().siblings().removeClass('active');
-
-            target = $(this).attr('href');
-
-            $('.contenido-tab > div').not(target).hide();
-
-            $(target).fadeIn(600);
-
-        });
-})
-   </script>
-   <script>
-    $(document).ready(function(){
-        $('.tab a').on('click', function (e) {
-            e.preventDefault();
-
-            $(this).parent().addClass('active');
-            $(this).parent().siblings().removeClass('active');
-
-            target = $(this).attr('href');
-
-            $('.contenido-tab > div').not(target).hide();
-
-            $(target).fadeIn(600);
-
-        });
-})
-   </script>
-
-</body>
-</html>
-<!-- partial -->
-  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script><script  src="./script.js"></script>
-
+    });
+  </script>
 </body>
 </html>

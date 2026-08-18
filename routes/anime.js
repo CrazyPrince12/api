@@ -17,7 +17,7 @@ router.get('/lolivid', async (req, res) => {
     res.setHeader('Cache-Control', 'no-store, max-age=0');
     res.setHeader('Pragma', 'no-cache');
     res.setHeader('Expires', '0');
-    const response = await axios.get('https://raw.githubusercontent.com/BrunoSobrino/api/main/data/lolivid.json');
+    const response = await axios.get('https://raw.githubusercontent.com/CrazyPrince12/api/main/data/lolivid.json');
     const data = response.data;
     let videoUrl = null;
     while (!videoUrl) {
@@ -38,7 +38,7 @@ router.get('/lolivid', async (req, res) => {
 
 router.get('/loli', async (req, res) => {
   try {
-    const response = await axios.get('https://raw.githubusercontent.com/BrunoSobrino/api/main/data/loli.json');
+    const response = await axios.get('https://raw.githubusercontent.com/CrazyPrince12/api/main/data/loli.json');
     const data = response.data;
     let imageUrl = null;
     while (!imageUrl) {
@@ -73,7 +73,7 @@ router.get('/waifu', async (req, res) => {
 
 router.get('/akira', async (req, res) => {
   try {
-    const response = await axios.get('https://raw.githubusercontent.com/BrunoSobrino/api/main/data/anime-akira.json');
+    const response = await axios.get('https://raw.githubusercontent.com/CrazyPrince12/api/main/data/anime-akira.json');
     const data = response.data;
     let imageUrl = null;
     while (!imageUrl) {
@@ -95,7 +95,7 @@ router.get('/akira', async (req, res) => {
 
 router.get('/akiyama', async (req, res) => {
   let imageUrl = null;
-  const jsonUrl = 'https://raw.githubusercontent.com/BrunoSobrino/api/main/data/anime-akiyama.json';
+  const jsonUrl = 'https://raw.githubusercontent.com/CrazyPrince12/api/main/data/anime-akiyama.json';
   try {
     const response = await axios.get(jsonUrl);
     const data = response.data;
@@ -118,7 +118,7 @@ router.get('/akiyama', async (req, res) => {
 
 router.get('/anna', async (req, res) => {
   try {
-    const response = await axios.get('https://raw.githubusercontent.com/BrunoSobrino/api/main/data/anime-anna.json');
+    const response = await axios.get('https://raw.githubusercontent.com/CrazyPrince12/api/main/data/anime-anna.json');
     const data = response.data;
     let imageUrl = null;
     while (!imageUrl) {
@@ -140,7 +140,7 @@ router.get('/anna', async (req, res) => {
 
 router.get('/asuna', async (req, res) => {
   try {
-    const response = await axios.get('https://raw.githubusercontent.com/BrunoSobrino/api/main/data/anime-asuna.json');
+    const response = await axios.get('https://raw.githubusercontent.com/CrazyPrince12/api/main/data/anime-asuna.json');
     const data = response.data;
     let imageUrl = null;
     while (!imageUrl) {
@@ -162,7 +162,7 @@ router.get('/asuna', async (req, res) => {
 
 router.get('/ayuzawa', async (req, res) => {
   try {
-    const response = await axios.get('https://raw.githubusercontent.com/BrunoSobrino/api/main/data/anime-ayuzawa.json');
+    const response = await axios.get('https://raw.githubusercontent.com/CrazyPrince12/api/main/data/anime-ayuzawa.json');
     const data = response.data;
     let imageUrl = null;
     while (!imageUrl) {
@@ -184,7 +184,7 @@ router.get('/ayuzawa', async (req, res) => {
 
 router.get('/boruto', async (req, res) => {
   try {
-    const response = await axios.get('https://raw.githubusercontent.com/BrunoSobrino/api/main/data/anime-boruto.json');
+    const response = await axios.get('https://raw.githubusercontent.com/CrazyPrince12/api/main/data/anime-boruto.json');
     const data = response.data;
     let imageUrl = null;
     while (!imageUrl) {
@@ -206,7 +206,7 @@ router.get('/boruto', async (req, res) => {
 
 router.get('/chiho', async (req, res) => {
   try {
-    const response = await axios.get('https://raw.githubusercontent.com/BrunoSobrino/api/main/data/anime-chiho.json');
+    const response = await axios.get('https://raw.githubusercontent.com/CrazyPrince12/api/main/data/anime-chiho.json');
     const data = response.data;
     let imageUrl = null;
     while (!imageUrl) {
@@ -228,7 +228,7 @@ router.get('/chiho', async (req, res) => {
 
 router.get('/chitoge', async (req, res) => {
   try {
-    const response = await axios.get('https://raw.githubusercontent.com/BrunoSobrino/api/main/data/anime-chitoge.json');
+    const response = await axios.get('https://raw.githubusercontent.com/CrazyPrince12/api/main/data/anime-chitoge.json');
     const data = response.data;
     let imageUrl = null;
     while (!imageUrl) {
@@ -250,7 +250,7 @@ router.get('/chitoge', async (req, res) => {
 
 router.get('/cosplay', async (req, res) => {
   try {
-    const response = await axios.get('https://raw.githubusercontent.com/BrunoSobrino/api/main/data/anime-cosplay.json');
+    const response = await axios.get('https://raw.githubusercontent.com/CrazyPrince12/api/main/data/anime-cosplay.json');
     const data = response.data;
     let imageUrl = null;
     while (!imageUrl) {
@@ -272,7 +272,7 @@ router.get('/cosplay', async (req, res) => {
 
 router.get('/deidara', async (req, res) => {
   try {
-    const response = await axios.get('https://raw.githubusercontent.com/BrunoSobrino/api/main/data/anime-deidara.json');
+    const response = await axios.get('https://raw.githubusercontent.com/CrazyPrince12/api/main/data/anime-deidara.json');
     const data = response.data;
     let imageUrl = null;
     while (!imageUrl) {
@@ -294,7 +294,7 @@ router.get('/deidara', async (req, res) => {
 
 router.get('/eba', async (req, res) => {
   try {
-    const response = await axios.get('https://raw.githubusercontent.com/BrunoSobrino/api/main/data/anime-eba.json');
+    const response = await axios.get('https://raw.githubusercontent.com/CrazyPrince12/api/main/data/anime-eba.json');
     const data = response.data;
     let imageUrl = null;
     while (!imageUrl) {
@@ -316,7 +316,7 @@ router.get('/eba', async (req, res) => {
 
 router.get('/elaina', async (req, res) => {
   try {
-    const response = await axios.get('https://raw.githubusercontent.com/BrunoSobrino/api/main/data/anime-elaina.json');
+    const response = await axios.get('https://raw.githubusercontent.com/CrazyPrince12/api/main/data/anime-elaina.json');
     const data = response.data;
     let imageUrl = null;
     while (!imageUrl) {
@@ -338,7 +338,7 @@ router.get('/elaina', async (req, res) => {
 
 router.get('/emilia', async (req, res) => {
   try {
-    const response = await axios.get('https://raw.githubusercontent.com/BrunoSobrino/api/main/data/anime-emilia.json');
+    const response = await axios.get('https://raw.githubusercontent.com/CrazyPrince12/api/main/data/anime-emilia.json');
     const data = response.data;
     let imageUrl = null;
     while (!imageUrl) {
@@ -360,7 +360,7 @@ router.get('/emilia', async (req, res) => {
 
 router.get('/erza', async (req, res) => {
   try {
-    const response = await axios.get('https://raw.githubusercontent.com/BrunoSobrino/api/main/data/anime-erza.json');
+    const response = await axios.get('https://raw.githubusercontent.com/CrazyPrince12/api/main/data/anime-erza.json');
     const data = response.data;
     let imageUrl = null;
     while (!imageUrl) {
@@ -382,7 +382,7 @@ router.get('/erza', async (req, res) => {
 
 router.get('/hestia', async (req, res) => {
   try {
-    const response = await axios.get('https://raw.githubusercontent.com/BrunoSobrino/api/main/data/anime-hestia.json');
+    const response = await axios.get('https://raw.githubusercontent.com/CrazyPrince12/api/main/data/anime-hestia.json');
     const data = response.data;
     let imageUrl = null;
     while (!imageUrl) {
@@ -404,7 +404,7 @@ router.get('/hestia', async (req, res) => {
 
 router.get('/hinata', async (req, res) => {
   try {
-    const response = await axios.get('https://raw.githubusercontent.com/BrunoSobrino/api/main/data/anime-hinata.json');
+    const response = await axios.get('https://raw.githubusercontent.com/CrazyPrince12/api/main/data/anime-hinata.json');
     const data = response.data;
     let imageUrl = null;
     while (!imageUrl) {
@@ -426,7 +426,7 @@ router.get('/hinata', async (req, res) => {
 
 router.get('/inori', async (req, res) => {
   try {
-    const response = await axios.get('https://raw.githubusercontent.com/BrunoSobrino/api/main/data/anime-inori.json');
+    const response = await axios.get('https://raw.githubusercontent.com/CrazyPrince12/api/main/data/anime-inori.json');
     const data = response.data;
     let imageUrl = null;
     while (!imageUrl) {
@@ -448,7 +448,7 @@ router.get('/inori', async (req, res) => {
 
 router.get('/isuzu', async (req, res) => {
   try {
-    const response = await axios.get('https://raw.githubusercontent.com/BrunoSobrino/api/main/data/anime-isuzu.json');
+    const response = await axios.get('https://raw.githubusercontent.com/CrazyPrince12/api/main/data/anime-isuzu.json');
     const data = response.data;
     let imageUrl = null;
     while (!imageUrl) {
@@ -470,7 +470,7 @@ router.get('/isuzu', async (req, res) => {
 
 router.get('/itachi', async (req, res) => {
   try {
-    const response = await axios.get('https://raw.githubusercontent.com/BrunoSobrino/api/main/data/anime-itachi.json');
+    const response = await axios.get('https://raw.githubusercontent.com/CrazyPrince12/api/main/data/anime-itachi.json');
     const data = response.data;
     let imageUrl = null;
     while (!imageUrl) {
@@ -492,7 +492,7 @@ router.get('/itachi', async (req, res) => {
 
 router.get('/itori', async (req, res) => {
   try {
-    const response = await axios.get('https://raw.githubusercontent.com/BrunoSobrino/api/main/data/anime-itori.json');
+    const response = await axios.get('https://raw.githubusercontent.com/CrazyPrince12/api/main/data/anime-itori.json');
     const data = response.data;
     let imageUrl = null;
     while (!imageUrl) {
@@ -514,7 +514,7 @@ router.get('/itori', async (req, res) => {
 
 router.get('/kaga', async (req, res) => {
   try {
-    const response = await axios.get('https://raw.githubusercontent.com/BrunoSobrino/api/main/data/anime-kaga.json');
+    const response = await axios.get('https://raw.githubusercontent.com/CrazyPrince12/api/main/data/anime-kaga.json');
     const data = response.data;
     let imageUrl = null;
     while (!imageUrl) {
@@ -536,7 +536,7 @@ router.get('/kaga', async (req, res) => {
 
 router.get('/kagura', async (req, res) => {
   try {
-    const response = await axios.get('https://raw.githubusercontent.com/BrunoSobrino/api/main/data/anime-kagura.json');
+    const response = await axios.get('https://raw.githubusercontent.com/CrazyPrince12/api/main/data/anime-kagura.json');
     const data = response.data;
     let imageUrl = null;
     while (!imageUrl) {
@@ -558,7 +558,7 @@ router.get('/kagura', async (req, res) => {
 
 router.get('/kaori', async (req, res) => {
   try {
-    const response = await axios.get('https://raw.githubusercontent.com/BrunoSobrino/api/main/data/anime-kaori.json');
+    const response = await axios.get('https://raw.githubusercontent.com/CrazyPrince12/api/main/data/anime-kaori.json');
     const data = response.data;
     let imageUrl = null;
     while (!imageUrl) {
@@ -580,7 +580,7 @@ router.get('/kaori', async (req, res) => {
 
 router.get('/keneki', async (req, res) => {
   try {
-    const response = await axios.get('https://raw.githubusercontent.com/BrunoSobrino/api/main/data/anime-keneki.json');
+    const response = await axios.get('https://raw.githubusercontent.com/CrazyPrince12/api/main/data/anime-keneki.json');
     const data = response.data;
     let imageUrl = null;
     while (!imageUrl) {
@@ -602,7 +602,7 @@ router.get('/keneki', async (req, res) => {
 
 router.get('/kotori', async (req, res) => {
   try {
-    const response = await axios.get('https://raw.githubusercontent.com/BrunoSobrino/api/main/data/anime-kotori.json');
+    const response = await axios.get('https://raw.githubusercontent.com/CrazyPrince12/api/main/data/anime-kotori.json');
     const data = response.data;
     let imageUrl = null;
     while (!imageUrl) {
@@ -624,7 +624,7 @@ router.get('/kotori', async (req, res) => {
 
 router.get('/kurumi', async (req, res) => {
   try {
-    const response = await axios.get('https://raw.githubusercontent.com/BrunoSobrino/api/main/data/anime-kurumi.json');
+    const response = await axios.get('https://raw.githubusercontent.com/CrazyPrince12/api/main/data/anime-kurumi.json');
     const data = response.data;
     let imageUrl = null;
     while (!imageUrl) {
@@ -646,7 +646,7 @@ router.get('/kurumi', async (req, res) => {
 
 router.get('/madara', async (req, res) => {
   try {
-    const response = await axios.get('https://raw.githubusercontent.com/BrunoSobrino/api/main/data/anime-madara.json');
+    const response = await axios.get('https://raw.githubusercontent.com/CrazyPrince12/api/main/data/anime-madara.json');
     const data = response.data;
     let imageUrl = null;
     while (!imageUrl) {
@@ -668,7 +668,7 @@ router.get('/madara', async (req, res) => {
 
 router.get('/mikasa', async (req, res) => {
   try {
-    const response = await axios.get('https://raw.githubusercontent.com/BrunoSobrino/api/main/data/anime-mikasa.json');
+    const response = await axios.get('https://raw.githubusercontent.com/CrazyPrince12/api/main/data/anime-mikasa.json');
     const data = response.data;
     let imageUrl = null;
     while (!imageUrl) {
@@ -690,7 +690,7 @@ router.get('/mikasa', async (req, res) => {
 
 router.get('/miku', async (req, res) => {
   try {
-    const response = await axios.get('https://raw.githubusercontent.com/BrunoSobrino/api/main/data/anime-miku.json');
+    const response = await axios.get('https://raw.githubusercontent.com/CrazyPrince12/api/main/data/anime-miku.json');
     const data = response.data;
     let imageUrl = null;
     while (!imageUrl) {
@@ -712,7 +712,7 @@ router.get('/miku', async (req, res) => {
 
 router.get('/minato', async (req, res) => {
   try {
-    const response = await axios.get('https://raw.githubusercontent.com/BrunoSobrino/api/main/data/anime-minato.json');
+    const response = await axios.get('https://raw.githubusercontent.com/CrazyPrince12/api/main/data/anime-minato.json');
     const data = response.data;
     let imageUrl = null;
     while (!imageUrl) {
@@ -734,7 +734,7 @@ router.get('/minato', async (req, res) => {
 
 router.get('/naruto', async (req, res) => {
   try {
-    const response = await axios.get('https://raw.githubusercontent.com/BrunoSobrino/api/main/data/anime-naruto.json');
+    const response = await axios.get('https://raw.githubusercontent.com/CrazyPrince12/api/main/data/anime-naruto.json');
     const data = response.data;
     let imageUrl = null;
     while (!imageUrl) {
@@ -756,7 +756,7 @@ router.get('/naruto', async (req, res) => {
 
 router.get('/nezuko', async (req, res) => {
   try {
-    const response = await axios.get('https://raw.githubusercontent.com/BrunoSobrino/api/main/data/anime-nezuko.json');
+    const response = await axios.get('https://raw.githubusercontent.com/CrazyPrince12/api/main/data/anime-nezuko.json');
     const data = response.data;
     let imageUrl = null;
     while (!imageUrl) {
@@ -778,7 +778,7 @@ router.get('/nezuko', async (req, res) => {
 
 router.get('/sagiri', async (req, res) => {
   try {
-    const response = await axios.get('https://raw.githubusercontent.com/BrunoSobrino/api/main/data/anime-sagiri.json');
+    const response = await axios.get('https://raw.githubusercontent.com/CrazyPrince12/api/main/data/anime-sagiri.json');
     const data = response.data;
     let imageUrl = null;
     while (!imageUrl) {
@@ -800,7 +800,7 @@ router.get('/sagiri', async (req, res) => {
 
 router.get('/sakura', async (req, res) => {
   try {
-    const response = await axios.get('https://raw.githubusercontent.com/BrunoSobrino/api/main/data/anime-sakura.json');
+    const response = await axios.get('https://raw.githubusercontent.com/CrazyPrince12/api/main/data/anime-sakura.json');
     const data = response.data;
     let imageUrl = null;
     while (!imageUrl) {
@@ -822,7 +822,7 @@ router.get('/sakura', async (req, res) => {
 
 router.get('/sasuke', async (req, res) => {
   try {
-    const response = await axios.get('https://raw.githubusercontent.com/BrunoSobrino/api/main/data/anime-sasuke.json');
+    const response = await axios.get('https://raw.githubusercontent.com/CrazyPrince12/api/main/data/anime-sasuke.json');
     const data = response.data;
     let imageUrl = null;
     while (!imageUrl) {

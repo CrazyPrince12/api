@@ -49,11 +49,11 @@ async function getMusicBuffer(text) {
         genre: 'Musique',
         comment: {
           language: 'fra',
-          text: '🤴🏻 Telecharge par BrunoSobrino & TheMystic-Bot-MD 🤖',
+          text: 'Telecharge via CROWN API par CrazyPrince',
         },
         unsynchronisedLyrics: {
           language: 'fra',
-          text: '🤴🏻 Telecharge par BrunoSobrino & TheMystic-Bot-MD 🤖',
+          text: 'Telecharge via CROWN API par CrazyPrince',
         },
         image: {
           mime: 'image/jpeg',
@@ -107,11 +107,11 @@ async function getMusicBuffer(text) {
         genre: 'Musique',
         comment: {
           language: 'fra',
-          text: '🤴🏻 Telecharge par BrunoSobrino & TheMystic-Bot-MD 🤖',
+          text: 'Telecharge via CROWN API par CrazyPrince',
         },
         unsynchronisedLyrics: {
           language: 'fra',
-          text: '🤴🏻 Telecharge par BrunoSobrino & TheMystic-Bot-MD 🤖',
+          text: 'Telecharge via CROWN API par CrazyPrince',
         },
         image: {
           mime: 'image/jpeg',
@@ -260,11 +260,11 @@ const spotify = new Spotify.default(credentials);*/
         genre: 'Musique',
         comment: {
           language: 'fra',
-          text: '🤴🏻 Telecharge par BrunoSobrino & TheMystic-Bot-MD 🤖',
+          text: 'Telecharge via CROWN API par CrazyPrince',
         },
         unsynchronisedLyrics: {
           language: 'fra',
-          text: '🤴🏻 Telecharge par BrunoSobrino & TheMystic-Bot-MD 🤖',
+          text: 'Telecharge via CROWN API par CrazyPrince',
         },
         image: {
           mime: 'image/jpeg',

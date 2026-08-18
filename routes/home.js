@@ -1,10 +1,13 @@
 const express = require('express');
 const router = express.Router();
-const path = require('path'); 
+const path = require('path');
 
 router.get('/', async (req, res) => {
-    const indexPath = path.join(__dirname, '..', 'public', 'login.html');
-    res.sendFile(indexPath);
+    res.sendFile(path.join(__dirname, '..', 'public', 'index.html'));
+});
+
+router.get('/login', async (req, res) => {
+    res.sendFile(path.join(__dirname, '..', 'public', 'login.html'));
 });
 
 module.exports = router;

@@ -1,191 +1,262 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" data-theme="dark">
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <meta property="og:image" content="https://github.com/BrunoSobrino.png">   
-    <title>API | Telechargeur YouTube</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <style>
-        body {
-            background: #310404 url(https://example.com/tuimagen.png) no-repeat center center fixed;
-            -webkit-background-size: cover;
-            -moz-background-size: cover;
-            -o-background-size: cover;
-            background-size: cover;
-            font-family: 'Barlow', sans-serif;
-        }
-        @media (max-width: 768px) {
-            body {
-                background-image: url('https://example.com/tuimagen.png');
-            }
-        }      
-        .container {
-            border-radius: 8px;
-            margin: 20px auto; 
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-            padding: 20px;
-            max-width: 600px;
-        }
-        h1 {
-            text-align: center;
-            color: #007BFF;
-        }
-        p {
-            color: #fff; 
-        }               
-        #downloadButtons {
-            text-align: center;
-        }
-        .download-button {
-            margin: 10px;
-        }
-        #downloadLink {
-            text-align: center;
-            font-weight: bold;
-            margin-top: 10px;
-        }
-        .error {
-            color: red;
-        }
-        .download-box {
-            background-color: #fff;
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-        }
-        .download-box.dark-mode {
-            background-color: #333;
-        }
-        .dark-mode {
-            background-color: #121212;
-            color: #fff;
-        }      
-        .theme-button {
-            background-color: transparent;
-            color: #fff;          
-            padding: 5px 10px; 
-            border: none; 
-            position: absolute;
-            top: 10px;
-            right: 10px;          
-        }
-        .theme-button i {
-            font-size: 20px; 
-            margin: 0 5px; 
-            border: none; 
-        }
-        .theme-button:hover {
-            background-color: transparent !important;
-            border: none !important;
-            outline: none !important;
-        }
-        .theme-button:active {
-            background-color: transparent !important;
-            border: none !important;
-            box-shadow: none !important;
-            outline: none !important;
-        }
-        .theme-button:focus {
-            outline: none !important;
-            box-shadow: none !important;
-            background-color: transparent !important;
-        }
-        .theme-button:focus-visible {
-            outline: none !important;
-            box-shadow: none !important;
-            background-color: transparent !important;
-        }
-        @keyframes gradientAnimation {
-            0% {
-                background-position: 0% 50%;
-            }
-            50% {
-                background-position: 100% 50%;
-            }
-            100% {
-                background-position: 0% 50%;
-            }
-        }
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>CROWN API — YouTube Downloader MP3 & MP4</title>
 
-.credits-bar {
-    background-color: #004080;
-    color: #fff;
-    text-align: center;
-    padding: 10px;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    z-index: 1000;
-}
+  <!-- SEO & Social Previews -->
+  <meta name="description" content="Téléchargez des musiques MP3 et vidéos MP4 HD depuis YouTube gratuitement avec CROWN API.">
+  <meta name="author" content="CrazyPrince">
+  <meta property="og:title" content="CROWN API — YouTube Downloader">
+  <meta property="og:description" content="Extraction haute vitesse de vidéos et musiques YouTube.">
+  <meta property="og:image" content="/crown-logo.png">
+  <meta name="theme-color" content="#07090e">
 
-.credits-bar p {
-    margin: 0;
-}
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="/crown-logo.png">
+  <link rel="stylesheet" href="/template-api/vendor/fontawesome-free/css/all.min.css">
+  <link rel="stylesheet" href="/crown.css">
 
-.credits-bar a {
-    color: #fff;
-    text-decoration: none;
-    margin: 0 5px;
-}
-        
-    </style>
+  <style>
+    /* Custom YouTube Themed Glow */
+    .crown-bg-glow::before {
+      background: radial-gradient(circle, rgba(239, 68, 68, 0.18) 0%, rgba(124, 58, 237, 0.08) 50%, transparent 70%);
+    }
+
+    .dl-wrapper {
+      max-width: 740px;
+      margin: 3.5rem auto 4.5rem;
+      padding: 0 1.5rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .dl-card {
+      background: var(--bg-card);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--border-hover);
+      border-radius: 24px;
+      padding: 2.5rem;
+      box-shadow: 0 20px 45px -10px rgba(0, 0, 0, 0.7), var(--shadow-glow);
+    }
+
+    .dl-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .dl-icon-circle {
+      width: 74px;
+      height: 74px;
+      border-radius: 20px;
+      background: rgba(239, 68, 68, 0.15);
+      border: 1px solid rgba(239, 68, 68, 0.35);
+      color: #ef4444;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.2rem;
+      margin-bottom: 1rem;
+      box-shadow: 0 0 25px rgba(239, 68, 68, 0.3);
+    }
+
+    .dl-title {
+      font-family: var(--font-heading);
+      font-size: 1.85rem;
+      font-weight: 800;
+      color: var(--text-bright);
+      margin-bottom: 0.35rem;
+    }
+
+    .dl-search-container {
+      margin-bottom: 1.75rem;
+    }
+
+    .dl-buttons-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-top: 1.25rem;
+    }
+
+    .dl-status-area {
+      margin-top: 1.75rem;
+      display: none;
+      border-radius: 12px;
+      padding: 1.25rem;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-card);
+    }
+
+    @media (max-width: 640px) {
+      .dl-buttons-grid {
+        grid-template-columns: 1fr;
+      }
+      .dl-card {
+        padding: 1.75rem 1.25rem;
+      }
+    }
+  </style>
 </head>
 <body>
-     <div class="container light-mode"> 
-            <button class="btn btn-primary theme-button" onclick="toggleTheme()">
-                <i class="fa fa-moon-o"></i><i class="fa fa-sun-o"></i>
-            </button>
-        <h1>Telechargeur YouTube</h1>
-        <p>◉ Inserer le lien de la video YouTube et choisir une option de telechargement :</p>
-        <input type="text" id="youtubeLink" class="form-control" placeholder="Ex: https://www.youtube.com/watch?v=videoID" />
-        <div id="downloadButtons">
-            <button class="btn btn-primary download-button" onclick="downloadYouTube('v1/ytmp3')">Telecharger audio (nouveau)</button>
-            <button class="btn btn-primary download-button" onclick="downloadYouTube('v2/ytmp3')">Telecharger audio (alternatif)</button>
-            <button class="btn btn-primary download-button" onclick="downloadYouTube('v1/ytmp4')">Telecharger video (nouveau)</button>
-            <button class="btn btn-primary download-button" onclick="downloadYouTube('v2/ytmp4')">Telecharger video (alternatif)</button>
-        </div>
-        <p id="downloadLink" style="display: none;"></p>
+
+  <div class="crown-bg-glow"></div>
+
+  <!-- Navbar -->
+  <header class="crown-nav">
+    <div class="crown-nav-inner">
+      <a href="/" class="crown-brand">
+        <img src="/crown-logo.png" alt="CROWN API" class="crown-logo-img">
+        <span class="crown-brand-text">CROWN API</span>
+      </a>
+
+      <ul class="crown-nav-links">
+        <li><a href="/" class="crown-nav-link"><i class="fas fa-home"></i> Accueil</a></li>
+        <li><a href="/docs" class="crown-nav-link"><i class="fas fa-book"></i> Documentation</a></li>
+        <li><a href="/human/youtube" class="crown-nav-link active"><i class="fab fa-youtube"></i> YouTube</a></li>
+        <li><a href="/human/instagram" class="crown-nav-link"><i class="fab fa-instagram"></i> Instagram</a></li>
+        <li><a href="/human/facebook" class="crown-nav-link"><i class="fab fa-facebook"></i> Facebook</a></li>
+      </ul>
+
+      <div class="crown-nav-actions">
+        <button class="theme-toggle-btn" onclick="toggleCrownTheme()" title="Basculer le thème">
+          <i class="fas fa-moon theme-toggle-icon"></i>
+        </button>
+      </div>
     </div>
- <!-- Barre de credits -->
-<div class="credits-bar">
-    <p>👉Developpe par Bruno Sobrino👈</p>
-    <p>Remerciements : <a href="https://github.com/BrunoSobrino" target="_blank"><i class="fa fa-github"></i></a> | <a href="https://www.paypal.me/TheShadowBrokers133" target="_blank"><i class="fa fa-paypal"></i></a></p>
-</div>
-   
-    <script>
-        function downloadYouTube(option) {
-            const youtubeLink = document.getElementById("youtubeLink").value.trim();
-            if (youtubeLink === "") {
-                alert("Inserer le lien d une video YouTube.");
-                return;
-            }
-            if (isValidYouTubeLink(youtubeLink)) {
-                const downloadUrl = `/human/${option}?url=${youtubeLink}`;
-                window.open(downloadUrl, '_blank');
-            } else {
-                alert("Ce lien n est pas une URL YouTube valide.");
-            }
-        }
-        function isValidYouTubeLink(link) {
-            const validPatterns = [/youtube\.com\/watch\?v=/i, /youtube\.com\/shorts\//i, /youtu\.be\//i, /youtube\.com\/embed\//i, /youtube\.com\/v\//i, /youtube\.com\/attribution_link\?a=/i];
-            return validPatterns.some(pattern => pattern.test(link));
-        }
-        function toggleTheme() {
-            const body = document.body;
-            body.classList.toggle("light-mode");
-            body.classList.toggle("dark-mode");
-            const containers = document.querySelectorAll('.container');
-            containers.forEach(container => container.classList.toggle('light-mode'));
-            containers.forEach(container => container.classList.toggle('dark-mode'));
-            const downloadBox = document.querySelector('.download-box');
-            downloadBox.classList.toggle('light-mode');
-            downloadBox.classList.toggle('dark-mode');
-        }
-    </script>
-  </body>
+  </header>
+
+  <!-- Main Downloader Section -->
+  <main class="dl-wrapper">
+    <div class="dl-card">
+      <div class="dl-header">
+        <div class="dl-icon-circle">
+          <i class="fab fa-youtube"></i>
+        </div>
+        <h1 class="dl-title">YouTube Downloader</h1>
+        <p style="font-size: 0.95rem; color: var(--text-secondary);">
+          Extraction ultra-rapide de flux audio MP3 et vidéo MP4 en haute définition.
+        </p>
+      </div>
+
+      <div class="dl-search-container">
+        <div class="crown-input-group">
+          <i class="fas fa-link crown-input-icon"></i>
+          <input type="text" id="ytUrlInput" class="crown-input crown-input-with-icon" placeholder="Collez l URL YouTube (ex: https://youtu.be/JLWRZ8eWyZo)..." oninput="validateYtUrl()">
+        </div>
+      </div>
+
+      <div class="dl-buttons-grid">
+        <button class="crown-btn crown-btn-primary" onclick="startDownload('v1/ytmp3')">
+          <i class="fas fa-music"></i> Télécharger MP3 (V1)
+        </button>
+        <button class="crown-btn crown-btn-secondary" onclick="startDownload('v2/ytmp3')">
+          <i class="fas fa-headphones"></i> Télécharger MP3 (V2)
+        </button>
+        <button class="crown-btn crown-btn-accent" onclick="startDownload('v1/ytmp4')">
+          <i class="fas fa-video"></i> Vidéo MP4 (HD V1)
+        </button>
+        <button class="crown-btn crown-btn-secondary" onclick="startDownload('v2/ytmp4')">
+          <i class="fas fa-film"></i> Vidéo MP4 (HD V2)
+        </button>
+      </div>
+
+      <!-- Live Download Status -->
+      <div class="dl-status-area" id="dlStatusArea">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem;">
+          <span style="font-weight: 700; color: var(--text-bright); font-size: 0.9rem;" id="dlStatusTitle">Traitement en cours</span>
+          <span class="crown-badge crown-badge-emerald" id="dlStatusBadge">Actif</span>
+        </div>
+        <div style="font-size: 0.88rem; color: var(--text-secondary);" id="dlStatusMessage">
+          Connexion aux serveurs CROWN API...
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer Inspired by crazy-site.dev -->
+  <footer class="crown-footer">
+    <div class="crown-footer-inner">
+      <div class="crown-footer-brand">
+        <a href="/" class="crown-footer-logo-wrap">
+          <img src="/crown-logo.png" alt="CROWN API" class="crown-footer-logo-img">
+          <span class="crown-footer-brand-title">CROWN API</span>
+        </a>
+        <p class="crown-footer-desc">
+          Propulsé par <strong>CrazyPrince</strong>, Développeur Camerounais.
+        </p>
+      </div>
+
+      <div>
+        <h4 class="crown-footer-col-title">Navigation</h4>
+        <ul class="crown-footer-links">
+          <li><a href="/" class="crown-footer-link"><i class="fas fa-angle-right"></i> Accueil</a></li>
+          <li><a href="/docs" class="crown-footer-link"><i class="fas fa-angle-right"></i> Documentation</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="crown-footer-col-title">Téléchargeurs</h4>
+        <ul class="crown-footer-links">
+          <li><a href="/human/youtube" class="crown-footer-link"><i class="fab fa-youtube"></i> YouTube</a></li>
+          <li><a href="/human/instagram" class="crown-footer-link"><i class="fab fa-instagram"></i> Instagram</a></li>
+          <li><a href="/human/facebook" class="crown-footer-link"><i class="fab fa-facebook"></i> Facebook</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="crown-footer-col-title">Mobile Money</h4>
+        <div class="crown-footer-momo-card">
+          <div class="crown-footer-momo-title"><i class="fas fa-mobile-alt"></i> Orange Money</div>
+          <div class="crown-footer-momo-num">+237 694 268 225</div>
+          <p style="font-size: 0.82rem; color: #cbd5e1; margin: 0;">CrazyPrince — Cameroun</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="crown-footer-bottom">
+      <div>&copy; 2026 <strong>CROWN API</strong>. Développé par <strong>CrazyPrince</strong>.</div>
+      <div class="crown-footer-socials">
+        <a href="https://wa.me/237694268225" target="_blank" class="crown-social-icon" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+        <a href="https://github.com/BanditDapi/" target="_blank" class="crown-social-icon" title="GitHub"><i class="fab fa-github"></i></a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/crown.js"></script>
+  <script>
+    function validateYtUrl() {
+      const url = document.getElementById('ytUrlInput').value.trim();
+      const isValid = /(youtube\.com|youtu\.be)/i.test(url);
+      return isValid;
+    }
+
+    function startDownload(endpoint) {
+      const url = document.getElementById('ytUrlInput').value.trim();
+      if (!url) {
+        showCrownToast('Veuillez saisir un lien YouTube valide.', 'error');
+        return;
+      }
+
+      const statusArea = document.getElementById('dlStatusArea');
+      const statusMsg = document.getElementById('dlStatusMessage');
+      const statusTitle = document.getElementById('dlStatusTitle');
+
+      statusArea.style.display = 'block';
+      statusTitle.textContent = 'Génération du flux en cours...';
+      statusMsg.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Traitement de la requête sur CROWN API...';
+
+      const fullUrl = `/human/${endpoint}?url=${encodeURIComponent(url)}`;
+      window.open(fullUrl, '_blank');
+      
+      setTimeout(() => {
+        statusTitle.textContent = 'Téléchargement ouvert';
+        statusMsg.textContent = 'Le flux a été transmis à votre navigateur dans un nouvel onglet.';
+      }, 1200);
+    }
+  </script>
+</body>
 </html>

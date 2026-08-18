@@ -1,102 +1,177 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" data-theme="dark">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">   
-  <meta name="description" content="">
-  <meta name="author" content="">
-  <meta property="og:image" content="https://github.com/BrunoSobrino.png">
-  <title>API | Reinitialiser le mot de passe</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>CROWN API — Réinitialiser le mot de passe</title>
   
-  <link rel="stylesheet" href="./style.css">
+  <meta name="description" content="Réinitialisation sécurisée de votre mot de passe sur CROWN API.">
+  <meta property="og:title" content="CROWN API — Réinitialiser le mot de passe">
+  <meta property="og:image" content="/crown-logo.png">
+  <meta name="theme-color" content="#07090e">
+
+  <link rel="icon" type="image/png" href="/crown-logo.png">
+  <link rel="stylesheet" href="/template-api/vendor/fontawesome-free/css/all.min.css">
+  <link rel="stylesheet" href="/crown.css">
+
+  <style>
+    .auth-container {
+      max-width: 500px;
+      margin: 4rem auto;
+      padding: 0 1.5rem;
+      position: relative;
+      z-index: 1;
+    }
+    .auth-card {
+      background: var(--bg-card);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--border-hover);
+      border-radius: 22px;
+      padding: 2.5rem;
+      box-shadow: 0 20px 45px -10px rgba(0, 0, 0, 0.7), var(--shadow-glow);
+    }
+    .auth-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .auth-logo {
+      width: 72px;
+      height: 72px;
+      object-fit: contain;
+      border-radius: 16px;
+      margin-bottom: 1rem;
+    }
+    .auth-title {
+      font-family: var(--font-heading);
+      font-size: 1.75rem;
+      font-weight: 800;
+      color: var(--text-bright);
+      margin-bottom: 0.35rem;
+    }
+    .form-group {
+      margin-bottom: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+    }
+    .form-label {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+  </style>
 </head>
 <body>
-  <div class="contenedor-formularios">
-    <div class="contenido-tab">
-      <div id="iniciar-sesion" style="display: block;">
-        <h1>Reinitialiser le mot de passe</h1>
-        <form action="#" method="post" id="logg">
-          <div class="contenedor-input">
-            <label>
-              Nouveau mot de passe <span class="req">*</span>
-            </label>
-            <input type="password" required id="logmail" oninput="moveLabel('logmail')">  
-          </div>
-          <div class="contenedor-input">
-            <label>
-              Confirmer le mot de passe <span class="req">*</span>
-            </label>
-            <input type="password" required id="logpass_confirm" oninput="moveLabel('logpass_confirm')">    
-          </div>
-          <input type="submit" class="button button-block" value="Reinitialiser le mot de passe">
-        </form>
+
+  <div class="crown-bg-glow"></div>
+
+  <header class="crown-nav">
+    <div class="crown-nav-inner">
+      <a href="/" class="crown-brand">
+        <img src="/crown-logo.png" alt="CROWN API" class="crown-logo-img">
+        <span class="crown-brand-text">CROWN API</span>
+      </a>
+      <div class="crown-nav-actions">
+        <button class="theme-toggle-btn" onclick="toggleCrownTheme()" title="Basculer le thème">
+          <i class="fas fa-moon theme-toggle-icon"></i>
+        </button>
       </div>
     </div>
-  </div>
+  </header>
 
-  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <main class="auth-container">
+    <div class="auth-card">
+      <div class="auth-header">
+        <img src="/crown-logo.png" alt="CROWN API" class="auth-logo">
+        <h1 class="auth-title">Nouveau Mot de Passe</h1>
+        <p style="font-size: 0.92rem; color: var(--text-secondary);">Définissez un nouveau mot de passe sécurisé pour votre compte CROWN API.</p>
+      </div>
+
+      <form id="formResetPass" onsubmit="handleReset(event)">
+        <input type="hidden" id="resetTokenField">
+
+        <div class="form-group">
+          <label class="form-label" for="newPassword">Nouveau mot de passe</label>
+          <div class="crown-input-group">
+            <i class="fas fa-lock crown-input-icon"></i>
+            <input type="password" id="newPassword" class="crown-input crown-input-with-icon" placeholder="Au moins 8 caractères" minlength="8" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="newPasswordConfirm">Confirmer le nouveau mot de passe</label>
+          <div class="crown-input-group">
+            <i class="fas fa-check-double crown-input-icon"></i>
+            <input type="password" id="newPasswordConfirm" class="crown-input crown-input-with-icon" placeholder="Répétez le mot de passe" minlength="8" required>
+          </div>
+        </div>
+
+        <button type="submit" class="crown-btn crown-btn-primary crown-btn-block crown-btn-lg" id="resetSubmitBtn" style="margin-top: 1rem;">
+          <i class="fas fa-key"></i> Mettre à jour le mot de passe
+        </button>
+      </form>
+    </div>
+  </main>
+
+  <footer class="crown-footer">
+    <div class="crown-footer-bottom" style="margin-top: 0; border: none; text-align: center;">
+      <div style="width: 100%;">&copy; 2026 <strong>CROWN API</strong> — CrazyPrince (Développeur Camerounais).</div>
+    </div>
+  </footer>
+
+  <script src="/crown.js"></script>
   <script>
-    $(document).ready(function(){
-      $('.tab a').on('click', function (e) {
-        e.preventDefault();
-
-        $(this).parent().addClass('active');
-        $(this).parent().siblings().removeClass('active');
-
-        target = $(this).attr('href');
-
-        $('.contenido-tab > div').not(target).hide();
-
-        $(target).fadeIn(600);
-      });
-
-      logg.addEventListener("submit", function(event) {
-        event.preventDefault();
-        if (logmail.value !== logpass_confirm.value) {
-          alert("Les mots de passe ne correspondent pas");
-          return;
-        }
-        const urlParams = new URLSearchParams(window.location.search);
-        const myParam = urlParams.get('resetToken');
-        fetch("/api/manageusers/reset", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
-            tokenReset: myParam,
-            password: btoa(logmail.value)
-          })
-        })
-          .then(response => response.json())
-          .then(data => {
-            if (!data.status) {
-              alert(data.message);
-            } else if (logmail.value.length < 8) {  
-                alert("[❗] Le mot de passe doit contenir au moins 8 caracteres.");
-                return;                     
-            } else {
-              window.location.href = "/login.html";
-            }
-          })
-          .catch(error => {
-            alert("Erreur lors de la reinitialisation");
-          });
-      });
+    document.addEventListener('DOMContentLoaded', () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const token = urlParams.get('resetToken') || urlParams.get('token');
+      if (token) {
+        document.getElementById('resetTokenField').value = token;
+      }
     });
-      
-    function moveLabel(inputId) {
-      const input = document.getElementById(inputId);
-      const label = input.previousElementSibling;
-      if (input.value.length > 0) {
-        label.style.transform = 'translateY(-20px)';
-        label.style.fontSize = '14px';
-        label.querySelector('.req').style.display = 'none';
-      } else {
-        label.style.transform = '';
-        label.style.fontSize = '';
-        label.querySelector('.req').style.display = 'inline';
+
+    async function handleReset(e) {
+      e.preventDefault();
+      const token = document.getElementById('resetTokenField').value;
+      const pass1 = document.getElementById('newPassword').value;
+      const pass2 = document.getElementById('newPasswordConfirm').value;
+      const btn = document.getElementById('resetSubmitBtn');
+
+      if (!token) {
+        showCrownToast('Jeton de réinitialisation manquant dans l URL.', 'error');
+        return;
+      }
+      if (pass1 !== pass2) {
+        showCrownToast('Les mots de passe ne correspondent pas.', 'error');
+        return;
+      }
+
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Mise à jour...';
+
+      try {
+        const res = await fetch('/api/manageusers/reset', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            tokenReset: token,
+            password: btoa(pass1)
+          })
+        });
+        const data = await res.json();
+        if (data.status) {
+          showCrownToast('Mot de passe réinitialisé avec succès ! Redirection...', 'success');
+          setTimeout(() => {
+            window.location.href = '/login.html';
+          }, 1500);
+        } else {
+          showCrownToast(data.message || 'Erreur lors de la réinitialisation.', 'error');
+        }
+      } catch (err) {
+        showCrownToast('Erreur de communication avec le serveur.', 'error');
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fas fa-key"></i> Mettre à jour le mot de passe';
       }
     }
   </script>

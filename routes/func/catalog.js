@@ -32,13 +32,13 @@ function buildExample(required, sample = {}) {
     text: 'api empire',
     query: 'naruto',
     q: 'twice',
-    image: 'https://github.com/BrunoSobrino.png',
-    image1: 'https://github.com/BrunoSobrino.png',
-    image2: 'https://github.com/BrunoSobrino.png',
-    url1: 'https://github.com/BrunoSobrino.png',
-    url2: 'https://github.com/BrunoSobrino.png',
-    username: 'BrunoSobrino',
-    name: 'Bruno Sobrino',
+    image: '/crown-logo.png',
+    image1: '/crown-logo.png',
+    image2: '/crown-logo.png',
+    url1: '/crown-logo.png',
+    url2: '/crown-logo.png',
+    username: 'CrazyPrince',
+    name: 'CrazyPrince',
     language: 'fr',
     format: '360p'
   };
@@ -83,7 +83,7 @@ const download = list('download', [
   ['gofile', ['url'], { group: 'Fichiers' }],
   ['soundcloud', ['url'], { group: 'Musique', fallbacks: [`${Z}/v2/soundcloud`], sample: { url: 'https://soundcloud.com/twice-57013/one-spark' } }],
   ['facebook', ['url'], { group: 'Facebook', fallbacks: [`${Z}/v2/fb`, `${Z}/v2/facebook`], sample: { url: 'https://www.facebook.com/share/v/17G62zi96v/' } }],
-  ['gitclone', ['url'], { group: 'Fichiers', sample: { url: 'https://github.com/BrunoSobrino/api' } }],
+  ['gitclone', ['url'], { group: 'Fichiers', sample: { url: 'https://github.com/CrazyPrince12/api' } }],
   ['spotifyalbum', ['url'], { group: 'Musique', sample: { url: 'https://open.spotify.com/album/22DL6IRGNYNenKej7aw8pO' } }],
   ['spotifyplaylist', ['url'], { group: 'Musique', sample: { url: 'https://open.spotify.com/playlist/37i9dQZF1DZ06evO4gtw7S' } }],
   ['pinterestdl', ['url'], { group: 'Pinterest', fallbacks: [`${Z}/v2/pinterest`], sample: { url: 'https://pin.it/2Vflx5O' } }],
@@ -359,7 +359,7 @@ const plus = [
   ep('plus', 'showerthoughts', [], { group: 'Texte', upstream: `${P}/showerthoughts` }),
   ep('plus', 'wanted', ['image'], { group: 'Memes', type: 'image', upstream: `${P}/wanted` }),
   ep('plus', 'reddit', ['sub'], { path: '/reddit/:sub?', group: 'Infos', aliases: { text: 'sub', q: 'sub' }, upstream: (p) => `${P}/subreddit/${encodeURIComponent(p.sub || p.text || 'askreddit')}` }),
-  ep('plus', 'github', ['username'], { path: '/github/:username?', group: 'Dev', aliases: { text: 'username', q: 'username' }, upstream: (p) => `${P}/github/${encodeURIComponent(p.username || p.text || 'BrunoSobrino')}` }),
+  ep('plus', 'github', ['username'], { path: '/github/:username?', group: 'Dev', aliases: { text: 'username', q: 'username' }, upstream: (p) => `${P}/github/${encodeURIComponent(p.username || p.text || 'CrazyPrince')}` }),
   ep('plus', 'weather', ['q'], { group: 'Infos', aliases: { text: 'q', query: 'q' }, upstream: `${P}/weather` }),
   ep('plus', 'whowouldwin', ['image1', 'image2'], { group: 'Memes', type: 'image', upstream: `${P}/whowouldwin` }),
   ep('plus', 'gun', ['image'], { group: 'Memes', type: 'image', upstream: `${P}/gun` }),
@@ -529,7 +529,7 @@ const LEGACY_DOCS = {
       { href: '/api/tempmail/getmail', label: 'TempMail' },
       { href: '/api/lyrics?text=maneskin%20beggin', label: 'Paroles' },
       { href: '/api/googleImage?text=naruto', label: 'Google Image' },
-      { href: '/api/ssweb?url=https://github.com/BrunoSobrino', label: 'SSWEB' },
+      { href: '/api/ssweb?url=https://github.com/BanditDapi', label: 'SSWEB' },
       { href: '/api/igstalk?username=luisitocomunica', label: 'IG Stalk' },
       { href: '/api/tiktokstalk?username=luisitocomunica', label: 'TikTok Stalk' },
       { href: '/api/pinterest?text=girl', label: 'Pinterest' }
@@ -591,13 +591,13 @@ const STATIC_DOCS = [
     groups: [
       { header: 'stickers', items: [{ href: '/api/maker/attp?text=api%20empire', label: 'Attp' }] },
       { header: 'Canvas', items: [
-        { href: '/api/maker/canvas/welcome?titulo=Bienvenue&username=User&groupname=Groupe&profile=https://github.com/BrunoSobrino.png', label: 'Carte bienvenue' },
-        { href: '/api/maker/canvas/welcome2?username=Bruno&groupname=API%20Empire&membercount=12&description=Bienvenue&profile=https://github.com/BrunoSobrino.png', label: 'Carte bienvenue 2' },
-        { href: '/api/maker/canvas/goodbye?username=bruno&groupname=api%20empire&membercount=12&memberdiscriminator=13&profile=https://github.com/BrunoSobrino.png&background=https://telegra.ph/file/82d079999da723cc80899.png', label: 'Carte au revoir' }
+        { href: '/api/maker/canvas/welcome?titulo=Bienvenue&username=User&groupname=Groupe&profile=/crown-logo.png', label: 'Carte bienvenue' },
+        { href: '/api/maker/canvas/welcome2?username=CrazyPrince&groupname=API%20Empire&membercount=12&description=Bienvenue&profile=/crown-logo.png', label: 'Carte bienvenue 2' },
+        { href: '/api/maker/canvas/goodbye?username=crazyprince&groupname=api%20empire&membercount=12&memberdiscriminator=13&profile=/crown-logo.png&background=https://telegra.ph/file/82d079999da723cc80899.png', label: 'Carte au revoir' }
       ]},
       { header: 'textpro', items: [
         { href: '/api/maker/textpro/deep-sea-metal?text=api%20empire', label: 'Deep Sea Metal' },
-        { href: '/api/maker/textpro/wolf-logo-galaxy?text1=api%20empire&text2=by%20brunosobrino', label: 'Wolf Logo Galaxy' }
+        { href: '/api/maker/textpro/wolf-logo-galaxy?text1=api%20empire&text2=by%20crazyprince', label: 'Wolf Logo Galaxy' }
       ]},
       { header: 'photooxy', items: [{ href: '/api/maker/photooxy/flaming?text=api%20empire', label: 'Texte enflamme' }] },
       { header: 'ephoto360', items: [{ href: '/api/maker/ephoto360/eraser-deleting-text?text=api%20empire', label: 'Texte gomme' }] }

@@ -10,7 +10,7 @@ router.get('/videoxxx', async (req, res) => {
     res.setHeader('Cache-Control', 'no-store, max-age=0');
     res.setHeader('Pragma', 'no-cache');
     res.setHeader('Expires', '0');
-    const response = await axios.get('https://raw.githubusercontent.com/BrunoSobrino/api/main/data/videoxxx.json');
+    const response = await axios.get('https://raw.githubusercontent.com/CrazyPrince12/api/main/data/videoxxx.json');
     const data = response.data;
     let videoUrl = null;
     while (!videoUrl) {
@@ -35,7 +35,7 @@ router.get('/videoxxxlesbi', async (req, res) => {
     res.setHeader('Cache-Control', 'no-store, max-age=0');
     res.setHeader('Pragma', 'no-cache');
     res.setHeader('Expires', '0');
-    const response = await axios.get('https://raw.githubusercontent.com/BrunoSobrino/api/main/data/videolesbixxx.json');
+    const response = await axios.get('https://raw.githubusercontent.com/CrazyPrince12/api/main/data/videolesbixxx.json');
     const data = response.data;
     let videoUrl = null;
     while (!videoUrl) {
@@ -56,7 +56,7 @@ router.get('/videoxxxlesbi', async (req, res) => {
 
 router.get('/booty', async (req, res) => {
   try {
-    const response = await axios.get('https://raw.githubusercontent.com/BrunoSobrino/api/main/data/booty.json');
+    const response = await axios.get('https://raw.githubusercontent.com/CrazyPrince12/api/main/data/booty.json');
     const data = response.data;
     let imageUrl = null;
     while (!imageUrl) {
@@ -78,7 +78,7 @@ router.get('/booty', async (req, res) => {
 
 router.get('/furro', async (req, res) => {
   try {
-    const response = await axios.get('https://raw.githubusercontent.com/BrunoSobrino/api/main/data/furro.json');
+    const response = await axios.get('https://raw.githubusercontent.com/CrazyPrince12/api/main/data/furro.json');
     const data = response.data;
     let imageUrl = null;
     while (!imageUrl) {
@@ -100,7 +100,7 @@ router.get('/furro', async (req, res) => {
 
 router.get('/imglesbian', async (req, res) => {
   try {
-    const response = await axios.get('https://raw.githubusercontent.com/BrunoSobrino/api/main/data/imagenlesbians.json');
+    const response = await axios.get('https://raw.githubusercontent.com/CrazyPrince12/api/main/data/imagenlesbians.json');
     const data = response.data;
     let imageUrl = null;
     while (!imageUrl) {
@@ -122,7 +122,7 @@ router.get('/imglesbian', async (req, res) => {
 
 router.get('/panties', async (req, res) => {
   try {
-    const response = await axios.get('https://raw.githubusercontent.com/BrunoSobrino/api/main/data/panties.json');
+    const response = await axios.get('https://raw.githubusercontent.com/CrazyPrince12/api/main/data/panties.json');
     const data = response.data;
     let imageUrl = null;
     while (!imageUrl) {
@@ -144,7 +144,7 @@ router.get('/panties', async (req, res) => {
 
 router.get('/pechos', async (req, res) => {
   try {
-    const response = await axios.get('https://raw.githubusercontent.com/BrunoSobrino/api/main/data/pechos.json');
+    const response = await axios.get('https://raw.githubusercontent.com/CrazyPrince12/api/main/data/pechos.json');
     const data = response.data;
     let imageUrl = null;
     while (!imageUrl) {
@@ -166,7 +166,7 @@ router.get('/pechos', async (req, res) => {
 
 router.get('/pene', async (req, res) => {
   try {
-    const response = await axios.get('https://raw.githubusercontent.com/BrunoSobrino/api/main/data/pene.json');
+    const response = await axios.get('https://raw.githubusercontent.com/CrazyPrince12/api/main/data/pene.json');
     const data = response.data;
     let imageUrl = null;
     while (!imageUrl) {
@@ -188,7 +188,7 @@ router.get('/pene', async (req, res) => {
 
 router.get('/porno', async (req, res) => {
   try {
-    const response = await axios.get('https://raw.githubusercontent.com/BrunoSobrino/api/main/data/porno.json');
+    const response = await axios.get('https://raw.githubusercontent.com/CrazyPrince12/api/main/data/porno.json');
     const data = response.data;
     let imageUrl = null;
     while (!imageUrl) {
@@ -210,7 +210,7 @@ router.get('/porno', async (req, res) => {
 
 router.get('/tetas', async (req, res) => {
   try {
-    const response = await axios.get('https://raw.githubusercontent.com/BrunoSobrino/api/main/data/tetas.json');
+    const response = await axios.get('https://raw.githubusercontent.com/CrazyPrince12/api/main/data/tetas.json');
     const data = response.data;
     let imageUrl = null;
     while (!imageUrl) {
@@ -232,7 +232,7 @@ router.get('/tetas', async (req, res) => {
 
 router.get('/gawrgura', async (req, res) => {
   try {
-    const response = await axios.get('https://raw.githubusercontent.com/BrunoSobrino/api/main/data/gawrgura18.json');
+    const response = await axios.get('https://raw.githubusercontent.com/CrazyPrince12/api/main/data/gawrgura18.json');
     const data = response.data;
     let imageUrl = null;
     while (!imageUrl) {
@@ -254,7 +254,7 @@ router.get('/gawrgura', async (req, res) => {
 
 router.get('/packgirl', async (req, res) => {
   try {
-    const response = await axios.get('https://raw.githubusercontent.com/BrunoSobrino/api/main/data/packgirl.json');
+    const response = await axios.get('https://raw.githubusercontent.com/CrazyPrince12/api/main/data/packgirl.json');
     const data = response.data;
     let imageUrl = null;
     while (!imageUrl) {
@@ -276,7 +276,7 @@ router.get('/packgirl', async (req, res) => {
 
 router.get('/packmen', async (req, res) => {
   try {
-    const response = await axios.get('https://raw.githubusercontent.com/BrunoSobrino/api/main/data/packmen.json');
+    const response = await axios.get('https://raw.githubusercontent.com/CrazyPrince12/api/main/data/packmen.json');
     const data = response.data;
     let imageUrl = null;
     while (!imageUrl) {

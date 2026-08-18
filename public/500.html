@@ -1,117 +1,120 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" data-theme="dark">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta property="og:image" content="https://github.com/BrunoSobrino.png">
-  <title>Erreur 500 | Erreur interne du serveur</title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>CROWN API — Erreur 500 Serveur</title>
+
+  <meta property="og:title" content="CROWN API — Erreur 500">
+  <meta property="og:description" content="Une erreur interne est survenue sur CROWN API.">
+  <meta property="og:image" content="/crown-logo.png">
+  <meta name="theme-color" content="#07090e">
+
+  <link rel="icon" type="image/png" href="/crown-logo.png">
+  <link rel="stylesheet" href="/template-api/vendor/fontawesome-free/css/all.min.css">
+  <link rel="stylesheet" href="/crown.css">
+
   <style>
-    body {
-      background: linear-gradient(135deg, #333, #555);
-      color: transparent; 
-      font-family: 'Arial Black';
-      text-align: center;
+    .error-wrapper {
+      min-height: calc(100vh - 72px);
       display: flex;
-      flex-direction: column;
-      justify-content: center;
       align-items: center;
-      height: 100vh;
-      margin: 0;
-    }
-    .error-container {
-      text-align: center;
-      color: white;
-    }
-    .error-num {
-      font-size: 14vw;
-    }
-    .eye {
-      background: #fff;
-      border-radius: 50%;
-      display: inline-block;
-      height: 10vw;
-      width: 10vw;
+      justify-content: center;
+      padding: 3rem 1.5rem;
       position: relative;
+      z-index: 1;
+      text-align: center;
     }
-    .eye::after {
-      background: #000;
-      border-radius: 50%;
-      content: '';
-      height: 33%;
-      position: absolute;
-      right: 33%;
-      width: 33%;
-      bottom: 56.1%;
+    .error-card {
+      max-width: 620px;
+      background: var(--bg-card);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--border-hover);
+      border-radius: 24px;
+      padding: 3rem 2rem;
+      box-shadow: 0 20px 45px -10px rgba(0, 0, 0, 0.7), var(--shadow-glow);
     }
-    p {
-      margin: 0;
+    .error-code {
+      font-family: var(--font-heading);
+      font-size: clamp(5rem, 12vw, 8.5rem);
+      font-weight: 900;
+      line-height: 1;
+      letter-spacing: -2px;
+      background: linear-gradient(135deg, #f43f5e 0%, #a855f7 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 1rem;
     }
-    .buttons {
+    .error-title {
+      font-family: var(--font-heading);
+      font-size: 1.75rem;
+      font-weight: 800;
+      color: var(--text-bright);
+      margin-bottom: 0.75rem;
+    }
+    .error-desc {
+      font-size: 1rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      margin-bottom: 2rem;
+    }
+    .error-actions {
       display: flex;
-      justify-content: center; 
-    }
-    a {
-      color: white;
-      text-decoration: underline;
-      text-transform: uppercase;
-      margin: 1em;
-      padding: 1em 2em;
-      background: transparent;
-      cursor: pointer;
-      border: none;
-      opacity: 0; 
-      transition: opacity 1s; 
-    }
-    a:hover {
-      color: lightgray;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
     }
   </style>
 </head>
 <body>
-  <div class="error-container">
-    <span class='error-num'>5</span>
-    <div class='eye'></div>
-    <div class='eye'></div>
-    <p class='sub-text'></p> 
-    <p class="sub-text"></p>
-    <div class="buttons"> 
-      <a onclick="location.reload();">Recharger la page</a>
-      <a href="/docs">Retour a la documentation</a>
+
+  <div class="crown-bg-glow"></div>
+
+  <header class="crown-nav">
+    <div class="crown-nav-inner">
+      <a href="/" class="crown-brand">
+        <img src="/crown-logo.png" alt="CROWN API" class="crown-logo-img">
+        <span class="crown-brand-text">CROWN API</span>
+      </a>
+
+      <div class="crown-nav-actions">
+        <button class="theme-toggle-btn" onclick="toggleCrownTheme()" title="Basculer le thème">
+          <i class="fas fa-moon theme-toggle-icon"></i>
+        </button>
+      </div>
     </div>
-  </div>
-  <script>
-    document.body.addEventListener('mousemove', function (event) {
-      var eyes = document.querySelectorAll('.eye');
-      eyes.forEach(function (eye) {
-        var x = eye.offsetLeft + eye.offsetWidth / 2;
-        var y = eye.offsetTop + eye.offsetHeight / 2;
-        var rad = Math.atan2(event.pageX - x, event.pageY - y);
-        var rot = (rad * (180 / Math.PI) * -1) + 180;
-        eye.style.transform = 'rotate(' + rot + 'deg)';
-      });
-    });
-    const textElement = document.querySelectorAll('.sub-text');
-    const textPart1 = "Erreur interne du serveur";
-    const textPart2 = "Nous examinons ce qui s'est passe";
-    let index = 0;
-    function animateText() {
-      if (index < textPart1.length) {
-        textElement[0].innerHTML += textPart1.charAt(index);
-      } else if (index < textPart1.length + textPart2.length) {
-        textElement[1].innerHTML += textPart2.charAt(index - textPart1.length);
-      } else {
-        const buttons = document.querySelectorAll('a');
-        buttons.forEach((button, i) => {
-          setTimeout(() => {
-            button.style.opacity = 1;
-          }, i * 500); 
-        });
-        return;
-      }
-      index++;
-      setTimeout(animateText, 50);
-    }
-    animateText();
-  </script>
+  </header>
+
+  <main class="error-wrapper">
+    <div class="error-card">
+      <div class="error-code">500</div>
+      <h1 class="error-title">Erreur Interne du Serveur</h1>
+      <p class="error-desc">
+        Le serveur ou le service amont a rencontré une anomalie lors du traitement de votre requête. Veuillez réessayer ultérieurement ou contacter CrazyPrince.
+      </p>
+
+      <div class="error-actions">
+        <a href="/" class="crown-btn crown-btn-primary">
+          <i class="fas fa-home"></i> Retour à l'accueil
+        </a>
+        <a href="/docs" class="crown-btn crown-btn-secondary">
+          <i class="fas fa-book"></i> Documentation
+        </a>
+        <a href="https://wa.me/237694268225" target="_blank" class="crown-btn crown-btn-whatsapp">
+          <i class="fab fa-whatsapp"></i> Signaler à CrazyPrince
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="crown-footer">
+    <div class="crown-footer-bottom" style="margin-top: 0; border: none; text-align: center;">
+      <div style="width: 100%;">&copy; 2026 <strong>CROWN API</strong> — Développé par <strong>CrazyPrince</strong> (Cameroun).</div>
+    </div>
+  </footer>
+
+  <script src="/crown.js"></script>
 </body>
 </html>

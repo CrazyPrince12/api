@@ -23,7 +23,7 @@ LE LOGICIEL OU SON UTILISATION OU D AUTRES TRAITEMENTS DANS LE LOGICIEL.
 Credits :
 - Code original : https://github.com/ruhend2001/ruhend-ytmp3
 - Code original : https://github.com/ruhend2001/ruhend-ytmp4
-- Edite par : https://github.com/BrunoSobrino
+- Edite par : https://github.com/BanditDapi
 */
 
 const axios = require('axios');

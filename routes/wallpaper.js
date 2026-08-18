@@ -17,7 +17,7 @@ router.get('/coffee', async (req, res) => {
 
 router.get('/wprandom', async (req, res) => {
   try {
-    const response = await axios.get('https://raw.githubusercontent.com/BrunoSobrino/api/main/data/wprandom.json');
+    const response = await axios.get('https://raw.githubusercontent.com/CrazyPrince12/api/main/data/wprandom.json');
     const data = response.data;
     let imageUrl = null;
     while (!imageUrl) {
@@ -39,7 +39,7 @@ router.get('/wprandom', async (req, res) => {
 
 router.get('/cristianoronaldo', async (req, res) => {
   try {
-    const response = await axios.get('https://raw.githubusercontent.com/BrunoSobrino/api/main/data/CristianoRonaldo.json');
+    const response = await axios.get('https://raw.githubusercontent.com/CrazyPrince12/api/main/data/CristianoRonaldo.json');
     const data = response.data;
     let imageUrl = null;
     while (!imageUrl) {
@@ -61,7 +61,7 @@ router.get('/cristianoronaldo', async (req, res) => {
 
 router.get('/messi', async (req, res) => {
   try {
-    const response = await axios.get('https://raw.githubusercontent.com/BrunoSobrino/api/main/data/Messi.json');
+    const response = await axios.get('https://raw.githubusercontent.com/CrazyPrince12/api/main/data/Messi.json');
     const data = response.data;
     let imageUrl = null;
     while (!imageUrl) {
@@ -83,7 +83,7 @@ router.get('/messi', async (req, res) => {
 
 router.get('/itzy', async (req, res) => {
   try {
-    const response = await axios.get('https://raw.githubusercontent.com/BrunoSobrino/api/main/data/itzy.json');
+    const response = await axios.get('https://raw.githubusercontent.com/CrazyPrince12/api/main/data/itzy.json');
     const data = response.data;
     let imageUrl = null;
     while (!imageUrl) {
@@ -105,7 +105,7 @@ router.get('/itzy', async (req, res) => {
 
 router.get('/navidad', async (req, res) => {
   try {
-    const response = await axios.get('https://raw.githubusercontent.com/BrunoSobrino/api/main/data/navidad.json');
+    const response = await axios.get('https://raw.githubusercontent.com/CrazyPrince12/api/main/data/navidad.json');
     const data = response.data;
     let imageUrl = null;
     while (!imageUrl) {

@@ -1,47 +1,49 @@
-process.on('uncaughtException', console.error)
+process.on('uncaughtException', (err) => {
+  console.error('Erreur non interceptee :', err);
+});
+process.on('unhandledRejection', (reason) => {
+  console.error('Rejet de promesse non gere :', reason);
+});
+
 require('dotenv').config();
 const express = require('express');
 const app = express();
 const cors = require('cors');
 const chalk = require('chalk');
-const PORT = parseInt(process.env.PORT || 2035);
+const PORT = parseInt(process.env.PORT || 2035, 10);
 const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
 const axios = require('axios');
 const favicon = require('serve-favicon');
-const nodemailer = require("nodemailer");
-const visitors = new Set(); 
+const nodemailer = require('nodemailer');
+
+const visitors = new Set();
 let totalRequests = 0;
 let totalVisitors = 0;
 
-var allowedOrigins = ['https://api.cafirexos.com', 'http://localhost:2027'];
+app.set('trust proxy', 1);
+app.use(cors());
 
-app.set('trust proxy', 1)
-
-// Initialiser le serveur de messagerie
-
-if (process.env.new_user_verification === "true") {
-const transporter = nodemailer.createTransport({
-  host: process.env.smtp_host,
-  port: Number(process.env.smtp_port),
-  secure: process.env.smtp_is_secure === 'true',
-  auth: {
-    user: process.env.smtp_user,
-    pass: process.env.smtp_password
-  },
-});
-global.mTransporter = transporter;
+// Initialiser le serveur de messagerie si active
+if (process.env.new_user_verification === 'true' && process.env.smtp_user && process.env.smtp_password) {
+  try {
+    const transporter = nodemailer.createTransport({
+      host: process.env.smtp_host || 'smtp-relay.brevo.com',
+      port: Number(process.env.smtp_port) || 587,
+      secure: process.env.smtp_is_secure === 'true',
+      auth: {
+        user: process.env.smtp_user,
+        pass: process.env.smtp_password
+      }
+    });
+    global.mTransporter = transporter;
+  } catch (err) {
+    console.error('Erreur d initialisation SMTP :', err);
+  }
 }
 
-
-
-// Fonctions
-
-const home = require('./routes/home');
-const docs = require('./routes/docs');
-const apirouter5 = require('./routes/human-apis');
-
+// Utilitaires de metriques
 const getUptime = () => {
   const uptimeInSeconds = Math.floor(process.uptime());
   const hours = Math.floor(uptimeInSeconds / 3600);
@@ -50,118 +52,133 @@ const getUptime = () => {
   return `${hours}h ${minutes}m ${seconds}s`;
 };
 
-// Sous-pages et usages
-
+// Middleware de comptage des requetes et visiteurs
 app.use((req, res, next) => {
   req.startTime = Date.now();
   totalRequests++;
-  const userIp = req.ip; 
+  const userIp = req.headers['x-forwarded-for'] || req.socket.remoteAddress || req.ip || '127.0.0.1';
   if (!visitors.has(userIp)) {
-    visitors.add(userIp); 
-    totalVisitors++; 
+    visitors.add(userIp);
+    totalVisitors++;
   }
   next();
 });
 
+// Middleware favicon
+const faviconPath = path.join(__dirname, 'public', 'crown-logo.png');
+if (fs.existsSync(faviconPath)) {
+  app.use(favicon(faviconPath));
+} else {
+  const defaultFavicon = path.join(__dirname, 'public', 'favicon.ico');
+  if (fs.existsSync(defaultFavicon)) {
+    app.use(favicon(defaultFavicon));
+  }
+}
+
+// Routes principales
+const home = require('./routes/home');
+const docs = require('./routes/docs');
+const apirouter5 = require('./routes/human-apis');
+
 app.use('/', home);
 app.use('/docs', docs);
+app.use('/api', require('./routes'));
 
-
-app.use('/api', require('./routes'))
-
-// si /human/quelque-chose, utiliser les routes dynamiques de ./routes/human
-app.use('/human', require('./routes/human'))
-
-// si c est /human, entrer ici directement
+// Routes human / pages de telechargement direct
+app.use('/human', require('./routes/human'));
 app.use('/human', apirouter5);
 
+// Fichiers statiques
 app.use('/tmp', express.static('tmp'));
 app.use(express.static('public'));
 app.use(express.static('data'));
 
-app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')))
-
+// Route de statut & metriques
 app.get('/status', (req, res) => {
   const uptime = getUptime();
-  const averageResponseTime = Date.now() - req.startTime;
-  totalRequests--; 
+  const latency = Date.now() - (req.startTime || Date.now());
   const response = {
+    status: true,
+    name: 'CROWN API',
     uptime: uptime,
-    latencia: `${averageResponseTime} ms`,
+    latencia: `${Math.max(1, latency)} ms`,
     totalRequests: totalRequests,
-    totalVisitors: totalVisitors,
-    creator: 'BrunoSobrino',
-    phoneNumber: '+52 1 999 612 5657'
+    totalVisitors: Math.max(1, totalVisitors),
+    creator: 'CrazyPrince',
+    developer: 'CrazyPrince, Développeur Camerounais',
+    phoneNumber: '+237694268225',
+    github: 'https://github.com/BanditDapi/',
+    orangeMoney: '+237694268225'
   };
-  const formattedResponse = JSON.stringify(response, null, 2);
   res.setHeader('Content-Type', 'application/json');
-  res.end(formattedResponse);
+  res.json(response);
 });
 
-app.disable("x-powered-by");
+app.disable('x-powered-by');
 
-app.use(function(req, res, next) {
-    res.status(404);
-    const filePath = path.join(__dirname, 'public', '404.html');
+// Gestionnaire 404
+app.use((req, res) => {
+  res.status(404);
+  const filePath = path.join(__dirname, 'public', '404.html');
+  if (fs.existsSync(filePath)) {
     res.sendFile(filePath);
+  } else {
+    res.json({ status: false, message: 'Ressource introuvable sur CROWN API.' });
+  }
 });
 
-global.lolkeysapi = 'GataDiosV2';
-
-// Fonctions automatiques 
+// Nettoyage automatique du dossier temporaire
 const clearTmpFiles = () => {
-  const tmpDir = './tmp';
+  const tmpDir = path.join(__dirname, 'tmp');
+  if (!fs.existsSync(tmpDir)) return;
   fs.readdir(tmpDir, (err, files) => {
-    if (err) return console.error('Erreur de lecture du dossier temporaire :', err);
-    const filesToDelete = files.filter((file) => file !== 'file');
-    if (filesToDelete.length > 0) {
-      filesToDelete.forEach((file) => {
-        const filePath = path.join(tmpDir, file);
-        fs.unlink(filePath, (unlinkErr) => {
-          if (unlinkErr) {
-            console.error('Erreur lors de la suppression du fichier :', unlinkErr);
-          }
-        });
-      });
-    } else {
-      return;
-    }
+    if (err) return;
+    const filesToDelete = (files || []).filter((file) => file !== 'file');
+    filesToDelete.forEach((file) => {
+      const filePath = path.join(tmpDir, file);
+      fs.unlink(filePath, () => {});
+    });
   });
 };
 setInterval(clearTmpFiles, 60000);
 
+// Verification des mises a jour du repo
 let previousCommitSHA = '';
 let isError = false;
 async function checkRepoUpdates() {
   if (isError) return;
   try {
-    const response = await axios.get(`https://api.github.com/repos/BrunoSobrino/api/commits?per_page=1`);
-    const { sha } = response.data[0];
-    if (sha !== previousCommitSHA) {
-      const stdout = execSync('git pull > /dev/null 2>&1');
+    const response = await axios.get('https://api.github.com/repos/CrazyPrince12/api/commits?per_page=1', { timeout: 10000 });
+    if (response.data && response.data[0]) {
+      const { sha } = response.data[0];
+      if (previousCommitSHA && sha !== previousCommitSHA) {
+        try {
+          execSync('git pull > /dev/null 2>&1');
+        } catch {}
+      }
       previousCommitSHA = sha;
     }
   } catch {
     isError = true;
-    return;
   }
 }
-setInterval(checkRepoUpdates, 300000); //300000
+setInterval(checkRepoUpdates, 300000);
 
-// Journal de demarrage 
-app.listen(PORT, function() {
-    const line = chalk.yellow('==========================================');
-    const serverUrl = 'http://localhost:' + PORT;
-    const serverMessage = chalk.green.bold('| Serveur actif : ') + chalk.blue.bold(serverUrl);
-    const creatorMessage = chalk.magenta.bold('| Createur : BrunoSobrino');
-    const numberMessage = chalk.magenta.bold('| Numero : +52 1 999 612 5657');
-    const apiMessage = chalk.red.bold('|          "API REST gratuite"');
-    console.log(chalk.yellow(line));
-    console.log(apiMessage);
-    console.log(chalk.yellow(line));
-    console.log(serverMessage);
-    console.log(chalk.yellow(line));
-    console.log(creatorMessage);
-    console.log(numberMessage);
-    console.log(chalk.yellow(line));
+// Demarrage du serveur
+app.listen(PORT, '0.0.0.0', function () {
+  const line = chalk.cyan('====================================================');
+  const title = chalk.magenta.bold('|                CROWN API — REST API              |');
+  const serverUrl = 'http://localhost:' + PORT;
+  const serverMessage = chalk.green.bold('| Serveur actif   : ') + chalk.blue.bold(serverUrl);
+  const creatorMessage = chalk.magenta.bold('| Developpeur     : CrazyPrince (Cameroun)');
+  const numberMessage = chalk.yellow.bold('| WhatsApp / Momo : +237694268225');
+  const githubMessage = chalk.cyan.bold('| GitHub          : https://github.com/BanditDapi/');
+  console.log(line);
+  console.log(title);
+  console.log(line);
+  console.log(serverMessage);
+  console.log(creatorMessage);
+  console.log(numberMessage);
+  console.log(githubMessage);
+  console.log(line);
 });

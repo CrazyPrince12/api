@@ -74,7 +74,7 @@ router.get('/canvas/welcome2', async (req, res) => {
     const errorResponse = {
       status: false,
       message: "Vous devez fournir les parametres requis : username, groupname, membercount, description et profile.",
-      example: 'api/maker/canvas/welcome?username=Bruno%20Sobrino&groupname=API%20Empire%20-%20Communaute&membercount=12&description=Bienvenue,%20lis%20les%20regles%20du%20groupe&profile=https://github.com/BrunoSobrino.png'
+      example: 'api/maker/canvas/welcome?username=CrazyPrince&groupname=API%20Empire%20-%20Communaute&membercount=12&description=Bienvenue,%20lis%20les%20regles%20du%20groupe&profile=/crown-logo.png'
     };
     const formattedResults_e = JSON.stringify(errorResponse, null, 2);
     res.setHeader('Content-Type', 'application/json');
@@ -118,7 +118,7 @@ router.get('/canvas/welcome3', async (req, res) => {
     const errorResponse = {
       status: false,
       message: "Vous devez fournir les parametres requis : username, groupname, membercount, description et profile.",
-      example: 'api/maker/canvas/welcome?username=Bruno%20Sobrino&groupname=API%20Empire%20-%20Communaute&membercount=12&description=Bienvenue,%20lis%20les%20regles%20du%20groupe&profile=https://github.com/BrunoSobrino.png'
+      example: 'api/maker/canvas/welcome?username=CrazyPrince&groupname=API%20Empire%20-%20Communaute&membercount=12&description=Bienvenue,%20lis%20les%20regles%20du%20groupe&profile=/crown-logo.png'
     };
     const formattedResults_e = JSON.stringify(errorResponse, null, 2);
     res.setHeader('Content-Type', 'application/json');
@@ -162,7 +162,7 @@ router.get('/canvas/welcome4', async (req, res) => {
     const errorResponse = {
       status: false,
       message: "Vous devez fournir les parametres requis : username, groupname, membercount, description et profile.",
-      example: 'api/maker/canvas/welcome?username=Bruno%20Sobrino&groupname=API%20Empire%20-%20Communaute&membercount=12&description=Bienvenue,%20lis%20les%20regles%20du%20groupe&profile=https://github.com/BrunoSobrino.png'
+      example: 'api/maker/canvas/welcome?username=CrazyPrince&groupname=API%20Empire%20-%20Communaute&membercount=12&description=Bienvenue,%20lis%20les%20regles%20du%20groupe&profile=/crown-logo.png'
     };
     const formattedResults_e = JSON.stringify(errorResponse, null, 2);
     res.setHeader('Content-Type', 'application/json');
@@ -206,7 +206,7 @@ router.get('/canvas/welcome5', async (req, res) => {
     const errorResponse = {
       status: false,
       message: "Vous devez fournir les parametres requis : username, groupname, groupicon, membercount, profile et background.",
-      example: 'api/maker/canvas/welcome5?username=bruno&groupname=api%20empire&membercount=12&groupicon=https://telegra.ph/file/4cc51944c9130560fb4a9.jpg&profile=https://github.com/BrunoSobrino.png&background=https://telegra.ph/file/82d079999da723cc80899.png'
+      example: 'api/maker/canvas/welcome5?username=crazyprince&groupname=api%20empire&membercount=12&groupicon=https://telegra.ph/file/4cc51944c9130560fb4a9.jpg&profile=/crown-logo.png&background=https://telegra.ph/file/82d079999da723cc80899.png'
     };
     const formattedResults_e = JSON.stringify(errorResponse, null, 2);
     res.setHeader('Content-Type', 'application/json');
@@ -241,7 +241,7 @@ router.get('/canvas/goodbye', async (req, res) => {
     const errorResponse = {
       status: false,
       message: "Vous devez fournir les parametres requis : username, groupname, membercount, profile, memberdiscriminator et background.",
-      example: 'api/maker/canvas/goodbye?username=bruno&groupname=api%20empire&membercount=12&memberdiscriminator=13&profile=https://github.com/BrunoSobrino.png&background=https://telegra.ph/file/82d079999da723cc80899.png'
+      example: 'api/maker/canvas/goodbye?username=crazyprince&groupname=api%20empire&membercount=12&memberdiscriminator=13&profile=/crown-logo.png&background=https://telegra.ph/file/82d079999da723cc80899.png'
     };
     const formattedResults_e = JSON.stringify(errorResponse, null, 2);
     res.setHeader('Content-Type', 'application/json');
@@ -282,7 +282,7 @@ router.get('/canvas/goodbye2', async (req, res) => {
     const errorResponse = {
       status: false,
       message: "Vous devez fournir les parametres requis : username, groupname, groupicon, membercount, profile et background.",
-      example: 'api/maker/canvas/goodbye2?username=bruno&groupname=api%20empire&membercount=12&groupicon=https://telegra.ph/file/4cc51944c9130560fb4a9.jpg&profile=https://github.com/BrunoSobrino.png&background=https://telegra.ph/file/82d079999da723cc80899.png'
+      example: 'api/maker/canvas/goodbye2?username=crazyprince&groupname=api%20empire&membercount=12&groupicon=https://telegra.ph/file/4cc51944c9130560fb4a9.jpg&profile=/crown-logo.png&background=https://telegra.ph/file/82d079999da723cc80899.png'
     };
     const formattedResults_e = JSON.stringify(errorResponse, null, 2);
     res.setHeader('Content-Type', 'application/json');
@@ -315,7 +315,7 @@ router.get('/canvas/goodbye3', async (req, res) => {
     const errorResponse = {
       status: false,
       message: "Vous devez fournir les parametres requis : username, membercount, profile et background.",
-      example: 'api/maker/canvas/goodbye3?username=Bruno&membercount=12&profile=https://github.com/BrunoSobrino.png&background=https://telegra.ph/file/82d079999da723cc80899.png'
+      example: 'api/maker/canvas/goodbye3?username=CrazyPrince&membercount=12&profile=/crown-logo.png&background=https://telegra.ph/file/82d079999da723cc80899.png'
     };
     const formattedResults_e = JSON.stringify(errorResponse, null, 2);
     res.setHeader('Content-Type', 'application/json');
@@ -346,7 +346,7 @@ router.get('/canvas/goodbye4', async (req, res) => {
     const errorResponse = {
       status: false,
       message: "Vous devez fournir les parametres requis : username, membercount, profile et background.",
-      example: 'api/maker/canvas/goodbye4?username=Bruno&profile=https://github.com/BrunoSobrino.png'
+      example: 'api/maker/canvas/goodbye4?username=CrazyPrince&profile=/crown-logo.png'
     };
     const formattedResults_e = JSON.stringify(errorResponse, null, 2);
     res.setHeader('Content-Type', 'application/json');
@@ -403,7 +403,7 @@ router.get('/flaming/:script', async (req, res) => {
         status: false,
         message: 'Vous devez indiquer un texte pour le logo.',
         example: 'api/maker/flaming/water-logo?text=api%20empire',
-        creator: 'BrunoSobrino'
+        creator: 'CrazyPrince'
       };
       res.setHeader('Content-Type', 'application/json');
       return res.send(JSON.stringify(errorResponse, null, 2));
@@ -414,7 +414,7 @@ router.get('/flaming/:script', async (req, res) => {
         status: false,
         message: 'Style flaming inconnu.',
         resultado: Object.keys(flamingStyles),
-        creator: 'BrunoSobrino'
+        creator: 'CrazyPrince'
       };
       res.setHeader('Content-Type', 'application/json');
       return res.status(400).send(JSON.stringify(errorResponse, null, 2));
@@ -490,7 +490,7 @@ router.get('/textpro/wolf-logo-galaxy', async (req, res) => {
       const errorResponse = {
         status: false,
         message: "Vous devez indiquer un texte pour le logo.",
-        example: 'api/maker/textpro/wolf-logo-galaxy?text1=api%20empire&text2=by%20brunosobrino'
+        example: 'api/maker/textpro/wolf-logo-galaxy?text1=api%20empire&text2=by%20crazyprince'
       };
       const formattedResults_e = JSON.stringify(errorResponse, null, 2);
       res.setHeader('Content-Type', 'application/json');

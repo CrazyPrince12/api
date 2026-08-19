@@ -218,6 +218,16 @@
       border: 1px solid rgba(37, 99, 235, 0.4);
     }
 
+    /* Flash visuel quand un endpoint est selectionne : l'utilisateur VOIT que le clic marche */
+    .playground-card.playground-flash {
+      animation: playgroundFlash 1s ease;
+    }
+
+    @keyframes playgroundFlash {
+      0% { box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.85); border-color: #38bdf8; }
+      100% { box-shadow: var(--shadow-glow); border-color: var(--border-hover); }
+    }
+
     .response-viewer {
       background: var(--code-bg);
       border: 1px solid var(--border-card);
@@ -342,7 +352,7 @@
         <div class="docs-mini-metric">
           <i class="fas fa-bolt" style="color: #06b6d4;"></i>
           <div>
-            <div class="val metric-latency">12 ms</div>
+            <div class="val metric-latency">…</div>
             <div class="lbl">Latence API</div>
           </div>
         </div>
@@ -350,7 +360,7 @@
         <div class="docs-mini-metric">
           <i class="fas fa-clock" style="color: #10b981;"></i>
           <div>
-            <div class="val metric-uptime">1h 00m</div>
+            <div class="val metric-uptime">…</div>
             <div class="lbl">Temps d'activité</div>
           </div>
         </div>
@@ -433,11 +443,11 @@
         <div class="crown-code-container">
           <div class="crown-code-header">
             <div class="crown-code-tabs">
-              <button class="crown-code-tab active" onclick="switchCodeLang('node_axios')">Node.js (Axios)</button>
-              <button class="crown-code-tab" onclick="switchCodeLang('ts_axios')">TypeScript</button>
-              <button class="crown-code-tab" onclick="switchCodeLang('node_fetch')">Fetch</button>
-              <button class="crown-code-tab" onclick="switchCodeLang('python')">Python</button>
-              <button class="crown-code-tab" onclick="switchCodeLang('curl')">cURL</button>
+              <button class="crown-code-tab active" onclick="switchCodeLang('node_axios', this)">Node.js (Axios)</button>
+              <button class="crown-code-tab" onclick="switchCodeLang('ts_axios', this)">TypeScript</button>
+              <button class="crown-code-tab" onclick="switchCodeLang('node_fetch', this)">Fetch</button>
+              <button class="crown-code-tab" onclick="switchCodeLang('python', this)">Python</button>
+              <button class="crown-code-tab" onclick="switchCodeLang('curl', this)">cURL</button>
             </div>
             <button class="crown-code-copy" onclick="copyCurrentCodeSnippet()">
               <i class="fas fa-copy"></i> Copier
@@ -572,20 +582,40 @@
       document.getElementById('docsSidebar').classList.toggle('open');
     }
 
+    function escapeHtml(text) {
+      return String(text == null ? '' : text)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+
     function renderCategories() {
       const categories = window.CROWN_DOCS || window.EMPIRE_DOCS || [];
       const root = document.getElementById('sidebarCategories');
       if (!root) return;
 
+      if (!categories.length) {
+        root.innerHTML = `
+          <li style="padding: 0.75rem; font-size: 0.85rem; color: var(--text-secondary);">
+            <i class="fas fa-exclamation-triangle" style="color: var(--crown-amber);"></i>
+            Catalogue indisponible.
+            <a href="javascript:void(0);" onclick="retryCatalogLoad()" style="color: #38bdf8;">Réessayer</a>
+          </li>`;
+        return;
+      }
+
+      // Les clics sont gérés par délégation d'événements (voir plus bas) :
+      // plus de onclick inline => impossible de casser le JS avec des caractères spéciaux.
       root.innerHTML = categories.map((cat, idx) => {
         const catId = `cat_${idx}`;
         const itemsHtml = (cat.groups || []).map(group => {
           const links = (group.items || []).map(item => {
             return `
               <li>
-                <a href="javascript:void(0);" class="sidebar-item-link" onclick="selectEndpoint('${encodeURIComponent(item.label)}', '${encodeURIComponent(item.href)}', this)">
+                <a href="javascript:void(0);" class="sidebar-item-link" data-label="${escapeHtml(item.label)}" data-href="${escapeHtml(item.href)}">
                   <i class="fas fa-link" style="font-size: 0.75rem; opacity: 0.7; margin-right: 0.35rem;"></i>
-                  ${item.label}
+                  ${escapeHtml(item.label)}
                 </a>
               </li>
             `;
@@ -593,7 +623,7 @@
 
           return `
             <div style="font-size: 0.75rem; font-weight: 700; color: #a855f7; text-transform: uppercase; padding: 0.4rem 0.5rem 0.2rem; letter-spacing: 0.5px;">
-              ${group.header || 'Général'}
+              ${escapeHtml(group.header || 'Général')}
             </div>
             ${links}
           `;
@@ -601,10 +631,10 @@
 
         return `
           <li>
-            <div class="sidebar-category-header ${idx === 0 ? 'active' : ''}" onclick="toggleCategorySection('${catId}', this)">
+            <div class="sidebar-category-header ${idx === 0 ? 'active' : ''}" data-target="${catId}">
               <div style="display: flex; align-items: center; gap: 0.6rem;">
                 <i class="${cat.icon || 'fas fa-folder'}" style="color: var(--crown-violet-light);"></i>
-                <span>${cat.title}</span>
+                <span>${escapeHtml(cat.title)}</span>
               </div>
               <i class="fas fa-chevron-down" style="font-size: 0.75rem; transition: transform 0.2s ease;"></i>
             </div>
@@ -620,6 +650,39 @@
         const first = categories[0].groups[0].items[0];
         selectEndpoint(first.label, first.href);
       }
+    }
+
+    // Un seul écouteur sur la sidebar : gère les clics sur les catégories ET les endpoints.
+    // Robuste même si un handler inline échoue ou si crown.js n'a pas encore fini de charger.
+    function bindSidebarEvents() {
+      const root = document.getElementById('sidebarCategories');
+      if (!root || root.dataset.bound === '1') return;
+      root.dataset.bound = '1';
+      root.addEventListener('click', function (e) {
+        const link = e.target.closest('.sidebar-item-link');
+        if (link) {
+          e.preventDefault();
+          selectEndpoint(link.dataset.label || '', link.dataset.href || '', link);
+          return;
+        }
+        const header = e.target.closest('.sidebar-category-header');
+        if (header && header.dataset.target) {
+          toggleCategorySection(header.dataset.target, header);
+        }
+      });
+    }
+
+    function retryCatalogLoad() {
+      const s = document.createElement('script');
+      s.src = '/docs/catalog.js?_=' + Date.now();
+      s.onload = function () {
+        renderCategories();
+        if (window.showCrownToast) showCrownToast('Catalogue rechargé avec succès !', 'success');
+      };
+      s.onerror = function () {
+        if (window.showCrownToast) showCrownToast('Impossible de charger le catalogue des endpoints.', 'error');
+      };
+      document.body.appendChild(s);
     }
 
     function toggleCategorySection(id, headerEl) {
@@ -652,30 +715,63 @@
       }
     }
 
+    function getActiveApiKey() {
+      const auth = window.CrownAuth;
+      return (auth && auth.user && auth.user.apikey) ? auth.user.apikey : 'CrazyPrince';
+    }
+
+    function safeDecode(value) {
+      if (value == null) return '';
+      try {
+        // Compatibilite avec les anciens appels encodes via encodeURIComponent
+        return /%[0-9A-Fa-f]{2}/.test(value) ? decodeURIComponent(value) : String(value);
+      } catch {
+        return String(value);
+      }
+    }
+
     function selectEndpoint(label, href, linkEl) {
-      label = decodeURIComponent(label);
-      href = decodeURIComponent(href);
-      activeEndpoint = { label, href };
+      label = safeDecode(label);
+      href = safeDecode(href);
+      if (!href) return;
+      activeEndpoint = { label: label || href, href };
 
       document.querySelectorAll('.sidebar-item-link').forEach(el => el.classList.remove('selected'));
       if (linkEl) linkEl.classList.add('selected');
 
-      document.getElementById('activeTitle').textContent = label;
-      
-      const apiKey = (CrownAuth.user && CrownAuth.user.apikey) ? CrownAuth.user.apikey : 'CrazyPrince';
+      document.getElementById('activeTitle').textContent = label || href;
+
       let fullHref = href;
       if (!fullHref.includes('apikey=')) {
-        fullHref += (fullHref.includes('?') ? '&' : '?') + 'apikey=' + apiKey;
+        fullHref += (fullHref.includes('?') ? '&' : '?') + 'apikey=' + getActiveApiKey();
       }
 
       document.getElementById('activeEndpointUrl').textContent = fullHref;
       updateCodeSnippet();
+
+      // Feedback visuel immédiat : l'utilisateur voit que son clic a fonctionné
+      const card = document.getElementById('endpointPlayground');
+      if (card) {
+        card.classList.remove('playground-flash');
+        void card.offsetWidth; // relance l'animation
+        card.classList.add('playground-flash');
+      }
+
+      // Sur mobile : fermer le panneau latéral et amener le playground dans l'écran
+      const sidebar = document.getElementById('docsSidebar');
+      if (sidebar && sidebar.classList.contains('open')) {
+        sidebar.classList.remove('open');
+      }
+      if (linkEl && window.innerWidth <= 1024 && card && typeof card.scrollIntoView === 'function') {
+        card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
     }
 
-    function switchCodeLang(lang) {
+    function switchCodeLang(lang, btnEl) {
       currentCodeLang = lang;
       document.querySelectorAll('.crown-code-tab').forEach(t => t.classList.remove('active'));
-      const activeTab = event.target;
+      // Compat : l'ancien onclick ne passait pas l'élément, on retombe sur le bouton correspondant
+      const activeTab = btnEl || document.querySelector(`.crown-code-tab[onclick*="'${lang}'"]`);
       if (activeTab) activeTab.classList.add('active');
       updateCodeSnippet();
     }
@@ -685,7 +781,6 @@
       const origin = window.location.origin;
       const path = document.getElementById('activeEndpointUrl').textContent.trim();
       const fullUrl = `${origin}${path}`;
-      const apiKey = (CrownAuth.user && CrownAuth.user.apikey) ? CrownAuth.user.apikey : 'CrazyPrince';
 
       if (currentCodeLang === 'node_axios') {
         snippetEl.textContent = `const axios = require('axios');
@@ -753,40 +848,66 @@ except Exception as e:
       copyToClipboard(code, 'Code copié avec succès !');
     }
 
+    let activeTestController = null;
+
     async function runActiveEndpointTest() {
       const path = document.getElementById('activeEndpointUrl').textContent.trim();
       const viewer = document.getElementById('liveResponseViewer');
       const badge = document.getElementById('responseStatusBadge');
 
+      // Annule une éventuelle requête précédente encore en cours
+      if (activeTestController) {
+        try { activeTestController.abort(); } catch {}
+      }
+      const controller = new AbortController();
+      activeTestController = controller;
+      const timeoutId = setTimeout(() => controller.abort(), 30000);
+      const startedAt = performance.now();
+
       badge.className = 'crown-badge crown-badge-amber';
       badge.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Requête en cours...';
-      viewer.textContent = '// En attente de la réponse du serveur CROWN API...';
+      viewer.textContent = '// En attente de la réponse du serveur CROWN API... (30 s max)';
 
       try {
-        const res = await fetch(path);
+        const res = await fetch(path, { signal: controller.signal, cache: 'no-store' });
+        const elapsed = Math.max(1, Math.round(performance.now() - startedAt));
         const contentType = res.headers.get('content-type') || '';
-        
+
         if (contentType.includes('application/json')) {
           const json = await res.json();
           viewer.textContent = JSON.stringify(json, null, 2);
           badge.className = json.status ? 'crown-badge crown-badge-emerald' : 'crown-badge crown-badge-rose';
-          badge.textContent = `HTTP ${res.status} ${res.statusText}`;
+          badge.textContent = `HTTP ${res.status} — ${elapsed} ms`;
         } else if (contentType.includes('image')) {
           const blob = await res.blob();
           const imgUrl = URL.createObjectURL(blob);
-          viewer.innerHTML = `<img src="${imgUrl}" alt="Résultat image" style="max-width: 100%; max-height: 350px; border-radius: 8px;">`;
+          viewer.innerHTML = '';
+          const img = document.createElement('img');
+          img.src = imgUrl;
+          img.alt = 'Résultat image';
+          img.style.cssText = 'max-width: 100%; max-height: 350px; border-radius: 8px;';
+          viewer.appendChild(img);
           badge.className = 'crown-badge crown-badge-emerald';
-          badge.textContent = `Image ${res.status}`;
+          badge.textContent = `Image ${res.status} — ${elapsed} ms`;
         } else {
           const text = await res.text();
           viewer.textContent = text.slice(0, 2000);
           badge.className = 'crown-badge crown-badge-cyan';
-          badge.textContent = `HTTP ${res.status}`;
+          badge.textContent = `HTTP ${res.status} — ${elapsed} ms`;
         }
       } catch (err) {
-        viewer.textContent = `// Erreur de requête : ${err.message}`;
-        badge.className = 'crown-badge crown-badge-rose';
-        badge.textContent = 'Échec Réseau';
+        if (err && err.name === 'AbortError') {
+          viewer.textContent = '// Délai dépassé : le serveur n\u2019a pas répondu en 30 secondes.\n// Réessayez dans un instant ou testez un autre endpoint.';
+          badge.className = 'crown-badge crown-badge-rose';
+          badge.textContent = 'Timeout 30 s';
+        } else {
+          viewer.textContent = `// Erreur de requête : ${err.message}`;
+          badge.className = 'crown-badge crown-badge-rose';
+          badge.textContent = 'Échec Réseau';
+        }
+      } finally {
+        clearTimeout(timeoutId);
+        if (activeTestController === controller) activeTestController = null;
       }
     }
 
@@ -796,6 +917,7 @@ except Exception as e:
     }
 
     document.addEventListener('DOMContentLoaded', () => {
+      bindSidebarEvents();
       renderCategories();
     });
   </script>

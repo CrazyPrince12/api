@@ -44,23 +44,41 @@ if (process.env.new_user_verification === 'true' && process.env.smtp_user && pro
 }
 
 // Utilitaires de metriques
-const getUptime = () => {
-  const uptimeInSeconds = Math.floor(process.uptime());
-  const hours = Math.floor(uptimeInSeconds / 3600);
-  const minutes = Math.floor((uptimeInSeconds % 3600) / 60);
-  const seconds = uptimeInSeconds % 60;
-  return `${hours}h ${minutes}m ${seconds}s`;
+const getUptimeSeconds = () => Math.floor(process.uptime());
+
+const formatUptime = (totalSeconds) => {
+  const days = Math.floor(totalSeconds / 86400);
+  const hours = Math.floor((totalSeconds % 86400) / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const seconds = totalSeconds % 60;
+  const parts = [];
+  if (days > 0) parts.push(`${days}j`);
+  parts.push(`${hours}h ${minutes}m ${seconds}s`);
+  return parts.join(' ');
 };
 
-// Middleware de comptage des requetes et visiteurs
+// Mesure reelle de la latence : moyenne mobile sur les 100 dernieres requetes
+const LATENCY_WINDOW = 100;
+const latencySamples = [];
+let latencySum = 0;
+
+// Middleware de comptage des requetes, visiteurs et mesure de latence reelle
 app.use((req, res, next) => {
-  req.startTime = Date.now();
+  req.startTime = process.hrtime.bigint();
   totalRequests++;
   const userIp = req.headers['x-forwarded-for'] || req.socket.remoteAddress || req.ip || '127.0.0.1';
   if (!visitors.has(userIp)) {
     visitors.add(userIp);
     totalVisitors++;
   }
+  res.on('finish', () => {
+    const elapsedMs = Number(process.hrtime.bigint() - req.startTime) / 1e6;
+    latencySamples.push(elapsedMs);
+    latencySum += elapsedMs;
+    if (latencySamples.length > LATENCY_WINDOW) {
+      latencySum -= latencySamples.shift();
+    }
+  });
   next();
 });
 
@@ -95,13 +113,20 @@ app.use(express.static('data'));
 
 // Route de statut & metriques
 app.get('/status', (req, res) => {
-  const uptime = getUptime();
-  const latency = Date.now() - (req.startTime || Date.now());
+  const uptimeSeconds = getUptimeSeconds();
+  // Latence reelle : moyenne mobile du temps de traitement des requetes recentes.
+  // Si aucun echantillon significatif, on mesure cette requete elle-meme.
+  let latencyMs = latencySamples.length ? latencySum / latencySamples.length : 0;
+  if (latencyMs < 0.05 && req.startTime) {
+    latencyMs = Number(process.hrtime.bigint() - req.startTime) / 1e6;
+  }
   const response = {
     status: true,
     name: 'CROWN API',
-    uptime: uptime,
-    latencia: `${Math.max(1, latency)} ms`,
+    uptime: formatUptime(uptimeSeconds),
+    uptimeSeconds: uptimeSeconds,
+    latencia: `${Math.max(1, Math.round(latencyMs))} ms`,
+    latencyMs: Math.max(1, Math.round(latencyMs)),
     totalRequests: totalRequests,
     totalVisitors: Math.max(1, totalVisitors),
     creator: 'CrazyPrince',
@@ -111,6 +136,7 @@ app.get('/status', (req, res) => {
     orangeMoney: '+237694268225'
   };
   res.setHeader('Content-Type', 'application/json');
+  res.setHeader('Cache-Control', 'no-store, max-age=0');
   res.json(response);
 });
 

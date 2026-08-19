@@ -171,22 +171,52 @@
   };
 
   // Status Metrics Polling
+  // Latence = temps reel de la requete /status (aller-retour complet mesure cote client).
+  // Temps d'activite = uptime du serveur, formate jours/heures/minutes/secondes.
+  window.formatCrownUptime = function (totalSeconds) {
+    totalSeconds = Math.max(0, Math.floor(Number(totalSeconds) || 0));
+    const days = Math.floor(totalSeconds / 86400);
+    const hours = Math.floor((totalSeconds % 86400) / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    const seconds = totalSeconds % 60;
+    const parts = [];
+    if (days > 0) parts.push(days + 'j');
+    parts.push(`${hours}h ${minutes}m ${seconds}s`);
+    return parts.join(' ');
+  };
+
   window.updateCrownStatus = async function () {
+    const uptimeEls = document.querySelectorAll('.metric-uptime');
+    const latencyEls = document.querySelectorAll('.metric-latency');
+    const requestsEls = document.querySelectorAll('.metric-requests');
+    const visitorsEls = document.querySelectorAll('.metric-visitors');
     try {
-      const res = await fetch('/status');
+      const t0 = performance.now();
+      const res = await fetch('/status', { cache: 'no-store' });
+      const rttMs = Math.max(1, Math.round(performance.now() - t0));
+      if (!res.ok) throw new Error('HTTP ' + res.status);
       const data = await res.json();
       if (data && data.status) {
-        const uptimeEls = document.querySelectorAll('.metric-uptime');
-        const latencyEls = document.querySelectorAll('.metric-latency');
-        const requestsEls = document.querySelectorAll('.metric-requests');
-        const visitorsEls = document.querySelectorAll('.metric-visitors');
-
-        uptimeEls.forEach(el => el.textContent = data.uptime || '1h 00m');
-        latencyEls.forEach(el => el.textContent = data.latencia || '12 ms');
+        let uptimeText = data.uptime;
+        if (data.uptimeSeconds != null) {
+          uptimeText = window.formatCrownUptime(data.uptimeSeconds);
+        } else if (typeof uptimeText === 'string') {
+          // Compatibilite : convertit "34h 12m 03s" (sans jours) en "1j 10h 12m 03s"
+          const m = uptimeText.match(/^(\d+)h\s+(\d+)m\s+(\d+)s$/);
+          if (m) {
+            const total = (+m[1]) * 3600 + (+m[2]) * 60 + (+m[3]);
+            uptimeText = window.formatCrownUptime(total);
+          }
+        }
+        uptimeEls.forEach(el => el.textContent = uptimeText || '—');
+        latencyEls.forEach(el => el.textContent = rttMs + ' ms');
         requestsEls.forEach(el => el.textContent = (data.totalRequests || 0).toLocaleString());
         visitorsEls.forEach(el => el.textContent = (data.totalVisitors || 0).toLocaleString());
       }
-    } catch {}
+    } catch {
+      uptimeEls.forEach(el => el.textContent = 'Hors ligne');
+      latencyEls.forEach(el => el.textContent = '—');
+    }
   };
 
   // Init on DOM load

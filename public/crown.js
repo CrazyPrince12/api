@@ -80,13 +80,13 @@
     user: null,
     async checkUser() {
       const token = localStorage.getItem('token');
-      if (!token) {
-        this.updateUiLoggedOut();
-        return null;
-      }
+      const headers = token ? { 'Authorization': 'Bearer ' + token } : {};
+
       try {
         const res = await fetch('/api/manageusers/user', {
-          headers: { 'Authorization': 'Bearer ' + token }
+          headers,
+          credentials: 'same-origin',
+          cache: 'no-store'
         });
         const data = await res.json();
         if (data && data.status && data.user) {
@@ -94,26 +94,40 @@
           this.user.currentLimit = data.CurrentLimit;
           this.updateUiLoggedIn(this.user);
           return this.user;
-        } else {
-          this.logout(false);
-          return null;
         }
+
+        localStorage.removeItem('token');
+        this.user = null;
+        this.updateUiLoggedOut();
+        return null;
       } catch {
+        this.user = null;
+        this.updateUiLoggedOut();
         return null;
       }
     },
-    logout(redirect = true) {
-      localStorage.removeItem('token');
-      this.user = null;
-      this.updateUiLoggedOut();
-      if (redirect) {
-        window.location.href = '/';
+    async logout(redirect = true) {
+      try {
+        await fetch('/api/manageusers/logout', {
+          method: 'POST',
+          credentials: 'same-origin'
+        });
+      } catch {
+        // La session locale doit être supprimée même si le réseau est indisponible.
+      } finally {
+        localStorage.removeItem('token');
+        this.user = null;
+        this.updateUiLoggedOut();
+        if (redirect) {
+          window.location.href = '/';
+        }
       }
     },
     updateUiLoggedIn(user) {
       const authBtns = document.querySelectorAll('.auth-btn-guest');
       const userBtns = document.querySelectorAll('.auth-btn-user');
       const userNameEls = document.querySelectorAll('.user-display-name');
+      const userEmailEls = document.querySelectorAll('.user-display-email');
       const apiKeyEls = document.querySelectorAll('.user-display-apikey');
       const usesEls = document.querySelectorAll('.user-display-uses');
       const tierEls = document.querySelectorAll('.user-display-tier');
@@ -123,7 +137,8 @@
 
       const name = user.mail ? user.mail.split('@')[0] : 'Membre';
       userNameEls.forEach(el => el.textContent = name);
-      apiKeyEls.forEach(el => el.textContent = user.apikey || 'CrazyPrince');
+      userEmailEls.forEach(el => el.textContent = user.mail || 'Adresse e-mail indisponible');
+      apiKeyEls.forEach(el => el.textContent = user.apikey || 'Clé indisponible');
       
       const remaining = Math.max(0, (user.currentLimit || 10000) - (user.uses || 0));
       usesEls.forEach(el => el.textContent = remaining.toLocaleString());
@@ -150,6 +165,15 @@
       authBtns.forEach(el => el.style.display = 'inline-flex');
       userBtns.forEach(el => el.style.display = 'none');
     }
+  };
+
+  window.copyUserApiKey = function () {
+    const apiKey = CrownAuth.user && CrownAuth.user.apikey;
+    if (!apiKey) {
+      showCrownToast('Aucune clé API de compte disponible.', 'error');
+      return;
+    }
+    copyToClipboard(apiKey, 'Clé API copiée !');
   };
 
   // Profile Modal Handler
@@ -222,7 +246,7 @@
   // Init on DOM load
   document.addEventListener('DOMContentLoaded', function () {
     updateThemeIcons(currentTheme);
-    CrownAuth.checkUser();
+    window.CrownAuthReady = CrownAuth.checkUser();
     updateCrownStatus();
     setInterval(updateCrownStatus, 4000);
 

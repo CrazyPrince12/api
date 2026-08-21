@@ -4,11 +4,18 @@ const path = require('path');
 const crypto = require('crypto');
 const database = require('./func/database');
 const jwt = require('jsonwebtoken');
+const {
+    clearSessionCookie,
+    getSessionToken,
+    setSessionCookie,
+    verifySessionToken
+} = require('./func/session');
 
 let processR = process.env.use_recaptcha;
 processR = processR === 'true';
 
 router.post('/login', async (req, res) => {
+    res.setHeader('Cache-Control', 'no-store');
     const { mail, password } = req.body;
     if (!mail || !password) {
         return res.status(400).json({ status: false, message: "Donnees de connexion manquantes." });
@@ -40,11 +47,20 @@ router.post('/login', async (req, res) => {
     }
 
     const token = jwt.sign(
-        { mail: mail, userid: user.userId },
+        { mail: user.mail, userid: user.userId },
         process.env.JWT_SECRET || 'B3tterTh@nB',
         { expiresIn: '7d' }
     );
+
+    // La session HTTP permet au serveur de protéger /docs avant même
+    // que le JavaScript de la page ne soit exécuté.
+    setSessionCookie(req, res, token);
     return res.status(200).json({ status: true, token: token, message: "Connexion reussie." });
+});
+
+router.post('/logout', (req, res) => {
+    clearSessionCookie(req, res);
+    return res.status(200).json({ status: true, message: "Deconnexion reussie." });
 });
 
 router.post('/register', async (req, res) => {
@@ -137,34 +153,43 @@ router.post('/register', async (req, res) => {
 });
 
 router.get('/user', async (req, res) => {
-    let authHeader = req.headers['authorization'];
-    if (!authHeader) {
+    res.setHeader('Cache-Control', 'private, no-store');
+    const token = getSessionToken(req);
+    if (!token) {
         return res.status(401).json({ status: false, message: "Aucun jeton d autorisation fourni." });
     }
-    const token = authHeader.startsWith('Bearer ') ? authHeader.split(' ')[1] : authHeader;
-    if (!token) {
-        return res.status(401).json({ status: false, message: "Jeton de session manquant." });
-    }
-    try {
-        const decoded = jwt.verify(token, process.env.JWT_SECRET || 'B3tterTh@nB');
-        const user = database.getDatabaseByUser(decoded.mail);
-        if (!user) {
-            return res.status(404).json({ status: false, message: "Utilisateur introuvable." });
-        }
-        if (user.isBanned) {
-            return res.status(403).json({ status: false, message: "Vous etes banni, contactez le dev." });
-        }
-        const freeLimit = Number(process.env.free_user_limit || 10000);
-        const premLimit = Number(process.env.premium_user_limit || 1000000);
-        const currentLimit = user.isPremium ? premLimit : freeLimit;
-        return res.status(200).json({
-            status: true,
-            user: user,
-            CurrentLimit: currentLimit
-        });
-    } catch (error) {
+
+    const decoded = verifySessionToken(token);
+    if (!decoded) {
+        clearSessionCookie(req, res);
         return res.status(401).json({ status: false, message: "Session expiree ou jeton invalide." });
     }
+
+    const user = database.getDatabaseByUser(decoded.mail);
+    if (!user || (decoded.userid && user.userId !== decoded.userid)) {
+        clearSessionCookie(req, res);
+        return res.status(404).json({ status: false, message: "Utilisateur introuvable." });
+    }
+    if (user.isBanned) {
+        clearSessionCookie(req, res);
+        return res.status(403).json({ status: false, message: "Vous etes banni, contactez le dev." });
+    }
+    if (!user.isVerified) {
+        clearSessionCookie(req, res);
+        return res.status(401).json({ status: false, message: "Compte non verifie." });
+    }
+
+    // Migre aussi les sessions existantes stockées uniquement dans localStorage.
+    setSessionCookie(req, res, token);
+
+    const freeLimit = Number(process.env.free_user_limit || 10000);
+    const premLimit = Number(process.env.premium_user_limit || 1000000);
+    const currentLimit = user.isPremium ? premLimit : freeLimit;
+    return res.status(200).json({
+        status: true,
+        user: user,
+        CurrentLimit: currentLimit
+    });
 });
 
 router.get('/fetchRecaptcha', async (req, res) => {

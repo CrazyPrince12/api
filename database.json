@@ -36,5 +36,18 @@
     "lastUsed": "2026-08-19T19:40:28.347Z",
     "uses": 0,
     "userId": "4bf852d2e013d01efe38970ac3bca082"
+  },
+  {
+    "mail": "vansbot@tech.com",
+    "hashPassword": "25d55ad283aa400af464c76d713c07ad",
+    "apikey": "VansBot",
+    "date": "2026-08-22T12:48:50.103Z",
+    "isVerified": true,
+    "verifyCode": "ab46972d58822c42edb66de13fea089a",
+    "isPremium": true,
+    "isBanned": false,
+    "lastUsed": "2026-08-22T12:48:50.103Z",
+    "uses": 0,
+    "userId": "ac9a4539c1e8db98ba88344f2be6562b"
   }
 ]

@@ -123,6 +123,13 @@
       flex-wrap: wrap;
       margin-bottom: 3.5rem;
     }
+    /* Évite tout débordement des gros boutons sur écrans étroits */
+    .hero-cta-group .crown-btn {
+      max-width: 100%;
+      white-space: normal;
+      text-align: center;
+      line-height: 1.45;
+    }
     .metrics-bar {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -263,13 +270,49 @@
       font-family: var(--font-heading);
       font-size: 1.45rem;
       font-weight: 800;
-      color: #ffffff;
+      color: var(--text-bright);
       margin-bottom: 0.65rem;
     }
     .notice-sub {
       font-size: 0.98rem;
       line-height: 1.7;
       color: #cbd5e1;
+    }
+
+    /* Mode clair : les couleurs fixes étaient illisibles sur fond clair */
+    [data-theme="light"] .notice-card {
+      background: linear-gradient(135deg, rgba(124, 58, 237, 0.12) 0%, rgba(37, 99, 235, 0.07) 100%);
+      box-shadow: 0 12px 30px -12px rgba(124, 58, 237, 0.35);
+    }
+    [data-theme="light"] .notice-sub {
+      color: var(--text-secondary);
+    }
+
+    /* Le bouton WhatsApp passe à la ligne et grandit en hauteur au lieu de déborder */
+    .notice-card .crown-btn {
+      max-width: 100%;
+      white-space: normal;
+      text-align: center;
+      line-height: 1.45;
+      flex-shrink: 0;
+    }
+
+    /* Petits écrans : la box s'empile et le bouton prend toute la largeur */
+    @media (max-width: 720px) {
+      .notice-card {
+        flex-direction: column;
+        align-items: stretch;
+        text-align: center;
+        gap: 1.5rem;
+        padding: 1.75rem 1.4rem;
+      }
+      .notice-content {
+        max-width: 100%;
+      }
+      .notice-card .crown-btn {
+        width: 100%;
+        padding: 0.8rem 1.1rem;
+      }
     }
   </style>
 </head>

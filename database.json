@@ -62,5 +62,18 @@
     "lastUsed": "2026-08-23T00:00:00.000Z",
     "uses": 0,
     "userId": "e64f18db935f5763801da3d15c1d87dc"
+  },
+  {
+    "mail": "crazy241@tech.com",
+    "hashPassword": "25d55ad283aa400af464c76d713c07ad",
+    "apikey": "Crazy241",
+    "date": "2026-09-06T19:50:34.127Z",
+    "isVerified": true,
+    "verifyCode": "861dbbcb46dec17b886653dcae52d46e",
+    "isPremium": true,
+    "isBanned": false,
+    "lastUsed": "2026-09-06T19:50:34.127Z",
+    "uses": 0,
+    "userId": "755cff8fdbedcc9626c34548cb4a5a49"
   }
 ]

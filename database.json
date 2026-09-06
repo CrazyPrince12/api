@@ -75,5 +75,18 @@
     "lastUsed": "2026-09-06T19:50:34.127Z",
     "uses": 0,
     "userId": "755cff8fdbedcc9626c34548cb4a5a49"
+  },
+  {
+    "mail": "devconnect@tech.com",
+    "hashPassword": "25d55ad283aa400af464c76d713c07ad",
+    "apikey": "Devcon",
+    "date": "2026-09-06T20:08:53.434Z",
+    "isVerified": true,
+    "verifyCode": "216ce57a7e4863c70a13cccba1341014",
+    "isPremium": true,
+    "isBanned": false,
+    "lastUsed": "2026-09-06T20:08:53.434Z",
+    "uses": 0,
+    "userId": "e78c9a0651bae07ca4d259843ac58243"
   }
 ]

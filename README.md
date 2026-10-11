@@ -67,8 +67,20 @@ cd api
 
 ### 2. Installer les dépendances
 ```bash
-npm install --omit=optional
+npm ci --omit=optional
 ```
+
+`npm ci` installe les versions de `package-lock.json`. Après une modification de
+`package.json`, utilisez `npm install` pour mettre à jour ce fichier et conservez
+les deux fichiers ensemble dans le dépôt.
+
+Pour Render, le `Dockerfile` utilise également `npm ci`. Si un ancien déploiement
+échoue avec `No versions available for sanzy-spotifydl`, déployez la version
+corrigée du dépôt, puis choisissez **Manual Deploy → Clear build cache & deploy**.
+Ce paquet a été retiré de npm le 11 septembre 2026 ; les routes Spotify utilisent
+désormais `spottydl` et `ffmpeg`, déjà installé dans l'image Docker. Les variables
+secrètes doivent être définies dans Render : les fichiers `.env` locaux ne sont
+pas copiés dans l'image.
 
 ### 3. Configurer l'environnement
 Copiez le fichier d'exemple et personnalisez vos variables :
